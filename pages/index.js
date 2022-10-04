@@ -1,11 +1,15 @@
 import Head from 'next/head'
-import { Heading, Center, Flex, Button, Stack, HStack, VStack, Text, Input, Box, Image, Switch } from "@chakra-ui/react";
+import { Heading, Center, Flex, Button, Stack, HStack, VStack, Text, Input, Box, Image, Switch, Checkbox } from "@chakra-ui/react";
 import { useEffect, useState, useContext } from "react";
+import Router from 'next/router';
+import React from 'react';
+
 
 export default function Home() {
   const [hidePassword, setHidePassword] = useState(true);
   const [email, setEmail]= useState("")
   const [password, setPassword] = useState("")
+ 
 
   return (
     <>
@@ -56,13 +60,33 @@ export default function Home() {
               />   
             </Box>
             <Box>
+
+            <HStack w='full' justify='space-between'>
+            <Checkbox>Remember me</Checkbox>
+            <Button colorScheme='blackAlpha' variant='link'>Forgot Password?</Button>
+            </HStack>
+
             <HStack
             marginTop={"20px"}
             width="20vw"
             justifyContent="center"
             spacing={20}>
-                <Button colorScheme='red' width={"7vw"} alignSelf={"flex-start"}>Login</Button>  
-                <Button colorScheme='red' width={"7vw"} alignSelf={"flex-end"}>Register</Button> 
+            
+                <Button 
+                colorScheme='red' 
+                width={"7vw"} 
+                alignSelf={"flex-start"}
+                onClick={() => Router.push("/dashboard")}
+                marginTop={30}
+                >Login</Button>  
+
+                <Button 
+                colorScheme='red' 
+                width={"7vw"} 
+                alignSelf={"flex-end"}
+                onClick={() => Router.push("/registermod")}
+                marginTop={30}>Register
+                </Button> 
             </HStack>
             </Box>   
           </VStack>
