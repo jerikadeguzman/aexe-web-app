@@ -77,7 +77,6 @@ export default function Home() {
                 width={"7vw"} 
                 alignSelf={"flex-start"}
                 onClick={() => Router.push("/dashboard")}
-                marginTop={30}
                 >Login</Button>  
 
                 <Button 
@@ -85,8 +84,8 @@ export default function Home() {
                 width={"7vw"} 
                 alignSelf={"flex-end"}
                 onClick={() => Router.push("/registermod")}
-                marginTop={30}>Register
-                </Button> 
+                >Register</Button> 
+                
             </HStack>
             </Box>   
           </VStack>

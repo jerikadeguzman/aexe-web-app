@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { Heading, Center, Flex, Button, Stack, HStack, VStack, Text, Input, InputGroup, InputRightElement, Box, Image, Select, Theme, Switch, IconButton, useDisclosure, Container, ChakraProvider, FormControl, FormLabel, InputLeftAddon, ModalCloseButton } from "@chakra-ui/react";
 import { useEffect, useState, useContext } from "react";
-import Router from 'react';
+//import Router from 'react';
 import Router from 'next/router';
 import { CloseButton } from '@chakra-ui/react'
 
