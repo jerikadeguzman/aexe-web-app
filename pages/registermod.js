@@ -98,7 +98,7 @@ export default function registermod() {
                         colorScheme='red' 
                         width={"7vw"} 
                         alignSelf={"flex-start"} 
-                        onClick={() => Router.push("/index.js")}
+                        onClick={() => Router.push("/Index")}
                         >Register</Button> 
 
                     </Box>

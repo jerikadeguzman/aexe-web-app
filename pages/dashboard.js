@@ -36,72 +36,69 @@ export default function Dashboard() {
                 aria-label="Open Menu"
                 />
                   <Heading marginLeft={35} textColor="orange" >AEXE</Heading>
+
               <Drawer
                 isOpen={isOpen}
                 placement="left"
                 onClose={onClose}
-                finalFocusRef={btnRef}
-              >
+                finalFocusRef={btnRef}>
 
                 <DrawerOverlay/>
                 <DrawerContent>
                   <DrawerCloseButton />
 
-                  
+                  <DrawerHeader bgColor='#2F5597'>
+                    <HStack>
+                      <Avatar bg='teal.500' name='getInitials'></Avatar>
+                      <Heading as='h4' size='md' color='whiteAlpha.900'>Welcome</Heading>
+                    </HStack>
+                  </DrawerHeader>
 
-                  <DrawerHeader bgColor='blue.500'>Welcome</DrawerHeader>
-
-                  <DrawerBody bgColor='blue.200'>
+                  <DrawerBody bgColor='#8FAADC'>
                     <Flex flexDir="column" align="center">
                       <NextLink href="/Messages" passHref>
-                      <Button as="a"  variant="ghost" aria-label="Home" my={5} w="100%">Messages</Button>
-                    </NextLink>
+                        <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%" textColor='#DAE3F3'>Messages</Button>
+                      </NextLink>
                   </Flex>
 
                   <Flex flexDir="column" align="center">
                       <NextLink href="/ARInstructor" passHref>
-                      <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%">AR Instructor</Button>
-                    </NextLink>
+                        <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%" textColor='#DAE3FE'>AR Instructor</Button>
+                      </NextLink>
                   </Flex>
 
                   <Flex flexDir="column" align="center">
                       <NextLink href="/Announcement" passHref>
-                      <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%">Announcement</Button>
-                    </NextLink>
+                        <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%" textColor='#DAE3F3'>Announcement</Button>
+                      </NextLink>
                   </Flex>
 
                   <Flex flexDir="column" align="center">
                       <NextLink href="/Forums" passHref>
-                      <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%">Forums</Button>
-                    </NextLink>
+                        <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%" textColor='#DAE3F3'>Forums</Button>
+                      </NextLink>
                   </Flex>
 
                   <Flex flexDir="column" align="center">
                       <NextLink href="/InquiriesConcern.js" passHref>
-                      <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%">Inquiries/Concern</Button>
-                    </NextLink>
+                        <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%" textColor='#DAE3F3'>Inquiries/Concern</Button>
+                      </NextLink>
                   </Flex>
 
                   <Flex flexDir="column" align="center">
                       <NextLink href="/Settings" passHref>
-                      <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%">Settings</Button>
-                    </NextLink>
+                        <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%" textColor='#DAE3F3'>Settings</Button>
+                      </NextLink>
                   </Flex>
 
                   </DrawerBody>
 
-                  <DrawerFooter bgColor='blue.200'>
-                    <Button color="blue">Logout</Button>
+                  <DrawerFooter bgColor='#8FAADC'>
+                    <Button colorScheme='red'>Logout</Button>
                   </DrawerFooter>
+
                 </DrawerContent>
               </Drawer>
-
-    
-
-              
-
-
-            
 
               </Flex>
             </Box>
