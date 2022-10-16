@@ -14,9 +14,7 @@ import {
   DrawerContent,
   DrawerCloseButton,
 } from "@chakra-ui/react";
-import NextLink from 'next/link'
-//import Router from 'next/router';
-import Messages from '../dashboard';
+import NextLink from "next/link";
 
 
 export default function Messages(){
@@ -27,8 +25,9 @@ export default function Messages(){
                    <Box display='flex'
                    bgColor='whiteAlpha.900'
                    border='black'
-
                    >
+
+                    
                     
                    </Box>
 
