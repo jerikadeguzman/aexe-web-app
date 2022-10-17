@@ -15,6 +15,7 @@ import {
   DrawerCloseButton,
 } from "@chakra-ui/react";
 import NextLink from 'next/link'
+import { Textarea } from '@chakra-ui/react'
 
 
 
@@ -102,6 +103,13 @@ export default function Dashboard() {
 
               </Flex>
             </Box>
+          </Box>
+
+          <Box>
+            <Center>
+            
+
+            </Center>
           </Box>
             
          
