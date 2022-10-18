@@ -1,14 +1,114 @@
 import Head from 'next/head'
-import { Heading, Center, Flex, Button, Stack, HStack, VStack, Text, Input, Box, Image, Switch, Checkbox } from "@chakra-ui/react";
+import { Heading, Center, Flex, Button, Stack, HStack, VStack, Text, Input, Box, Image, Switch, Checkbox, useToast } from "@chakra-ui/react";
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, ModalFooter, cancelRef,} from "@chakra-ui/react";
+import { FormControl, FormLabel, Select, show, InputGroup, InputLeftAddon } from '@chakra-ui/react';
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  AlertDialogCloseButton,
+  } from '@chakra-ui/react'
+import { db } from '../firebase'
+import { collection, getDocs, getDoc, where, addDoc, query } from "@firebase/firestore";
 import { useEffect, useState, useContext } from "react";
-import Router from 'next/router';
+import { useDisclosure } from '@chakra-ui/react'
+import Router, { useRouter } from "next/router";
 import React from 'react';
 
 
 export default function Home() {
+  const router = useRouter();
   const [hidePassword, setHidePassword] = useState(true);
   const [email, setEmail]= useState("")
+  const [newEmail, setNewEmail] = useState("")
+  const [firstname, setFirstname]= useState("");
+  const [lastname, setLastname]= useState("");
+  const [gender, setGender]= useState("");
+  const [dateofbirth, setDateofbirth]= useState("");
+  const [age, setAge]= useState("");
+  const [address, setAddress]= useState("");
+  const [mobilenumber, setMobilenumber]= useState("");
   const [password, setPassword] = useState("")
+  const [newPassword, setNewPassword] = useState("")
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [enableRegister, setEnableRegister] = useState(false)
+  const {
+    isOpen: isOpenAlertModal,
+    onOpen: onOpenAlertModal,
+    onClose: onCloseAlertModal,
+  } = useDisclosure();
+  const toast = useToast();
+
+  const cancelRef = React.useRef()
+
+  async function register() {
+   const docRef = collection(db, "users")
+    await addDoc(docRef, {
+      email: newEmail,
+      first_name: firstname,
+      last_name: lastname,
+      gender: gender,
+      birthday: dateofbirth,
+      age: age,
+      address: address,
+      mobile_number: mobilenumber,
+      password: newPassword
+    }) 
+    toast({
+      title: "Register Successfully",
+      description: "Please Login...",
+      status: "success",
+      duration: 2500,
+      isClosable: true,
+      position: "bottom-right",
+    });
+  }
+
+  async function verifyLogin() {
+    const verify_ref = query(
+      collection(db, "users"),
+      where("email", "==", email)
+    );
+
+    const account = [];
+    const verification = await getDocs(verify_ref);
+    verification.docs.map((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      if (doc.data().length != 0 && doc.data().password == password) {
+        router.push({
+          pathname: "/dashboard",
+        });
+        toast({
+          title: "Log in successful",
+          description: "Loading dashboard...",
+          status: "success",
+          duration: 2500,
+          isClosable: true,
+          position: "bottom-right",
+        });
+        // userDataContext.setUserData({
+        //   dataObject: doc.data(),
+        // });
+        // localStorage.setItem("email", doc.data().email);
+      } else {
+        toast({
+          title: "Log in failed",
+          description: "invalid input",
+          status: "error",
+          duration: 2500,
+          isClosable: true,
+          position: "bottom-right",
+        });
+  
+      }
+    });
+    setEmail("");
+    setPassword("");
+  }
+  
  
 
   return (
@@ -76,16 +176,138 @@ export default function Home() {
                 colorScheme='red' 
                 width={"7vw"} 
                 alignSelf={"flex-start"}
-                onClick={() => Router.push("/dashboard")}
+                onClick={() => {verifyLogin()}}
                 >Login</Button>  
 
                 <Button 
                 colorScheme='red' 
                 width={"7vw"} 
                 alignSelf={"flex-end"}
-                onClick={() => Router.push("/registermod")}
+                onClick={onOpen}
                 >Register</Button> 
                 
+                      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} size='xl'>
+                        <ModalOverlay />
+                        <ModalContent>
+                          <ModalHeader align='Center' fontSize='25px'>Create your account</ModalHeader>
+                            <ModalCloseButton />
+                            
+                          <ModalBody>
+                              <Box borderwidth="4px" borderRadius="lg" p={4} align="center" mt={4}>
+                                <Image
+                                    borderRadius='full'
+                                    boxSize='100px'
+                                    src='/aexelogo.png'
+                                    alt='logo'
+                                    marginBottom="3"/>
+
+                                <FormControl isRequired>
+                                    <Stack spacing={3}> 
+
+                                      <HStack spacing={3}>
+
+                                        <FormLabel>First Name</FormLabel>
+                                          <Input placeholder='First Name'
+                                          onChange={(event) => setFirstname(event.target.value)}/>
+
+                                        <FormLabel>Last Name</FormLabel>
+                                          <Input placeholder='Last Name'
+                                          onChange={(event) => setLastname(event.target.value)} />
+                                        
+                                      </HStack>
+
+                                        <FormLabel>Gender</FormLabel>
+                                          <Select placeholder='Select Gender'
+                                          onChange={(event) => setGender(event.target.value)}>
+                                            <option>Female</option>
+                                            <option>Male</option>
+                                          </Select>
+
+                                      <HStack spacing={3} paddingTop='3'>
+                                        <FormLabel>Birthdate</FormLabel>
+                                          <Input
+                                            placeholder="Select Date and Time"
+                                            size="md"
+                                            type="date"
+                                            onChange={(event) => setDateofbirth(event.target.value)}/>
+                                        
+                                        <FormLabel>Age</FormLabel>
+                                          <Input placeholder='Age'
+                                          onChange={(event) => setAge(event.target.value)}/>
+
+                                      </HStack>
+
+                                      <FormLabel>Email</FormLabel>
+                                        <Input placeholder={"Email/Username"} onChange={(event) => setNewEmail(event.target.value)} />
+                                        
+                                      <FormLabel>Password</FormLabel>
+                                        <InputGroup size='md'>
+                                            <Input
+                                                pr='4.5rem'
+                                                type={show ? 'text' : 'password'}
+                                                placeholder='Enter password'
+                                                onChange={(event) => setNewPassword(event.target.value)}/>
+                                        </InputGroup>
+
+                                      <FormLabel>Address</FormLabel>
+                                        <Input placeholder='Address'
+                                        onChange={(event) => setAddress(event.target.value)}/>
+
+                                      <FormLabel>Phone Number</FormLabel>
+                                        <InputGroup>
+                                            <InputLeftAddon children="+63"/>
+                                            <Input type="phone" roundedLeft="0" placeholder="phone number"
+                                            onChange={(event) => setMobilenumber(event.target.value)} />
+                                        </InputGroup>
+
+                                        <Text fontSize="md" align="center" paddingTop="5">Already have an account? 
+                                        <Button colorScheme='blackAlpha' variant='link' onClick={() => Router.push("/Home")}> Login</Button></Text>
+                                
+                                    </Stack> 
+                                </FormControl>
+
+                              </Box>
+                            </ModalBody>
+
+                              <ModalFooter>
+                                <HStack direction='row' spacing={4}> 
+                                  <Button colorScheme='red' 
+                                          width={"7vw"} 
+                                          alignSelf={"flex-start"} 
+                                          onClick={() => {register(); onClose()}}>
+                                          Sign Up</Button>
+                                  <Button colorScheme='red' 
+                                          width={"7vw"} 
+                                          alignSelf={"flex-end"}
+                                          gap='4'
+                                          onClick={onOpenAlertModal}> 
+                                          Cancel</Button>
+
+                                </HStack>    
+                              </ModalFooter>
+
+                        </ModalContent>
+                    </Modal>
+                    
+                    <Modal isOpen={isOpenAlertModal} onClose={onCloseAlertModal}>
+                      <ModalOverlay />
+                      <ModalContent>
+                        <ModalCloseButton />
+                        <ModalHeader></ModalHeader>
+                        <ModalBody>
+                        <Text> Are you sure you want to close this? </Text>
+                        </ModalBody>
+
+                        <ModalFooter>
+                          <Button colorScheme='red' mr={3} onClick={() => {onCloseAlertModal(); onClose()}}>
+                            Yes
+                          </Button>
+                          <Button variant='ghost' onClick={onCloseAlertModal}>No</Button>
+                        </ModalFooter>
+                      </ModalContent>
+                    </Modal>
+
+                      
             </HStack>
             </Box>   
           </VStack>

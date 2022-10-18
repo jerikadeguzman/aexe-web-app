@@ -15,6 +15,7 @@ import {
   DrawerCloseButton,
 } from "@chakra-ui/react";
 import NextLink from 'next/link'
+import { Textarea } from '@chakra-ui/react'
 
 
 
@@ -40,6 +41,7 @@ export default function Dashboard() {
               <Drawer
                 isOpen={isOpen}
                 placement="left"
+                colorScheme={"blue"}
                 onClose={onClose}
                 finalFocusRef={btnRef}>
 
@@ -57,7 +59,7 @@ export default function Dashboard() {
                   <DrawerBody bgColor='#8FAADC'>
                     <Flex flexDir="column" align="center">
                       <NextLink href="/Messages" passHref>
-                        <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%" textColor='#DAE3F3'>Messages</Button>
+                        <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%" textColor='#DAE3F3' color="blue">Messages</Button>
                       </NextLink>
                   </Flex>
 
@@ -102,6 +104,13 @@ export default function Dashboard() {
 
               </Flex>
             </Box>
+          </Box>
+
+          <Box>
+            <Center>
+            
+
+            </Center>
           </Box>
             
          
