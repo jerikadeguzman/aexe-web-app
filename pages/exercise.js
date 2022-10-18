@@ -48,4 +48,8 @@ export default function ARInstructor(){
          
         </>
     ) 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 42c2cc6148924c1b8d5e9a9626860a7079ab702c
