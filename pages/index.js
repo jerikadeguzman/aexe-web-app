@@ -10,8 +10,8 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   AlertDialogCloseButton,
-  
-} from '@chakra-ui/react'
+  } from '@chakra-ui/react'
+import { doc, setDoc } from "firebase/firestore"; 
 import { useEffect, useState, useContext } from "react";
 import { useDisclosure } from '@chakra-ui/react'
 import Router from 'next/router';
@@ -23,8 +23,15 @@ export default function Home() {
   const [email, setEmail]= useState("")
   const [password, setPassword] = useState("")
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenAlertModal,
+    onOpen: onOpenAlertModal,
+    onClose: onCloseAlertModal,
+  } = useDisclosure();
+
   const cancelRef = React.useRef()
 
+  
  
 
   return (
@@ -187,22 +194,134 @@ export default function Home() {
                                           width={"7vw"} 
                                           alignSelf={"flex-start"} 
                                           onClick={() => Router.push("/dashboard")}>
-                                          Save</Button>
+                                          Sign Up</Button>
                                   <Button colorScheme='red' 
                                           width={"7vw"} 
                                           alignSelf={"flex-end"}
                                           gap='4'
-                                          onClick={onClose}> 
+                                          onClick={onOpen}> 
                                           Cancel</Button>
 
                                 </HStack>    
                               </ModalFooter>
-                              
+
+                        </ModalContent>
+                    </Modal>
+                    <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} size='xl'>
+                        <ModalOverlay />
+                        <ModalContent>
+                          <ModalHeader align='Center' fontSize='25px'>Create your account</ModalHeader>
+                            <ModalCloseButton />
+                            
+                          <ModalBody>
+                              <Box borderwidth="4px" borderRadius="lg" p={4} align="center" mt={4}>
+                                <Image
+                                    borderRadius='full'
+                                    boxSize='100px'
+                                    src='/aexelogo.png'
+                                    alt='logo'
+                                    marginBottom="3"/>
+
+                                <FormControl isRequired>
+                                    <Stack spacing={3}> 
+
+                                      <HStack spacing={3}>
+
+                                        <FormLabel>First Name</FormLabel>
+                                          <Input placeholder='First Name'/>
+
+                                        <FormLabel>Last Name</FormLabel>
+                                          <Input placeholder='Last Name' />
+                                        
+                                      </HStack>
+
+
+                                        <FormLabel>Username</FormLabel>
+                                          <Input placeholder='Username'/>
+
+                                        <FormLabel>Gender</FormLabel>
+                                          <Select placeholder='Select Gender'>
+                                            <option>Female</option>
+                                            <option>Male</option>
+                                          </Select>
+
+                                      <HStack spacing={3} paddingTop='3'>
+                                        <FormLabel>Birthdate</FormLabel>
+                                          <Input
+                                            placeholder="Select Date and Time"
+                                            size="md"
+                                            type="date"/>
+                                        
+                                        <FormLabel>Age</FormLabel>
+                                          <Input placeholder='Age'/>
+
+                                      </HStack>
+
+                                      <FormLabel>Email</FormLabel>
+                                        <Input placeholder={"Email/Username"} onChange={(event) => setEmail(event.target.value)}/>
+                                        
+                                      <FormLabel>Password</FormLabel>
+                                        <InputGroup size='md'>
+                                            <Input
+                                                pr='4.5rem'
+                                                type={show ? 'text' : 'password'}
+                                                placeholder='Enter password'/>
+                                        </InputGroup>
+
+                                      <FormLabel>Address</FormLabel>
+                                        <Input placeholder='Address'/>
+
+                                      <FormLabel>Phone Number</FormLabel>
+                                        <InputGroup>
+                                            <InputLeftAddon children="+63"/>
+                                            <Input type="phone" roundedLeft="0" placeholder="phone number" />
+                                        </InputGroup>
+
+                                        <Text fontSize="md" align="center" paddingTop="5">Already have an account? 
+                                        <Button colorScheme='blackAlpha' variant='link' onClick={() => Router.push("/Home")}> Login</Button></Text>
+                                
+                                    </Stack> 
+                                </FormControl>
+
+                              </Box>
+                            </ModalBody>
+
+                              <ModalFooter>
+                                <HStack direction='row' spacing={4}> 
+                                  <Button colorScheme='red' 
+                                          width={"7vw"} 
+                                          alignSelf={"flex-start"} 
+                                          onClick={() => Router.push("/dashboard")}>
+                                          Sign Up</Button>
+                                  <Button colorScheme='red' 
+                                          width={"7vw"} 
+                                          alignSelf={"flex-end"}
+                                          gap='4'
+                                          onClick={onOpenAlertModal}> 
+                                          Cancel</Button>
+
+                                </HStack>    
+                              </ModalFooter>
 
                         </ModalContent>
                     </Modal>
 
-                      
+                    <Modal isOpen={isOpenAlertModal} onClose={onCloseAlertModal}>
+                      <ModalOverlay />
+                      <ModalContent>
+                        <ModalCloseButton />
+                        <ModalBody>
+                        <Text> Are you sure you want to close this? </Text>
+                        </ModalBody>
+
+                        <ModalFooter>
+                          <Button colorScheme='blue' mr={3} onClick={onCloseAlertModal}>
+                            Close
+                          </Button>
+                          <Button variant='ghost'>Secondary Action</Button>
+                        </ModalFooter>
+                      </ModalContent>
+                    </Modal>
 
                       
             </HStack>
