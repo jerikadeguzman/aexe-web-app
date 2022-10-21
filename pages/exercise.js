@@ -1,10 +1,11 @@
 import Head from 'next/head'
-import { Heading, Center, Flex, Button, Stack, HStack, VStack, Text, Input, Box, Image, Switch, IconButton, useColorModeValue,
-  useBreakpointValue, Container, useDisclosure,FormControl} from "@chakra-ui/react";
-import { Avatar, AvatarBadge, AvatarGroup, AiOutlineUser } from '@chakra-ui/react'
+import { Heading, Center, Flex, Button, Stack, HStack, VStack, Text, Input, Box, Image, Switch, useColorModeValue,
+  useBreakpointValue, Container, ButtonGroup, useDisclosure,FormControl} from "@chakra-ui/react";
+import { Avatar, AvatarBadge, AvatarGroup,} from '@chakra-ui/react'
 import React, { useEffect, useState, useContext } from "react";
 import Router from 'react'
-import { FiMenu } from 'react-icons/fi'
+import { IconButton } from '@chakra-ui/react'
+
 import {
   Drawer,
   DrawerBody,
@@ -15,20 +16,22 @@ import {
   DrawerCloseButton,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
+import { SmallAddIcon } from '@chakra-ui/icons';
 
 
-export default function ARInstructor(){
-    return(
+export default function exercise(){
+  return( 
         <> 
-            <Flex>
-              <FormControl isRequired>
+          <Flex>
+            <FormControl isRequired>
+
                 <Center>
                   <Box display='flex'
                    bgColor='whiteAlpha.900'
                    border='black'
                   >
 
-                   
+
                   </Box>      
                 </Center>
 
@@ -38,18 +41,64 @@ export default function ARInstructor(){
 
                 </Box>
 
+              </Stack> 
+
+              <Stack direction='row' spacing={4} align='center'
+                  margin={1}
+                  marginTop={"75px"}
+                  width="30spx"
+                  justifyContent="center">
+                <Button colorScheme='twitter' variant='solid' size='lg' h='100' width={60}>
+                  BMI
+                </Button>
+                <Button colorScheme='twitter' variant='solid'size='lg'  h='100' width={60}>
+                  Full Body
+                </Button>
+                <Button colorScheme='twitter' variant='solid'size='lg'  h='100' width={60}>
+                  Lower Body
+                </Button>
+                <Button colorScheme='twitter' variant='solid'size='lg'  h='100' width={60}>
+                  Leg/Butt
+                </Button>
+
               </Stack>
 
-              </FormControl>
+              <Stack direction='row' spacing={3} align='center' margin={1}
+                  marginTop={"50px"}
+                  width="30spx"
+                  justifyContent="center">
+                <Button colorScheme='twitter' variant='solid' size='lg'  h='100' width={60}>
+                  Abs
+                </Button>
+                <Button colorScheme='twitter' variant='solid' size='lg'  h='100' width={60} >
+                  Chest
+                </Button>
+                <Button colorScheme='twitter' variant='solid' size='lg'  h='100' width={60}>
+                  Shoulder/Back
+                </Button>
+                <Button colorScheme='twitter' variant='solid' size='lg'  h='100' width={60}>
 
-                  
-            </Flex>
-          
+                </Button>
+              </Stack>
+
+              
+              <Stack direction='row' align='baseline' margin={10}
+                  marginRight="300px"
+                  width="120spx"
+                  justifyContent="right">
+                <ButtonGroup colorScheme='red' variant='solid' size='lg' h='1'>
+                <Button>UPDATE</Button>
+                <IconButton colorScheme='blackAlpha' aria-label='Plus Button' variant= 'outline' icon={<SmallAddIcon />} /> 
+
+                </ButtonGroup>
+              </Stack> 
          
+            </FormControl>
+                  
+          </Flex>
+           
+
         </>
-    ) 
-<<<<<<< HEAD
+  ) 
+
 }
-=======
-}
->>>>>>> 42c2cc6148924c1b8d5e9a9626860a7079ab702c
