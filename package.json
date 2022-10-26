@@ -12,6 +12,10 @@
     "@chakra-ui/alert": "^2.0.11",
     "@chakra-ui/avatar": "^2.1.1",
     "@chakra-ui/button": "^2.0.11",
+<<<<<<< HEAD
+=======
+    "@chakra-ui/icons": "^2.0.11",
+>>>>>>> f47a1bb283bf7ca19624bee1af7bbe3f4cacd67d
     "@chakra-ui/menu": "^2.1.0",
     "@chakra-ui/modal": "^2.2.1",
     "@chakra-ui/react": "^2.3.4",
