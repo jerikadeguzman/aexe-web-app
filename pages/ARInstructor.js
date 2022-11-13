@@ -26,14 +26,7 @@ export default function ARInstructor(){
                 <Center>
                   <Box display='flex'
                    bgColor='whiteAlpha.900'
-                   border='black'
-                  >
-<<<<<<< HEAD
-                    
-=======
-
-                   
->>>>>>> f47a1bb283bf7ca19624bee1af7bbe3f4cacd67d
+                   border='black'>
                   </Box>      
                 </Center>
 
