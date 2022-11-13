@@ -16,7 +16,7 @@ import {
   DrawerCloseButton,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { SmallAddIcon } from '@chakra-ui/icons';
+import { AddIcon } from '@chakra-ui/icons';
 
 
 export default function exercise(){
@@ -37,7 +37,7 @@ export default function exercise(){
 
               <Stack>
                 <Box borderwidth="1px" borderRadius="lg" p={4} align="center" mt={3}>
-                  <Text fontSize="26" align="center" fontStyle='bold'> EXERCISE</Text>
+                  <Text fontSize="30" align="center" fontStyle='bold'> EXERCISE</Text>
 
                 </Box>
 
@@ -88,7 +88,7 @@ export default function exercise(){
                   justifyContent="right">
                 <ButtonGroup colorScheme='red' variant='solid' size='lg' h='1'>
                 <Button>UPDATE</Button>
-                <IconButton colorScheme='blackAlpha' aria-label='Plus Button' variant= 'outline' icon={<SmallAddIcon />} /> 
+                <IconButton colorScheme='blackAlpha' aria-label='Plus Button' variant= 'outline' icon={<AddIcon />} /> 
 
                 </ButtonGroup>
               </Stack> 

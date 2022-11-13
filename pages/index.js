@@ -17,6 +17,8 @@ import { useEffect, useState, useContext } from "react";
 import { useDisclosure } from '@chakra-ui/react'
 import Router, { useRouter } from "next/router";
 import React from 'react';
+import { validateArgCount } from '@firebase/util';
+import { CLIENT_STATIC_FILES_RUNTIME_POLYFILLS_SYMBOL } from 'next/dist/shared/lib/constants';
 
 
 export default function Home() {
@@ -45,6 +47,7 @@ export default function Home() {
   const cancelRef = React.useRef()
 
   async function register() {
+    
    const docRef = collection(db, "users")
     await addDoc(docRef, {
       email: newEmail,
@@ -55,7 +58,7 @@ export default function Home() {
       age: age,
       address: address,
       mobile_number: mobilenumber,
-      password: newPassword
+      password: newPassword  
     }) 
     toast({
       title: "Register Successfully",
@@ -107,7 +110,9 @@ export default function Home() {
     });
     setEmail("");
     setPassword("");
+  
   }
+
   
  
 
