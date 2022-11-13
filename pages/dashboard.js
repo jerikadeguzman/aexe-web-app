@@ -27,7 +27,7 @@ export default function Dashboard() {
     return (
         <>
           
-          <Box as="section" pb={{ base: '12', md: '24' }}> 
+          <Box as="section" pb={{ base: '12', md: '24' }}  bg="#2F5597" > 
             <Box as="nav" bg="bg-surface" boxShadow={useColorModeValue('sm', 'sm-dark')}>
               <Flex>
                 <IconButton
@@ -35,6 +35,7 @@ export default function Dashboard() {
                 icon={<FiMenu fontSize="1.25rem"/>}
                 onClick={onOpen}
                 aria-label="Open Menu"
+                bg="#2F5597"
                 />
                   <Heading marginLeft={35} textColor="orange" >AEXE</Heading>
 
@@ -104,14 +105,23 @@ export default function Dashboard() {
 
               </Flex>
             </Box>
-          </Box>
 
-          <Box>
             <Center>
-            
+              <Box bg="lavender" w="1550px" h="800px" >
+                  <Center>
+                    <Box bg="#8FAADC" w="800px" h="800px"
+                          rounded="10px"
+                          borderColor="gray.300"
+                          boxShadow="md">
+                      </Box>
 
+                  </Center>
+              </Box>
             </Center>
+              
           </Box>
+
+          
             
          
 

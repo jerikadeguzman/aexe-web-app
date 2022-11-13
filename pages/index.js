@@ -1,24 +1,13 @@
 import Head from 'next/head'
-import { Heading, Center, Flex, Button, Stack, HStack, VStack, Text, Input, Box, Image, Switch, Checkbox, useToast } from "@chakra-ui/react";
+import { Heading, Center, Flex, Button, Stack, HStack, VStack, Text, Input, Box, Image, Switch, Checkbox, useToast} from "@chakra-ui/react";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, ModalFooter, cancelRef,} from "@chakra-ui/react";
-import { FormControl, FormLabel, Select, show, InputGroup, InputLeftAddon } from '@chakra-ui/react';
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-  AlertDialogCloseButton,
-  } from '@chakra-ui/react'
+import { FormControl, FormLabel, FormErrorMessage, Select, show, InputGroup, InputLeftAddon } from '@chakra-ui/react';
 import { db } from '../firebase'
 import { collection, getDocs, getDoc, where, addDoc, query } from "@firebase/firestore";
 import { useEffect, useState, useContext } from "react";
 import { useDisclosure } from '@chakra-ui/react'
 import Router, { useRouter } from "next/router";
 import React from 'react';
-import { validateArgCount } from '@firebase/util';
-import { CLIENT_STATIC_FILES_RUNTIME_POLYFILLS_SYMBOL } from 'next/dist/shared/lib/constants';
 
 
 export default function Home() {
@@ -43,6 +32,11 @@ export default function Home() {
     onClose: onCloseAlertModal,
   } = useDisclosure();
   const toast = useToast();
+
+  const [input, setInput] = useState('')
+  const handleInputChange = (e) => setInput(e.target.value)
+  const isError = input === ''
+   
 
   const cancelRef = React.useRef()
 
@@ -191,6 +185,7 @@ export default function Home() {
                 onClick={onOpen}
                 >Register</Button> 
                 
+
                       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} size='xl'>
                         <ModalOverlay />
                         <ModalContent>
@@ -205,6 +200,7 @@ export default function Home() {
                                     src='/aexelogo.png'
                                     alt='logo'
                                     marginBottom="3"/>
+                                    
 
                                 <FormControl isRequired>
                                     <Stack spacing={3}> 
@@ -213,7 +209,7 @@ export default function Home() {
 
                                         <FormLabel>First Name</FormLabel>
                                           <Input placeholder='First Name'
-                                          onChange={(event) => setFirstname(event.target.value)}/>
+                                          onChange={(event) => setFirstname(event.target.value) } />
 
                                         <FormLabel>Last Name</FormLabel>
                                           <Input placeholder='Last Name'
@@ -234,16 +230,17 @@ export default function Home() {
                                             placeholder="Select Date and Time"
                                             size="md"
                                             type="date"
-                                            onChange={(event) => setDateofbirth(event.target.value)}/>
+                                            onChange={(event) => setDateofbirth(event.target.value)} />
                                         
                                         <FormLabel>Age</FormLabel>
                                           <Input placeholder='Age'
-                                          onChange={(event) => setAge(event.target.value)}/>
+                                          onChange={(event) => setAge(event.target.value)} />
 
                                       </HStack>
 
                                       <FormLabel>Email</FormLabel>
-                                        <Input placeholder={"Email/Username"} onChange={(event) => setNewEmail(event.target.value)} />
+                                        <Input placeholder={"Email/Username"} onChange={(event) => setNewEmail(event.target.value)} 
+                                        />
                                         
                                       <FormLabel>Password</FormLabel>
                                         <InputGroup size='md'>
@@ -251,18 +248,20 @@ export default function Home() {
                                                 pr='4.5rem'
                                                 type={show ? 'text' : 'password'}
                                                 placeholder='Enter password'
-                                                onChange={(event) => setNewPassword(event.target.value)}/>
+                                                onChange={(event) => setNewPassword(event.target.value)}
+                                                />
                                         </InputGroup>
 
                                       <FormLabel>Address</FormLabel>
                                         <Input placeholder='Address'
-                                        onChange={(event) => setAddress(event.target.value)}/>
+                                        onChange={(event) => setAddress(event.target.value)} />
 
                                       <FormLabel>Phone Number</FormLabel>
                                         <InputGroup>
                                             <InputLeftAddon children="+63"/>
                                             <Input type="phone" roundedLeft="0" placeholder="phone number"
-                                            onChange={(event) => setMobilenumber(event.target.value)} />
+                                            onChange={(event) => setMobilenumber(event.target.value)} 
+                                            />
                                         </InputGroup>
 
                                         <Text fontSize="md" align="center" paddingTop="5">Already have an account? 
@@ -284,14 +283,15 @@ export default function Home() {
                                   <Button colorScheme='red' 
                                           width={"7vw"} 
                                           alignSelf={"flex-end"}
-                                          gap='4'
+                                          gap='4' 
                                           onClick={onOpenAlertModal}> 
                                           Cancel</Button>
 
                                 </HStack>    
                               </ModalFooter>
-
                         </ModalContent>
+
+
                     </Modal>
                     
                     <Modal isOpen={isOpenAlertModal} onClose={onCloseAlertModal}>
@@ -300,7 +300,7 @@ export default function Home() {
                         <ModalCloseButton />
                         <ModalHeader></ModalHeader>
                         <ModalBody>
-                        <Text> Are you sure you want to close this? </Text>
+                        <Text> Are you sure you want to leave? </Text>
                         </ModalBody>
 
                         <ModalFooter>

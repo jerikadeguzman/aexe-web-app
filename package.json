@@ -12,7 +12,10 @@
     "@chakra-ui/alert": "^2.0.11",
     "@chakra-ui/avatar": "^2.2.0",
     "@chakra-ui/button": "^2.0.11",
+<<<<<<< HEAD
+=======
     "@chakra-ui/icons": "^2.0.11",
+>>>>>>> f47a1bb283bf7ca19624bee1af7bbe3f4cacd67d
     "@chakra-ui/menu": "^2.1.0",
     "@chakra-ui/modal": "^2.2.1",
     "@chakra-ui/react": "^2.3.4",
@@ -25,7 +28,11 @@
     "react": "18.2.0",
     "react-cookie-consent": "^8.0.1",
     "react-dom": "18.2.0",
+<<<<<<< HEAD
     "react-hook-form": "^7.39.3"
+=======
+    "react-icons": "^4.6.0"
+>>>>>>> 7f1586553b8ff5ac3c7a7ca8f97435dfbfa13593
   },
   "devDependencies": {
     "eslint": "8.24.0",

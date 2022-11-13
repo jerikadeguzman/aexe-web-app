@@ -28,8 +28,12 @@ export default function ARInstructor(){
                    bgColor='whiteAlpha.900'
                    border='black'
                   >
+<<<<<<< HEAD
+                    
+=======
 
                    
+>>>>>>> f47a1bb283bf7ca19624bee1af7bbe3f4cacd67d
                   </Box>      
                 </Center>
 
