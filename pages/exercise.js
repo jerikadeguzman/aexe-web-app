@@ -16,7 +16,7 @@ import {
   DrawerCloseButton,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { SmallAddIcon } from '@chakra-ui/icons';
+import { AddIcon } from '@chakra-ui/icons';
 
 
 
@@ -61,9 +61,15 @@ export default function Messages(){
                 onClose={onClose}
                 finalFocusRef={btnRef}>
 
+<<<<<<< HEAD
                 <DrawerOverlay/>
                 <DrawerContent>
                   <DrawerCloseButton />
+=======
+              <Stack>
+                <Box borderwidth="1px" borderRadius="lg" p={4} align="center" mt={3}>
+                  <Text fontSize="30" align="center" fontStyle='bold'> EXERCISE</Text>
+>>>>>>> 8fefdc5084ffa88c856729d5317a8658b0231f36
 
                   <DrawerHeader bgColor='#2F5597'>
                     <HStack>
@@ -171,9 +177,15 @@ export default function Messages(){
                   width="120spx"
                   justifyContent="right">
                 <ButtonGroup colorScheme='red' variant='solid' size='lg' h='1'>
+<<<<<<< HEAD
                 <Button>
                   Update</Button>
                 <IconButton colorScheme='blackAlpha' aria-label='Plus Button' variant= 'outline' icon={<SmallAddIcon/>}/> 
+=======
+                <Button>UPDATE</Button>
+                <IconButton colorScheme='blackAlpha' aria-label='Plus Button' variant= 'outline' icon={<AddIcon />} /> 
+
+>>>>>>> 8fefdc5084ffa88c856729d5317a8658b0231f36
                 </ButtonGroup>
               </Stack> 
                        

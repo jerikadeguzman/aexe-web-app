@@ -8,8 +8,11 @@ import { useEffect, useState, useContext } from "react";
 import { useDisclosure } from '@chakra-ui/react'
 import Router, { useRouter } from "next/router";
 import React from 'react';
+<<<<<<< HEAD
 import CookieConsent, { Cookies } from "react-cookie-consent";
 
+=======
+>>>>>>> 8fefdc5084ffa88c856729d5317a8658b0231f36
 
 
 export default function Home() {
@@ -45,6 +48,7 @@ export default function Home() {
   const cancelRef = React.useRef()
 
   async function register() {
+    
    const docRef = collection(db, "users")
     await addDoc(docRef, {
       email: newEmail,
@@ -55,7 +59,11 @@ export default function Home() {
       age: age,
       address: address,
       mobile_number: mobilenumber,
+<<<<<<< HEAD
       password: newPassword,
+=======
+      password: newPassword  
+>>>>>>> 8fefdc5084ffa88c856729d5317a8658b0231f36
     }) 
     toast({
       title: "Register Successfully",
@@ -108,6 +116,7 @@ export default function Home() {
     });
     setEmail("");
     setPassword("");
+  
   }
 
   

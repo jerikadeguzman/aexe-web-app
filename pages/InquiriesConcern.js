@@ -1,10 +1,19 @@
 import Head from 'next/head'
+<<<<<<< HEAD
 import { Heading, Center, Flex, Button, Stack, HStack, VStack, Text, Input, Box, Image, Switch, IconButton, useColorModeValue,
   useBreakpointValue, Container, useDisclosure} from "@chakra-ui/react";
 import { Avatar, AvatarBadge, AvatarGroup, AiOutlineUser} from '@chakra-ui/react'
 import React, { useEffect, useState, useContext } from "react";
 //import Router from 'react'
 import { FiMenu } from 'react-icons/fi'
+=======
+import { Heading, Center, Flex, Button, Stack, HStack, VStack, Text, Input, Box, Image, Switch, useColorModeValue,
+  useBreakpointValue, Container, useDisclosure, FormControl} from "@chakra-ui/react";
+import { Avatar, AvatarBadge, AvatarGroup, AiOutlineUser } from "@chakra-ui/avatar"
+import React, { useEffect, useState, useContext } from "react";
+import Router from 'react'
+import { IconButton } from '@chakra-ui/react'
+>>>>>>> 8fefdc5084ffa88c856729d5317a8658b0231f36
 import {
   Drawer,
   DrawerBody,
@@ -14,6 +23,7 @@ import {
   DrawerContent,
   DrawerCloseButton,
 } from "@chakra-ui/react";
+<<<<<<< HEAD
 import NextLink from 'next/link'
 import { Textarea } from '@chakra-ui/react'
 import Router from "next/router";
@@ -167,3 +177,37 @@ const styleProps = {
       
     }
   }
+=======
+import { Search2Icon } from '@chakra-ui/icons';
+
+
+export default function InquiriesConcern(){
+    return(
+        <> 
+            <Flex>
+
+              <Center>
+                   <Box display='flex'
+                        bgColor='whiteAlpha.900'
+                        border='black'
+                        >
+
+
+                    
+
+                  
+                    </Box>
+               
+                </Center>
+
+                
+        
+            </Flex>
+
+
+
+        </>
+    ) 
+}
+
+>>>>>>> 8fefdc5084ffa88c856729d5317a8658b0231f36

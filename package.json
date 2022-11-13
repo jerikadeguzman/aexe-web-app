@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@chakra-ui/alert": "^2.0.11",
-    "@chakra-ui/avatar": "^2.1.1",
+    "@chakra-ui/avatar": "^2.2.0",
     "@chakra-ui/button": "^2.0.11",
 <<<<<<< HEAD
 =======
@@ -36,7 +36,11 @@
     "react-hook-form": "^7.39.3"
 =======
     "react-icons": "^4.6.0"
+<<<<<<< HEAD
 >>>>>>> 40571ec2a2da51a3600b292b0151c43f370ef189
+=======
+>>>>>>> 7f1586553b8ff5ac3c7a7ca8f97435dfbfa13593
+>>>>>>> 8fefdc5084ffa88c856729d5317a8658b0231f36
   },
   "devDependencies": {
     "eslint": "8.24.0",
