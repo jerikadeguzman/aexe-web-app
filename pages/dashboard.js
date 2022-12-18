@@ -1,9 +1,25 @@
 import Head from 'next/head'
-import { Heading, Center, Flex, Button, Stack, HStack, VStack, Text, Input, Box, Image, Switch, IconButton, useColorModeValue,
-  useBreakpointValue, Container, useDisclosure} from "@chakra-ui/react";
+import { 
+  Heading, 
+  Center, 
+  Flex, 
+  Button, 
+  Stack, 
+  HStack, 
+  VStack, 
+  Text, 
+  Input, 
+  Box, 
+  Image, 
+  Switch, 
+  IconButton, 
+  useColorModeValue,
+  useBreakpointValue, 
+  Container, 
+  useDisclosure
+} from "@chakra-ui/react";
 import { Avatar, AvatarBadge, AvatarGroup, AiOutlineUser} from '@chakra-ui/react'
 import React, { useEffect, useState, useContext } from "react";
-//import Router from 'react'
 import { FiMenu } from 'react-icons/fi'
 import {
   Drawer,
@@ -23,6 +39,15 @@ export default function Dashboard() {
   const isDesktop = useBreakpointValue({ base: false, lg: true })
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
+  useEffect(() => {
+    setTimeout(() => {
+      const checkSession = localStorage.getItem("email");
+      if (!checkSession) {
+        Router.push("/");
+      }  
+    }, []);
+  }, []);
+
 
     return (
         <>
@@ -53,7 +78,7 @@ export default function Dashboard() {
                 />
                   <Heading marginLeft={25} textColor="orange">AEXE</Heading>
 
-              <Drawer
+                <Drawer
                 isOpen={isOpen}
                 placement="left"
                 colorScheme={"blue"}
@@ -66,7 +91,7 @@ export default function Dashboard() {
 
                   <DrawerHeader bgColor='#2F5597'>
                     <HStack>
-                      <Avatar bg='teal.500' name='getInitials'></Avatar>
+                     
                       <Heading as='h4' size='md' color='whiteAlpha.900'>Welcome</Heading>
                     </HStack>
                   </DrawerHeader>
@@ -74,37 +99,62 @@ export default function Dashboard() {
                   <DrawerBody bgColor='#8FAADC'>
                     <Flex flexDir="column" align="center">
                       <NextLink href="/Messages" passHref>
-                        <Button as="a" variant="ghost" aria-label="Messages" my={5} w="100%" textColor='#DAE3F3' color="blue">Messages</Button>
+                        <Button as="a" 
+                        variant="ghost" 
+                        aria-label="Messages" 
+                        my={5} w="100%" 
+                        textColor='#DAE3F3' 
+                        color="blue">Messages</Button>
                       </NextLink>
                   </Flex>
 
                   <Flex flexDir="column" align="center">
                       <NextLink href="/ARInstructor" passHref>
-                        <Button as="a" variant="ghost" aria-label="AR Instructor" my={5} w="100%" textColor='#DAE3FE'>AR Instructor</Button>
+                        <Button as="a" 
+                        variant="ghost" 
+                        aria-label="AR Instructor" 
+                        my={5} w="100%" 
+                        textColor='#DAE3FE'>AR Instructor</Button>
                       </NextLink>
                   </Flex>
 
                   <Flex flexDir="column" align="center">
                       <NextLink href="/Announcement" passHref>
-                        <Button as="a" variant="ghost" aria-label="Announcements" my={5} w="100%" textColor='#DAE3F3'>Announcement</Button>
+                        <Button as="a" 
+                        variant="ghost" 
+                        aria-label="Announcements" 
+                        my={5} w="100%" 
+                        textColor='#DAE3F3'>Announcement</Button>
                       </NextLink>
                   </Flex>
 
                   <Flex flexDir="column" align="center">
                       <NextLink href="/Forums" passHref>
-                        <Button as="a" variant="ghost" aria-label="Forums" my={5} w="100%" textColor='#DAE3F3'>Forums</Button>
+                        <Button as="a" 
+                        variant="ghost" 
+                        aria-label="Forums" 
+                        my={5} w="100%" 
+                        textColor='#DAE3F3'>Forums</Button>
                       </NextLink>
                   </Flex>
 
                   <Flex flexDir="column" align="center">
                       <NextLink href="/InquiriesConcern.js" passHref>
-                        <Button as="a" variant="ghost" aria-label="Inquiries and Concerns" my={5} w="100%" textColor='#DAE3F3'>Inquiries/Concern</Button>
+                        <Button as="a" 
+                        variant="ghost" 
+                        aria-label="Inquiries and Concerns" 
+                        my={5} w="100%" 
+                        textColor='#DAE3F3'>Inquiries/Concern</Button>
                       </NextLink>
                   </Flex>
 
                   <Flex flexDir="column" align="center">
                       <NextLink href="/Settings" passHref>
-                        <Button as="a" variant="ghost" aria-label="Settings" my={5} w="100%" textColor='#DAE3F3'>Settings</Button>
+                        <Button as="a" 
+                        variant="ghost" 
+                        aria-label="Settings" 
+                        my={5} w="100%" 
+                        textColor='#DAE3F3'>Settings</Button>
                       </NextLink>
                   </Flex>
 
@@ -112,8 +162,9 @@ export default function Dashboard() {
 
                   <DrawerFooter bgColor='#8FAADC'>
                     <Button colorScheme='red'
-                    onClick={() => Router.push("/home")}
-                    >Logout</Button>
+                    onClick={() => {Router.push("/")
+                    localStorage.clear();
+                  }}>Logout</Button>
                   </DrawerFooter>
 
                 </DrawerContent>
@@ -128,9 +179,7 @@ export default function Dashboard() {
                     <Box bg="#8FAADC" w="800px" h="1000px"
                           rounded="10px"
                           borderColor="gray.300"
-                          boxShadow="md"
-                          >
-                               
+                          boxShadow="md">       
                       <Box bg="#E1CBA5" w="640px" h="240px"
                         marginTop={10} marginLeft={20} rounded="15px" boxShadow="md">
                       
@@ -187,11 +236,10 @@ export default function Dashboard() {
                       paddingLeft="5">About Us</Button> 
                 </HStack>
               </Box>
+
+
+
           </Box>
-
-
-          
-
         </>
       )
 }
