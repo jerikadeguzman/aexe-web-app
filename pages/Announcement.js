@@ -137,16 +137,6 @@ export default function Dashboard() {
                   </Flex>
 
                   <Flex flexDir="column" align="center">
-                      <NextLink href="/InquiriesConcern.js" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Home" 
-                        my={5} w="100%" 
-                        textColor='#DAE3F3'>Inquiries/Concern</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
                       <NextLink href="/Settings" passHref>
                         <Button as="a" 
                         variant="ghost" 

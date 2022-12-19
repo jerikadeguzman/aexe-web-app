@@ -91,7 +91,7 @@ export default function Dashboard() {
 
                   <DrawerHeader bgColor='#2F5597'>
                     <HStack>
-                      <Avatar bg='teal.500' name='getInitials'></Avatar>
+                     
                       <Heading as='h4' size='md' color='whiteAlpha.900'>Welcome</Heading>
                     </HStack>
                   </DrawerHeader>
@@ -135,16 +135,6 @@ export default function Dashboard() {
                         aria-label="Forums" 
                         my={5} w="100%" 
                         textColor='#DAE3F3'>Forums</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/InquiriesConcern.js" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Inquiries and Concerns" 
-                        my={5} w="100%" 
-                        textColor='#DAE3F3'>Inquiries/Concern</Button>
                       </NextLink>
                   </Flex>
 
