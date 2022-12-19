@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import { Heading, Center, Flex, Button, Stack, HStack, VStack, Text, Input, Box, Image, Switch, useColorModeValue,
   useBreakpointValue, Container, useDisclosure, FormControl} from "@chakra-ui/react";
-import { Avatar, AvatarBadge, AvatarGroup, AiOutlineUser } from '@chakra-ui/react'
+import { Avatar, AvatarBadge, AvatarGroup, AiOutlineUser } from "@chakra-ui/avatar"
 import React, { useEffect, useState, useContext } from "react";
 import Router from 'react'
-import { IconButton} from '@chakra-ui/react'
+import { IconButton } from '@chakra-ui/react'
 import {
   Drawer,
   DrawerBody,
@@ -15,122 +15,75 @@ import {
   DrawerCloseButton,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { FiMenu } from 'react-icons/fi';
-import { Search2Icon } from '@chakra-ui/react'
+//import { Icon, Search2Icon } from '@chakra-ui/react'
+
 
 
 
 
 export default function Messages(){
-  const isDesktop = useBreakpointValue({ base: false, lg: true })
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  useEffect(() => {
+    setTimeout(() => {
+      const checkSession = localStorage.getItem("email");
+      if (!checkSession) {
+        Router.push("/");
+      }      
+    }, []);
+  }, []);
+
+  
+  
 
     return(
         <> 
-          <Box as="section" pb={{ base: '12', md: '24' }}  bg="#2F5597" > 
-            <Box as="nav" bg="bg-surface" boxShadow={useColorModeValue('sm', 'sm-dark')}>
-              <Flex>
-                <IconButton
-                ref={btnRef}
-                icon={<FiMenu fontSize="1.25rem"/>}
-                onClick={onOpen}
-                aria-label="Open Menu"
-                bg="#2F5597"
-                />
-                  <Heading marginLeft={35} textColor="orange" >AEXE</Heading>
+            <Flex>
+              <FormControl>
+              <Center>
+                   <Box display='flex'
+                   bgColor='whiteAlpha.900'
+                   border='black'
+                   >
 
-              <Drawer
-                isOpen={isOpen}
-                placement="left"
-                colorScheme={"blue"}
-                onClose={onClose}
-                finalFocusRef={btnRef}>
 
-                <DrawerOverlay/>
+                    
 
-                <DrawerContent>
-                  <DrawerCloseButton />
-                  <DrawerHeader bgColor='#2F5597'>
-                    <HStack>
-                      <Avatar bg='teal.500' name='getInitials'></Avatar>
-                      <Heading as='h4' size='md' color='whiteAlpha.900'>Welcome</Heading>
-                    </HStack>
-                  </DrawerHeader>
-
-                  <DrawerBody bgColor='#8FAADC'>
-                    <Flex flexDir="column" align="center">
-                      <NextLink href="/Messages" passHref>
-                        <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%" textColor='#DAE3F3' color="blue">Messages</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/ARInstructor" passHref>
-                        <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%" textColor='#DAE3FE'>AR Instructor</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/Announcement" passHref>
-                        <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%" textColor='#DAE3F3'>Announcement</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/Forums" passHref>
-                        <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%" textColor='#DAE3F3'>Forums</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/InquiriesConcern.js" passHref>
-                        <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%" textColor='#DAE3F3'>Inquiries/Concern</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/Settings" passHref>
-                        <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%" textColor='#DAE3F3'>Settings</Button>
-                      </NextLink>
-                  </Flex>
-
-                  </DrawerBody>
-
-                  <DrawerFooter bgColor='#8FAADC'>
-                    <Button colorScheme='red'>Logout</Button>
-                  </DrawerFooter>
-
-                </DrawerContent>
-              </Drawer>
-
-              </Flex>
-            </Box>
-
-            <Center>
-              <Box bg="lavender" w="1550px" h="800px" >
-                  <Center>
-                    <Box bg="#8FAADC" w="800px" h="800px"
+                  
+                  </Box>
+                <Center>
+                  <Box bg="lavender" w="1550px" h="800px">
+                    <Center>
+                      <Box bg="#8FAAADC" w="800px" h="800px" 
                           rounded="10px"
                           borderColor="gray.300"
                           boxShadow="md">
-                            <HStack justify='space-between' w='full'>
-                            <Text textAlign='left' padding='5' fontSize='20' fontWeight='bold'>Messages</Text>
+                        <HStack justify='space-between' w='full'>
+                          <Text textAlign='left' padding='5' fontSize='20' fontWeight='bold'>Messages</Text>
+                          <IconButton aria-label='Search Message' icon={<Search2Icon/>} spacing='5'/>
 
-                            <IconButton colorScheme='blackAlpha' aria-label='Search' Icon={<Search2Icon />} IconButton/> 
-                            
-                            </HStack>
-                            
-                            
-                    </Box>
-                  </Center>
-              </Box>
-            </Center>
-              
+                        </HStack>
+                      
+                         
+                     
+                      </Box>
+                    </Center>
 
+                  </Box>
 
 
-          </Box>
+
+
+                </Center>
+
+              </Center>
+
+                
+              </FormControl>
+                
+            </Flex>
+
+
 
           
           

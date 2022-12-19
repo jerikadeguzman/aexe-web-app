@@ -1,21 +1,62 @@
 import Head from 'next/head'
-import { Heading, Center, Flex, Button, Stack, HStack, VStack, Text, Input, Box, Image, Switch, IconButton, useColorModeValue,
-  useBreakpointValue, Container, useDisclosure} from "@chakra-ui/react";
-import { Avatar, AvatarBadge, AvatarGroup, AiOutlineUser } from '@chakra-ui/react'
+import { 
+  Heading, 
+  Center, 
+  Flex, 
+  Button, 
+  Stack, 
+  HStack, 
+  VStack, 
+  Text, 
+  Input, 
+  Box, 
+  Image, 
+  Switch, 
+  IconButton, 
+  useColorModeValue,
+  useBreakpointValue, 
+  Container, 
+  useDisclosure
+} from "@chakra-ui/react";
+import { 
+  Avatar, 
+  AvatarBadge, 
+  AvatarGroup, 
+  AiOutlineUser, 
+  Accordion, 
+  AccordionItem, 
+  AccordionButton,
+  AccordionIcon, 
+  AccordionPanel
+} from '@chakra-ui/react'
 import React, { useEffect, useState, useContext } from "react";
-import Router from 'react'
-import { FiMenu } from 'react-icons/fi'
-import NextLink from 'next/link'
-import { Textarea } from '@chakra-ui/react'
+//import Router from 'react'
+import { FiMenu, FiSquare } from 'react-icons/fi'
 import {
-    Accordion,
-    AccordionItem,
-    AccordionButton,
-    AccordionPanel,
-    AccordionIcon,
-  } from '@chakra-ui/react';
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+} from "@chakra-ui/react";
+import NextLink from 'next/link'
+import Router from "next/router";
 
 
+export default function Dashboard() {
+  const isDesktop = useBreakpointValue({ base: false, lg: true })
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = React.useRef();
+  useEffect(() => {
+    setTimeout(() => {
+      const checkSession = localStorage.getItem("email");
+      if (!checkSession) {
+        Router.push("/");
+      }
+    }, []);
+  }, []);
 
 export default function Forums(){
     return(
@@ -31,23 +72,34 @@ export default function Forums(){
                   <Image src='/Faq.jpg' alt='log' h="600px" w="1550px"
                     margin='23' />
               
+
+
+                    
+
+                  
                 </Box>
 
-              </Center>
-              <Center>
-                  <Box bg="lavander" w="900px" h="700px">
-                    <Center>
-                      <Box bg="BlackAlpha 300" w="800px" h="800px" 
+            <Center>
+              <Box bg="lavender" w="1550px" h="800px" >
+                  <Center>
+                    <HStack>
+                    <Box marginRight="3" marginLeft="5" >
+                      <Image src='/faq.jpg' alt='log' h="600px" w="800px"/>
+                    </Box>
+                    <Box bg="#8FAADC" w="800px" h="800px"
                           rounded="10px"
                           borderColor="gray.300"
                           boxShadow="md">
+
                             <HStack justify='space-between' w='full'>
-                              <Text textAlign='center' padding='12' fontSize='29' fontWeight='bold'>FREQUENTLY ASKED QUESTIONS (FAQS)</Text>
+                              <Text textAlign='center' 
+                              padding='12' 
+                              fontSize='29' 
+                              fontWeight='bold'>FREQUENTLY ASKED QUESTIONS (FAQS)</Text>
                             </HStack>
 
-                          
                           <Stack margin='65'>
-                            <Accordion allowToggle >
+                              <Accordion allowToggle >
                                 <AccordionItem>
                                   <h2>
                                     <AccordionButton _expanded={{ bg: 'tomato', color: 'white' }}>
@@ -122,20 +174,49 @@ export default function Forums(){
                                   </AccordionPanel>
                                 </AccordionItem>
                               </Accordion>
+  
+
+
+
 
                           </Stack>
 
-                            
-                      </Box>
+                      </Box> 
+                    </HStack>
+                  </Center>
 
-                     
-                    </Center>
 
                   </Box>
                 </Center>
+
+                
+            
+                
             </Flex> 
 
 
         </>
-    ) 
+      )
 }
+
+const styleProps = {
+    indexWrapper: {
+      height: "100vh",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      bgColor: "#22202A",
+    },
+    formWrapper: {
+      borderRadius: "xl",
+      width: "54vh",
+      height: "50vh",
+      flexDirection: "column",
+      alignItems: "center",
+      padding: "2vh",
+      color: "white",
+      bgColor: "#E1CBA5",
+      
+      
+    }
+  }

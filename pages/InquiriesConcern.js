@@ -28,10 +28,6 @@ export default function InquiriesConcern(){
                         border='black'
                         >
 
-
-                    
-
-                  
                     </Box>
                
                 </Center>
