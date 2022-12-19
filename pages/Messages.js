@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import { Heading, Center, Flex, Button, Stack, HStack, VStack, Text, Input, Box, Image, Switch, useColorModeValue,
   useBreakpointValue, Container, useDisclosure, FormControl} from "@chakra-ui/react";
-import { Avatar, AvatarBadge, AvatarGroup, AiOutlineUser } from "@chakra-ui/avatar"
+import { Avatar, AvatarBadge, AvatarGroup, AiOutlineUser } from '@chakra-ui/react'
 import React, { useEffect, useState, useContext } from "react";
 import Router from 'react'
-import { IconButton } from '@chakra-ui/react'
+import { IconButton} from '@chakra-ui/react'
 import {
   Drawer,
   DrawerBody,
@@ -14,15 +14,11 @@ import {
   DrawerContent,
   DrawerCloseButton,
 } from "@chakra-ui/react";
-<<<<<<< HEAD
-import { Search2Icon } from '@chakra-ui/icons';
-=======
 import NextLink from "next/link";
-//import { Icon, Search2Icon } from '@chakra-ui/react'
+import { FiMenu } from 'react-icons/fi';
+import { Search2Icon } from '@chakra-ui/react'
 
 
-
->>>>>>> 7f1586553b8ff5ac3c7a7ca8f97435dfbfa13593
 
 
 export default function Messages(){
@@ -32,54 +28,6 @@ export default function Messages(){
 
     return(
         <> 
-<<<<<<< HEAD
-            <Flex>
-              <FormControl>
-              <Center>
-                   <Box display='flex'
-                   bgColor='whiteAlpha.900'
-                   border='black'
-                   >
-
-
-                    
-
-                  
-                  </Box>
-                <Center>
-                  <Box bg="lavender" w="1550px" h="800px">
-                    <Center>
-                      <Box bg="#8FAAADC" w="800px" h="800px" 
-                          rounded="10px"
-                          borderColor="gray.300"
-                          boxShadow="md">
-                        <HStack justify='space-between' w='full'>
-                          <Text textAlign='left' padding='5' fontSize='20' fontWeight='bold'>Messages</Text>
-                          <IconButton aria-label='Search Message' icon={<Search2Icon/>} spacing='5'/>
-
-                        </HStack>
-                      
-                         
-                     
-                      </Box>
-                    </Center>
-
-                  </Box>
-
-
-
-
-                </Center>
-
-              </Center>
-
-                
-              </FormControl>
-                
-            </Flex>
-
-
-=======
           <Box as="section" pb={{ base: '12', md: '24' }}  bg="#2F5597" > 
             <Box as="nav" bg="bg-surface" boxShadow={useColorModeValue('sm', 'sm-dark')}>
               <Flex>
@@ -100,9 +48,9 @@ export default function Messages(){
                 finalFocusRef={btnRef}>
 
                 <DrawerOverlay/>
+
                 <DrawerContent>
                   <DrawerCloseButton />
-
                   <DrawerHeader bgColor='#2F5597'>
                     <HStack>
                       <Avatar bg='teal.500' name='getInitials'></Avatar>
@@ -168,8 +116,11 @@ export default function Messages(){
                           boxShadow="md">
                             <HStack justify='space-between' w='full'>
                             <Text textAlign='left' padding='5' fontSize='20' fontWeight='bold'>Messages</Text>
-                           
+
+                            <IconButton colorScheme='blackAlpha' aria-label='Search' Icon={<Search2Icon />} IconButton/> 
+                            
                             </HStack>
+                            
                             
                     </Box>
                   </Center>
@@ -180,7 +131,6 @@ export default function Messages(){
 
 
           </Box>
->>>>>>> 7f1586553b8ff5ac3c7a7ca8f97435dfbfa13593
 
           
           

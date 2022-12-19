@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 import 'firebase/auth'
 
 const firebaseConfig = {
@@ -16,3 +17,13 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app)
+const storage = getStorage();
+
+// Storage
+export async function upload(file, currentUser, getDownloaddURL) {
+  const fileref = ref(storage, currentUser.uid + '.png');
+  getDownloaddURL(true);
+  const snapshot = await uploadBytes(fileref, file);
+  getDownloaddURL(false);
+  alert("Uploaded file!");
+}

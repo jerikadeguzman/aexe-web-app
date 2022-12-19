@@ -53,6 +53,7 @@ export default function Dashboard() {
                   <DrawerHeader bgColor='#2F5597'>
                     <HStack>
                       <Avatar bg='teal.500' name='getInitials'></Avatar>
+                      
                       <Heading as='h4' size='md' color='whiteAlpha.900'>Welcome</Heading>
                     </HStack>
                   </DrawerHeader>

@@ -31,11 +31,6 @@ export default function Forums(){
                   <Image src='/Faq.jpg' alt='log' h="600px" w="1550px"
                     margin='23' />
               
-
-
-                    
-
-                  
                 </Box>
 
               </Center>
@@ -127,10 +122,6 @@ export default function Forums(){
                                   </AccordionPanel>
                                 </AccordionItem>
                               </Accordion>
-  
-
-
-
 
                           </Stack>
 
@@ -142,10 +133,6 @@ export default function Forums(){
 
                   </Box>
                 </Center>
-
-                
-            
-                
             </Flex> 
 
 
