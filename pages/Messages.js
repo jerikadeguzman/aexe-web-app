@@ -16,7 +16,8 @@ import {
   useBreakpointValue, 
   Container, 
   useDisclosure, 
-  FormControl
+  FormControl,
+  WrapItem
 } from "@chakra-ui/react";
 import { Avatar, AvatarBadge, AvatarGroup, AiOutlineUser } from "@chakra-ui/avatar"
 import React, { useEffect, useState, useContext } from "react";
@@ -30,14 +31,13 @@ import {
   DrawerContent,
   DrawerCloseButton,
 } from "@chakra-ui/react";
-
 import Sidebar from '../constanst/components/Sidebar';
 import { FiMenu } from 'react-icons/fi';
 import { Search2Icon } from '@chakra-ui/icons';
 import NextLink from "next/link";
 import Router from "next/router";
-
-
+import { ChakraProvider } from '@chakra-ui/provider';
+import { Component } from 'react';
 
 export default function Messages(){
   const btnRef = React.useRef();
@@ -51,8 +51,19 @@ export default function Messages(){
     }, []);
   }, []);
 
-  
-  
+  const Topbar = () => {
+    return(
+      <Flex 
+      bg="gray.100" 
+      h="80px" 
+      w="100%" 
+      align="center">
+
+        <Avatar src="" marginEnd={3}/>
+        <Heading size="md">user@gmail.com</Heading>
+      </Flex>
+    )
+  }
 
     return(
         <> 
@@ -81,7 +92,13 @@ export default function Messages(){
       onClick={() => Router.push("/dashboard")}
       />
       <Heading marginLeft={25} textColor="orange">AEXE</Heading>
-
+      <Avatar 
+      bg='teal.500' 
+      name='getInitials' 
+      size="sm" align="center" 
+      marginLeft="1250" 
+      marginTop="1"></Avatar>
+      
     <Drawer
       isOpen={isOpen}
       placement="left"
@@ -95,7 +112,6 @@ export default function Messages(){
 
         <DrawerHeader bgColor='#2F5597'>
           <HStack>
-            <Avatar bg='teal.500' name='getInitials'></Avatar>
             <Heading as='h4' size='md' color='whiteAlpha.900'>Welcome</Heading>
           </HStack>
         </DrawerHeader>
@@ -163,38 +179,30 @@ export default function Messages(){
       </DrawerContent>
     </Drawer>
 
+  </Flex>
+</Box>
+
+  <Center>
+    <Box bg="lavender" w="1550px" h="800px">
+
+    <Flex>
+
+      <Sidebar />
+
+      <Flex flex={1} direction="column">
+
+        <Flex flex={1} direction="column" pt={4} mx={5} overflowX="scroll">
+        </Flex>
+
+      
+      </Flex>
+
     </Flex>
-  </Box>
+               
+    </Box>
+</Center>
 
-            <Center>
-              <Box bg="lavender" w="1550px" h="800px">
-                <Flex bg="#8FAADC" w="300px" h="800px" borderEnd="1px solid"
-                  borderColor="gray.200" direction="column">
-
-
-              <Flex
-                h="100vh">
-                  <Sidebar/>
-                    
-                  <Flex bg="blue.100" flex={1}>
-
-                  /</Flex>
-              </Flex>
-                    
-                    
-                  
-                </Flex>
-
-
-
-              </Box>
-            </Center>
-            
-
-
-       </Box>
-
-          
+</Box>  
         </>
     ) 
 }

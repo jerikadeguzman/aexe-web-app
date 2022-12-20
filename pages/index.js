@@ -199,7 +199,7 @@ export default function Home() {
             <HStack w='full' justify='space-between'>
             <Checkbox value="Login"
                       type="submit"
-                      onclick="lsRememberMe()" //remember me checkbox
+                      onclick="setCookie()" //remember me checkbox
                       >Remember me</Checkbox> 
             <Button colorScheme='blackAlpha' variant='link'>Forgot Password?</Button>
             </HStack>

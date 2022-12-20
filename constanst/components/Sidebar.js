@@ -34,24 +34,42 @@ export default function Sidebar(){
 
 
             <Center>
-              <Box bg="lavender" w="1550px" h="800px">
-                <Flex bg="#8FAADC" w="300px" h="800px" borderEnd="1px solid"
-                  borderColor="gray.200" direction="column">
+              <Box bg="lavender" h="800px">
+                <Flex 
+                bg="#8FAADC" 
+                w="300px" 
+                h="800" 
+                borderEnd="2px solid"
+                borderColor="gray.200" 
+                direction="column">
 
-                    <Flex  h="71px" w="100%"
-                        align="center" padding={3}
-                        borderColor="gray.200">
+                    <Flex 
+                      h="71px" 
+                      w="100%"
+                      align="center" 
+                      padding={3}
+                      borderBottom="1px solid"
+                      borderColor="gray.200">
                       
-                      <Flex align="center">
+                      <Flex 
+                      align="center"
+                      p={3}>
+
                         <Avatar src="" marginEnd={3}/>
-                        <Text>Jerika De Guzman</Text>
+                        <Text>jerika</Text>
                       </Flex>
 
                     </Flex>
 
                     <Button m={5} p={4}>New Message</Button>
                     
-                    <Flex overflowX="scroll" direction="column" sx={{scrollbarWidth: "none"}}flex={1}>
+                    <Flex overflowX="scroll" direction="column" sx={{scrollbarWidth: "none"}} flex={1}>
+                      <Chat/>
+                      <Chat/>
+                      <Chat/>
+                      <Chat/>
+                      <Chat/>
+                      <Chat/>
                       <Chat/>
                       <Chat/>
                       <Chat/>

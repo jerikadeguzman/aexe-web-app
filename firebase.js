@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { ref } from "firebase/storage";
 import 'firebase/auth'
 
 const firebaseConfig = {
@@ -17,7 +18,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app)
-const storage = getStorage();
+export const storage = getStorage(app);
 
 // Storage
 export async function upload(file, currentUser, getDownloaddURL) {
@@ -27,3 +28,4 @@ export async function upload(file, currentUser, getDownloaddURL) {
   getDownloaddURL(false);
   alert("Uploaded file!");
 }
+

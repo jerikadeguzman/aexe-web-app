@@ -76,6 +76,12 @@ export default function Messages(){
                 onClick={() => Router.push("/dashboard")}
                 />
               <Heading marginLeft={25} textColor="orange">AEXE</Heading>
+              <Avatar 
+                bg='teal.500' 
+                name='getInitials' 
+                size="sm" align="center" 
+                marginLeft="1250" 
+                marginTop="1"></Avatar>
 
               <Drawer
                 isOpen={isOpen}
@@ -90,7 +96,6 @@ export default function Messages(){
 
                   <DrawerHeader bgColor='#2F5597'>
                     <HStack>
-                      <Avatar bg='teal.500' name='getInitials'></Avatar>
                       <Heading as='h4' size='md' color='whiteAlpha.900'>Welcome</Heading>
                     </HStack>
                   </DrawerHeader>
@@ -188,7 +193,6 @@ export default function Messages(){
                           >View Record Videos</Button>
 
                           <Button colorScheme='red' size='lg' h='250'
-                          
                           onClick={() => Router.push("/exercise")}
                           >Add/Update Exercise</Button>
                         </ButtonGroup>

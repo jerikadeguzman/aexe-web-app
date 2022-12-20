@@ -75,6 +75,12 @@ export default function Dashboard() {
                 onClick={() => Router.push("/dashboard")}
                 />
               <Heading marginLeft={25} textColor="orange" >AEXE</Heading>
+              <Avatar 
+              bg='teal.500' 
+              name='getInitials' 
+              size="sm" align="center" 
+              marginLeft="1250" 
+              marginTop="1"></Avatar>
 
               <Drawer
                 isOpen={isOpen}
@@ -89,7 +95,6 @@ export default function Dashboard() {
 
                   <DrawerHeader bgColor='#2F5597'>
                     <HStack>
-                      
                       <Heading as='h4' size='md' color='whiteAlpha.900'>Welcome</Heading>
                     </HStack>
                   </DrawerHeader>
