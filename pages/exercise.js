@@ -17,7 +17,8 @@ import {
   Container, 
   useDisclosure,
   Divider,
-  SimpleGrid
+  SimpleGrid,
+  Icon
 } from "@chakra-ui/react";
 import { Grid, GridItem } from '@chakra-ui/react'
 import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
@@ -36,7 +37,7 @@ import {
   DrawerCloseButton,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { AddIcon, SmallAddIcon } from '@chakra-ui/icons';
+import { AddIcon, ChevronLeftIcon, SmallAddIcon } from '@chakra-ui/icons';
 import { ChakraProvider } from '@chakra-ui/provider';
 
 
@@ -61,17 +62,18 @@ export default function Messages(){
         <link rel="icon" href="/aexelogo.png" />
       </Head>
 
-          <Box as="section" pb={{ base: '12', md: '24' }}  bg="#2F5597" > 
+          <Box as="section" pb={{ base: '12', md: '24' }}  bg="#97392F" > 
             <Box as="nav" 
                 bg="bg-surface" 
                 boxShadow={useColorModeValue('sm', 'sm-dark')}>
               <Flex>
                 <IconButton
+                color="white"
                 ref={btnRef}
                 icon={<FiMenu fontSize="1.25rem"/>}
                 onClick={onOpen}
                 aria-label="Open Menu"
-                bg="#2F5597"
+                bg="#97392F"
                 />
                 <IconButton
                 icon={<Image src="/aexelogo.png"/>}
@@ -80,7 +82,12 @@ export default function Messages(){
                 aria-label="Homepage"
                 onClick={() => Router.push("/dashboard")}
                 />
-              <Heading marginLeft={25} textColor="orange" >AEXE</Heading>
+                <Avatar 
+                //src={url}
+                bg='teal.500'  
+                size="sm" align="center" 
+                marginLeft="83%"  
+                marginTop="1"></Avatar>
 
               <Drawer
                 isOpen={isOpen}
@@ -93,21 +100,32 @@ export default function Messages(){
                 <DrawerContent>
                   <DrawerCloseButton />
 
-                  <DrawerHeader bgColor='#2F5597'>
+                  <DrawerHeader bgColor='#97392F'>
                     <HStack>
                      
                       <Heading as='h4' size='md' color='whiteAlpha.900'>Welcome</Heading>
                     </HStack>
                   </DrawerHeader>
 
-                  <DrawerBody bgColor='#8FAADC'>
+                  <DrawerBody bgColor='#ffffff '>
+                    <Flex flexDir="column" align="center">
+                      <NextLink href="/Profile" passHref>
+                        <Button as="a" 
+                        variant="ghost" 
+                        aria-label="Profile" 
+                        my={5} w="100%" 
+                        textColor='#696969' 
+                        color="blue">Profile</Button>
+                      </NextLink>
+                  </Flex>
+
                     <Flex flexDir="column" align="center">
                       <NextLink href="/Messages" passHref>
                         <Button as="a" 
                         variant="ghost" 
                         aria-label="Meesages" 
                         my={5} w="100%" 
-                        textColor='#DAE3F3' 
+                        textColor='#696969' 
                         color="blue">Messages</Button>
                       </NextLink>
                   </Flex>
@@ -118,7 +136,7 @@ export default function Messages(){
                         variant="ghost" 
                         aria-label="AR Instructor"
                          my={5} w="100%" 
-                         textColor='#DAE3FE'>AR Instructor</Button>
+                         textColor='#696969'>AR Instructor</Button>
                       </NextLink>
                   </Flex>
 
@@ -128,7 +146,7 @@ export default function Messages(){
                         variant="ghost" 
                         aria-label="Announcements" 
                         my={5} w="100%" 
-                        textColor='#DAE3F3'>Announcement</Button>
+                        textColor='#696969'>Announcement</Button>
                       </NextLink>
                   </Flex>
 
@@ -138,17 +156,7 @@ export default function Messages(){
                         variant="ghost" 
                         aria-label="Forums" 
                         my={5} w="100%" 
-                        textColor='#DAE3F3'>Forums</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/InquiriesConcern.js" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Inquiries and Concerns" 
-                        my={5} w="100%" 
-                        textColor='#DAE3F3'>Inquiries/Concern</Button>
+                        textColor='#696969'>Forums</Button>
                       </NextLink>
                   </Flex>
 
@@ -158,13 +166,13 @@ export default function Messages(){
                         variant="ghost" 
                         aria-label="Settings" 
                         my={5} w="100%" 
-                        textColor='#DAE3F3'>Settings</Button>
+                        textColor='#696969'>Settings</Button>
                       </NextLink>
                   </Flex>
 
                   </DrawerBody>
 
-                  <DrawerFooter bgColor='#8FAADC'>
+                  <DrawerFooter bgColor='#ffffff'>
                     <Button colorScheme='red'
                     onClick={() => {Router.push("/")
                     localStorage.clear();
@@ -178,9 +186,17 @@ export default function Messages(){
             </Box>
 
             <Center>
-              <Box bg="lavender" w="1550px" h="1000px" >
+              <Box bg="#ffffff" w="1550%" h="1020%" >
+                <IconButton mt="2%" ml="3%" as={ChevronLeftIcon} size="sm" bgColor="#ffffff"
+                onClick={() => Router.push("/ARInstructor")}>Back</IconButton>
                 <Center>
-                  <SimpleGrid marginLeft="3%" marginRight="3%" marginTop="5%" spacing={10} columns={4}>
+                  <SimpleGrid 
+                  marginLeft="3%" 
+                  marginRight="3%" 
+                  marginTop="3%" 
+                  spacing={10} 
+                  columns={4} 
+                  marginBottom="5%">
                   <Card maxW='sm' variant='elevated' boxShadow="2xl">
                     <CardBody>
                       <Image 
@@ -188,12 +204,21 @@ export default function Messages(){
                       borderRadius='lg'/>
                       <Stack mt='6' spacing='3'>
                       <Heading size='md'>BMI</Heading>
-                      <Text>BMI</Text>
+                      <Text>
+                      BMI or the Body max index is the value from the mass of a person. 
+                      To start exercising, you need to input the required details to compute 
+                      the BMI. Once it is calculated, there will be suggested exercise that 
+                      is appropriate for your BMI weight weight status. 
+                      </Text>
                       </Stack>
                     </CardBody>
                     <Divider />
                     <CardFooter>
-                        <Button variant='solid' colorScheme='blue'>
+                        <Button 
+                        variant='solid' 
+                        bgColor="#696969"
+                        textColor="white"
+                        onClick={() => Router.push("../Exercises/bmi")}>
                           View
                         </Button>
                     </CardFooter>
@@ -206,12 +231,18 @@ export default function Messages(){
                       borderRadius='lg'/>
                       <Stack mt='6' spacing='3'>
                       <Heading size='md'>Full Body</Heading>
-                      <Text>Full Body </Text>
+                      <Text>A full-body workout's primary objective is to focus on all 
+                        of your muscle groups in order to effectively 
+                        and efficiently encourage muscle growth.  </Text>
                       </Stack>
                     </CardBody>
                     <Divider />
                     <CardFooter>
-                        <Button variant='solid' colorScheme='blue'>
+                        <Button 
+                        variant='solid' 
+                        bgColor="#696969"
+                        textColor="white"
+                        onClick={() => Router.push("../Exercises/fullbody")}>
                           View
                         </Button>
                     </CardFooter>
@@ -224,12 +255,17 @@ export default function Messages(){
                       borderRadius='lg'/>
                       <Stack mt='6' spacing='3'>
                       <Heading size='md'>Lower Body</Heading>
-                      <Text>Lower Body</Text>
+                      <Text>Lower-body workouts are meant to strengthen 
+                        the legs, glutes, lower back, and hips. </Text>
                       </Stack>
                     </CardBody>
                     <Divider />
                     <CardFooter>
-                        <Button variant='solid' colorScheme='blue'>
+                        <Button 
+                        variant='solid' 
+                        bgColor="#696969"
+                        textColor="white"
+                        onClick={() => Router.push("../Exercises/lowerbody")}>
                           View
                         </Button>
                     </CardFooter>
@@ -242,13 +278,19 @@ export default function Messages(){
                       borderRadius='lg'/>
                       <Stack mt='6' spacing='3'>
                       <Heading size='md'>Leg and Butt</Heading>
-                      <Text>Leg and Butt</Text>
+                      <Text>Leg exercises work all of the major muscular groups in your body, 
+                        which promotes healthy movement patterns in daily life 
+                        and enhances overall athletic performance. </Text>
                       </Stack>
                     </CardBody>
                     <Divider />
                     <CardFooter>
-                        <Button variant='solid' colorScheme='blue'>
-                          View
+                        <Button 
+                        variant='solid' 
+                        bgColor="#696969"
+                        textColor="white"
+                        onClick={() => Router.push("../Exercises/legandbutt")}>
+                        View
                         </Button>
                     </CardFooter>
                    </Card>
@@ -260,12 +302,19 @@ export default function Messages(){
                       borderRadius='lg'/>
                       <Stack mt='6' spacing='3'>
                       <Heading size='md'>Abs</Heading>
-                      <Text>Exercise for enhancing abs</Text>
+                      <Text>Ab exercises serve to strengthen the 
+                        muscles that surround the spine and 
+                        improve posture since the body's weight is distributed evenly. 
+                      </Text>
                       </Stack>
                     </CardBody>
                     <Divider />
                     <CardFooter>
-                        <Button variant='solid' colorScheme='blue'>
+                        <Button 
+                        variant='solid' 
+                        bgColor="#696969"
+                        textColor="white"
+                        onClick={() => Router.push("../Exercises/abs")}>
                           View
                         </Button>
                     </CardFooter>
@@ -278,13 +327,18 @@ export default function Messages(){
                       borderRadius='lg'/>
                       <Stack mt='6' spacing='3'>
                       <Heading size='md'>Chest</Heading>
-                      <Text>Chest</Text>
+                      <Text>Exercises for the chest muscles are done to keep the 
+                        body strong and healthy while also promoting muscle growth.</Text>
                       </Stack>
                     </CardBody>
                     <Divider />
                     <CardFooter>
-                        <Button variant='solid' colorScheme='blue'>
-                          View
+                        <Button 
+                        variant='solid' 
+                        bgColor="#696969"
+                        textColor="white"
+                        onClick={() => Router.push("../Exercises/chest")}>
+                        View
                         </Button>
                     </CardFooter>
                    </Card>
@@ -296,13 +350,18 @@ export default function Messages(){
                       borderRadius='lg'/>
                       <Stack mt='6' spacing='3'>
                       <Heading size='md'>Shoulder</Heading>
-                      <Text>Shoulder</Text>
+                      <Text>A shoulder and back training regimen is intended to develop broad, 
+                        enormous shoulder muscles and a muscular, powerful back.</Text>
                       </Stack>
                     </CardBody>
                     <Divider />
                     <CardFooter>
-                        <Button variant='solid' colorScheme='blue'>
-                          View
+                        <Button 
+                        variant='solid' 
+                        bgColor="#696969"
+                        textColor="white"
+                        onClick={() => Router.push("../Exercises/shoulderandback")}>
+                        View
                         </Button>
                     </CardFooter>
                    </Card>

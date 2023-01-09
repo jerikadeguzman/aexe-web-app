@@ -33,21 +33,71 @@ import {
 } from "@chakra-ui/react";
 import NextLink from 'next/link'
 import { Textarea } from '@chakra-ui/react'
+import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
+import { TextareaAutosizeProps } from 'react-textarea-autosize';
 import Router from "next/router";
+import { storage } from "../firebase";
+import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage';
+import { useAuth } from "../firebase";
 
 
 export default function Dashboard() {
+  const currentUser = useAuth();
   const isDesktop = useBreakpointValue({ base: false, lg: true })
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   useEffect(() => {
     setTimeout(() => {
       const checkSession = localStorage.getItem("email");
-      if (!checkSession) {
-        Router.push("/");
-      }
+      const user_data = JSON.parse(checkSession);
+      checkSession?
+        getProfileData(user_data.profile_url)
+       
+     : Router.push("/");
+      
     }, []);
   }, []);
+
+  async function getProfileData() {
+    const imageURL = ref(storage, `/files/${imageURL}`);
+     await getDownloadURL(imageURL).then((url) => {
+          setUrl(url);
+          console.log(url)
+        }).catch(error => {
+          console.log(error.message, "error");
+        })
+  }
+
+  /*const [image, setImage] = useState(null);
+  const [url, setUrl] = useState(null);
+  const handleImageChange =(e) =>{
+    if(e.target.files[0]){
+      setImage(e.target.files[0]);
+    }
+  };
+  const handleSubmit = () => {
+    const imageURL = ref(storage, `/files/${imageURL}`);
+    //image: should be unique name
+    uploadBytes(imageURL, image).then(() =>{
+      getDownloadURL(imageURL, image).then((url) => {
+        setUrl(url);
+        //console.log(File)
+        //update doc ng user na naka login
+      }).catch(error => {
+        console.log(error.message, "error");
+      });
+      setImage(null);
+    }).catch(error => {
+      console.log(error.message);
+    });
+
+  }; 
+
+ useEffect(() =>{
+  if ( currentUser?.url){
+    setUrl(currentUser.url);
+  }
+ }, [currentUser])*/
 
     return (
         <>
@@ -57,15 +107,16 @@ export default function Dashboard() {
         <link rel="icon" href="/aexelogo.png" />
       </Head>
           
-          <Box as="section" pb={{ base: '12', md: '24' }}  bg="#2F5597"> 
+          <Box as="section" pb={{ base: '12', md: '24' }}  bg="#97392F"> 
             <Box as="nav" bg="bg-surface" boxShadow={useColorModeValue('sm', 'sm-dark')}>
               <Flex>
                 <IconButton
+                color="white"
                 ref={btnRef}
                 icon={<FiMenu fontSize="1.25rem"/>}
                 onClick={onOpen}
                 aria-label="Open Menu"
-                bg="#2F5597"
+                bg="#97392F"
                 />
                 <IconButton
                 icon={<Image src="/aexelogo.png"/>}
@@ -74,13 +125,13 @@ export default function Dashboard() {
                 aria-label="Homepage"
                 onClick={() => Router.push("/dashboard")}
                 />
-              <Heading marginLeft={25} textColor="orange" >AEXE</Heading>
+              
               <Avatar 
-              bg='teal.500' 
-              name='getInitials' 
-              size="sm" align="center" 
-              marginLeft="1250" 
-              marginTop="1"></Avatar>
+                  //src={url}
+                  bg='teal.500'  
+                  size="sm" align="center" 
+                  marginLeft="83%"  
+                  marginTop="1"></Avatar>
 
               <Drawer
                 isOpen={isOpen}
@@ -93,20 +144,35 @@ export default function Dashboard() {
                 <DrawerContent>
                   <DrawerCloseButton />
 
-                  <DrawerHeader bgColor='#2F5597'>
+                  <DrawerHeader bgColor='#97392F'>
                     <HStack>
-                      <Heading as='h4' size='md' color='whiteAlpha.900'>Welcome</Heading>
+                      <Heading 
+                      as='h4' 
+                      size='md' 
+                      color='whiteAlpha.900'>Welcome Admin</Heading>
                     </HStack>
                   </DrawerHeader>
 
-                  <DrawerBody bgColor='#8FAADC'>
+                  <DrawerBody bgColor='#ffffff '>
+                    <Flex flexDir="column" align="center">
+                      <NextLink href="/Profile" passHref>
+                        <Button as="a" 
+                        variant="ghost" 
+                        aria-label="Profile" 
+                        my={5} w="100%" 
+                        textColor='#696969' 
+                        color="blue">Profile
+                        </Button>
+                      </NextLink>
+                    </Flex>
+
                     <Flex flexDir="column" align="center">
                       <NextLink href="/Messages" passHref>
                         <Button as="a" 
                         variant="ghost" 
                         aria-label="Home" 
                         my={5} w="100%" 
-                        textColor='#DAE3F3' 
+                        textColor='#696969' 
                         color="blue">Messages</Button>
                       </NextLink>
                   </Flex>
@@ -117,7 +183,7 @@ export default function Dashboard() {
                         variant="ghost" 
                         aria-label="Home" 
                         my={5} w="100%" 
-                        textColor='#DAE3FE'>AR Instructor</Button>
+                        textColor='#696969'>AR Instructor</Button>
                       </NextLink>
                   </Flex>
 
@@ -127,7 +193,7 @@ export default function Dashboard() {
                         variant="ghost" 
                         aria-label="Home" 
                         my={5} w="100%" 
-                        textColor='#DAE3F3'>Announcement</Button>
+                        textColor='#696969'>Announcement</Button>
                       </NextLink>
                   </Flex>
 
@@ -137,7 +203,7 @@ export default function Dashboard() {
                         variant="ghost" 
                         aria-label="Home" 
                         my={5} w="100%" 
-                        textColor='#DAE3F3'>Forums</Button>
+                        textColor='#696969'>Forums</Button>
                       </NextLink>
                   </Flex>
 
@@ -147,12 +213,12 @@ export default function Dashboard() {
                         variant="ghost" 
                         aria-label="Home" 
                         my={5} w="100%" 
-                        textColor='#DAE3F3'>Settings</Button>
+                        textColor='#696969'>Settings</Button>
                       </NextLink>
                   </Flex>
                   </DrawerBody>
 
-                  <DrawerFooter bgColor='#8FAADC'>
+                  <DrawerFooter bgColor='#ffffff'>
                     <Button colorScheme='red'
                     onClick={() => {Router.push("/")
                     localStorage.clear();
@@ -166,24 +232,60 @@ export default function Dashboard() {
             </Box>
 
             <Center>
-              <Box bg="lavender" w="1550px" h="800px" >
+              <Box bgColor="#ffffff" w="1550px" h="800px" >
                   <Center>
-                    <Box bg="#8FAADC" w="800px" h="800px"
-                          rounded="10px"
-                          borderColor="gray.300"
-                          boxShadow="md">          
-                    </Box>
+                    <VStack>
+                      <Card
+                        width="35vw"
+                        direction={{ base: 'column', sm: 'row' }}
+                        overflow='hidden'
+                        variant="outline"
+                        shadow="base"
+                        outlineColor="gray.900"
+                        mt="10%"
+                      >
+
+                      <Stack>
+                        <CardBody>
+                          <Heading size='md'>Announcements</Heading>
+                          <Center>
+                            <Textarea 
+                            onChange={(event) => {setPosts(event.target.value)}}
+                            input type="text"
+                            width="31vw"
+                            as={TextareaAutosizeProps} mt="4"
+                            minRows={3} resize="none"
+                            placeholder="Create post..."/>
+                          </Center>
+                        </CardBody>
+
+                        <CardFooter>
+                          <VStack>
+                          <Button 
+                          bgColor="#696969 "
+                          //onClick={createPost}
+                          className='button'
+                          //type="submit"
+                          variant='solid' 
+                          color="white"
+                          >Post</Button>
+                          </VStack>
+                        </CardFooter>
+                      </Stack>
+                    </Card>
+                    </VStack>
+
+
                   </Center>
+
+                
+                 
+                  
               </Box>
             </Center>
-            
+
 
           </Box>
-
-        
-         
-
-          
 
         </>
       )

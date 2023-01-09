@@ -24,7 +24,8 @@ import {
   ModalFooter, 
   cancelRef
 } from "@chakra-ui/react";
-import { Form, 
+import { 
+  Form, 
   FormControl, 
   FormLabel, 
   FormErrorMessage, 
@@ -37,6 +38,8 @@ import { db } from '../firebase'
 import { collection, getDocs, getDoc, where, addDoc, query } from "@firebase/firestore";
 import { useEffect, useState, useContext } from "react";
 import { useDisclosure } from '@chakra-ui/react'
+import NextLink from 'next/link'
+//import Router from "next/router";
 import Router, { useRouter } from "next/router";
 import React from 'react';
 import CookieConsent, { Cookies } from "react-cookie-consent";
@@ -75,7 +78,6 @@ export default function Home() {
   } = useDisclosure();
   
  
-
   const cancelRef = React.useRef()
   async function register() {
    const docRef = collection(db, "users")
@@ -125,7 +127,7 @@ export default function Home() {
         userDataContext.setUserData({
         dataObject: doc.data(),
         });
-        localStorage.setItem("email", doc.data().email);
+        localStorage.setItem("email", JSON.stringify(doc.data()));
       } else {
         toast({
           title: "Log in failed", //if the user input is invalid
@@ -140,7 +142,6 @@ export default function Home() {
     });
     setEmail("");
     setPassword("");
-  
   }
 
 
@@ -195,24 +196,25 @@ export default function Home() {
               />   
             </Box>
             <Box>
-
-            <HStack w='full' justify='space-between'>
-            <Checkbox value="Login"
-                      type="submit"
-                      onclick="setCookie()" //remember me checkbox
-                      >Remember me</Checkbox> 
-            <Button colorScheme='blackAlpha' variant='link'>Forgot Password?</Button>
-            </HStack>
+        
+            <Button 
+            colorScheme='blackAlpha' 
+            variant='link' size="sm"
+            onClick={() => Router.push("/forgotpw")}
+            >Forgot Password?</Button>
 
             <CookieConsent //cookies
             debug={true}
             location="bottom"
-            style={{background: '#8FAADC', color: 'black', fontSize: "14px", textAlign: "center", 
-                  borderRadius: "15px", width: "500px", marginBottom: "30px", marginLeft: "20px" }}
-            buttonStyle={{background: '#97302F', color:'white', borderRadius: "10px", marginBottom: "50px"}}
+            style={{background: '#8FAADC', color: 'black', fontSize: "1vw", textAlign: "center", 
+                  borderRadius: "15px", width: "35vw", height:"18vh", marginBottom: "25px", marginLeft: "20px" }}
+            buttonStyle={{background: '#97302F', color:'white', borderRadius: "10px", marginBottom: "50%"}}
             onAccept={() => {alert ("Yummy, thanks!")}} 
             > 
-            <Box boxSize='90px' marginLeft="180px">
+            <Box 
+            boxSize='20%' 
+            marginLeft="13vw" 
+            alignContent="center">
             <Image src="cookies.png"  />
             </Box>
             This site uses cookies to ensure you get the best experience.
@@ -226,7 +228,7 @@ export default function Home() {
             
                 <Button //login btn
                 colorScheme='red' 
-                width={"7vw"} 
+                width="8vw"
                 alignSelf={"flex-start"}
                 isDisabled={ email === ""?  password ===""? true : false : false}
                 onClick={() => {verifyLogin()}}
@@ -234,7 +236,7 @@ export default function Home() {
 
                 <Button //modal popup for registration form
                 colorScheme='red' 
-                width={"7vw"} 
+                width="8vw"
                 alignSelf={"flex-end"}
                 onClick={onOpen}
                 >Register</Button> 

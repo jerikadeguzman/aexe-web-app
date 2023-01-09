@@ -1,9 +1,13 @@
+import { useEffect, useState } from "react";
+
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth";
+import { getDownloadURL } from "firebase/storage";
 import { ref } from "firebase/storage";
-import 'firebase/auth'
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCJ9cRIz5vjNbSX8BF_vsoNA1YOP4lgp74",
@@ -17,15 +21,32 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+ 
 export const db = getFirestore(app)
-export const storage = getStorage(app);
+export const storage = getStorage();
 
-// Storage
-export async function upload(file, currentUser, getDownloaddURL) {
-  const fileref = ref(storage, currentUser.uid + '.png');
-  getDownloaddURL(true);
-  const snapshot = await uploadBytes(fileref, file);
-  getDownloaddURL(false);
-  alert("Uploaded file!");
+export function useAuth() {
+  const [currentUser, setCurrentUser] = useState();
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, user => setCurrentUser(user));
+    return unsub;
+  }, [])
+
+  return currentUser;
 }
 
+
+// Storage
+export async function upload(file, currentUser, getDownloadURL) {
+  const fileref = ref(storage, currentUser.uid + '.png');
+  getDownloadURL(true);
+  const snapshot = await uploadBytes(fileref, file);
+  const imageURL = await getDownloadURL(fileref);
+
+  updateProfile(currentUser, {imageURL: ""});
+
+  getDownloadURL(false);
+  alert("Uploaded file!");
+}

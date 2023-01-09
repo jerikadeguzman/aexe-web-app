@@ -6,7 +6,8 @@ import {
   Button, 
   Stack, 
   HStack, 
-  VStack, 
+  VStack,
+  StackDivider, 
   Text, 
   Input, 
   Box, 
@@ -16,7 +17,8 @@ import {
   useColorModeValue,
   useBreakpointValue, 
   Container, 
-  useDisclosure
+  useDisclosure,
+  Divider
 } from "@chakra-ui/react";
 import { 
   Avatar, 
@@ -43,20 +45,68 @@ import {
 } from "@chakra-ui/react";
 import NextLink from 'next/link'
 import Router from "next/router";
+import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
+import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage';
+import { useAuth, storage } from "../firebase";
 
 
 export default function Dashboard() {
+  const currentUser = useAuth();
   const isDesktop = useBreakpointValue({ base: false, lg: true })
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
-  useEffect(() => {
+  /*useEffect(() => {
     setTimeout(() => {
       const checkSession = localStorage.getItem("email");
-      if (!checkSession) {
-        Router.push("/");
-      }
+      const user_data = JSON.parse(checkSession);
+      checkSession?
+        getProfileData(user_data.profile_url)
+       
+     : Router.push("/");
+      
     }, []);
   }, []);
+
+  async function getProfileData() {
+    const imageURL = ref(storage, `/files/${imageURL}`);
+     await getDownloadURL(imageURL).then((url) => {
+          setUrl(url);
+          console.log(url)
+        }).catch(error => {
+          console.log(error.message, "error");
+        })
+  }
+
+  const [image, setImage] = useState(null);
+  const [url, setUrl] = useState(null);
+  const handleImageChange =(e) =>{
+    if(e.target.files[0]){
+      setImage(e.target.files[0]);
+    }
+  };
+  const handleSubmit = () => {
+    const imageURL = ref(storage, `/files/${imageURL}`);
+    //image: should be unique name
+    uploadBytes(imageURL, image).then(() =>{
+      getDownloadURL(imageURL, image).then((url) => {
+        setUrl(url);
+        //console.log(File)
+        //update doc ng user na naka login
+      }).catch(error => {
+        console.log(error.message, "error");
+      });
+      setImage(null);
+    }).catch(error => {
+      console.log(error.message);
+    });
+
+  }; 
+
+ useEffect(() =>{
+  if ( currentUser?.url){
+    setUrl(currentUser.url);
+  }
+ }, [currentUser])*/
 
     return (
         <>
@@ -66,15 +116,16 @@ export default function Dashboard() {
         <link rel="icon" href="/aexelogo.png" />
       </Head>
           
-          <Box as="section" pb={{ base: '12', md: '24' }}  bg="#2F5597"> 
+          <Box as="section" pb={{ base: '12', md: '24' }}  bg="#97392F"> 
             <Box as="nav" bg="bg-surface" boxShadow={useColorModeValue('sm', 'sm-dark')}>
               <Flex>
                 <IconButton
+                color="white"
                 ref={btnRef}
                 icon={<FiMenu fontSize="1.25rem"/>}
                 onClick={onOpen}
                 aria-label="Open Menu"
-                bg="#2F5597"
+                bg="#97392F"
                 />
 
                 <IconButton
@@ -84,12 +135,12 @@ export default function Dashboard() {
                 aria-label="Homepage"
                 onClick={() => Router.push("/dashboard")}
                 />
-                <Heading marginLeft={25} textColor="orange" >AEXE</Heading>
+                
                 <Avatar 
                 bg='teal.500' 
-                name='getInitials' 
+                //src={url}
                 size="sm" align="center" 
-                marginLeft="1250" 
+                marginLeft="83%"
                 marginTop="1"></Avatar>
 
               <Drawer
@@ -103,20 +154,35 @@ export default function Dashboard() {
                 <DrawerContent>
                   <DrawerCloseButton />
 
-                  <DrawerHeader bgColor='#2F5597'>
+                  <DrawerHeader bgColor='#97392F'>
                     <HStack>
-                      <Heading as='h4' size='md' color='whiteAlpha.900'>Welcome</Heading>
+                      <Heading 
+                      as='h4' 
+                      size='md' 
+                      color='whiteAlpha.900'>Welcome Admin</Heading>
                     </HStack>
                   </DrawerHeader>
 
-                  <DrawerBody bgColor='#8FAADC'>
+                  <DrawerBody bgColor='#ffffff '>
+                    <Flex flexDir="column" align="center">
+                      <NextLink href="/Profile" passHref>
+                        <Button as="a" 
+                        variant="ghost" 
+                        aria-label="Profile" 
+                        my={5} w="100%" 
+                        textColor='#696969' 
+                        color="blue">Profile
+                        </Button>
+                      </NextLink>
+                    </Flex>
+
                     <Flex flexDir="column" align="center">
                       <NextLink href="/Messages" passHref>
                         <Button as="a" 
                         variant="ghost" 
                         aria-label="Home" 
                         my={5} w="100%" 
-                        textColor='#DAE3F3' 
+                        textColor='#696969' 
                         color="blue">Messages</Button>
                       </NextLink>
                   </Flex>
@@ -127,7 +193,7 @@ export default function Dashboard() {
                         variant="ghost" 
                         aria-label="Home" 
                         my={5} w="100%" 
-                        textColor='#DAE3FE'>AR Instructor</Button>
+                        textColor='#696969'>AR Instructor</Button>
                       </NextLink>
                   </Flex>
 
@@ -137,7 +203,7 @@ export default function Dashboard() {
                         variant="ghost" 
                         aria-label="Home" 
                         my={5} w="100%" 
-                        textColor='#DAE3F3'>Announcement</Button>
+                        textColor='#696969'>Announcement</Button>
                       </NextLink>
                   </Flex>
 
@@ -147,7 +213,7 @@ export default function Dashboard() {
                         variant="ghost" 
                         aria-label="Home" 
                         my={5} w="100%" 
-                        textColor='#DAE3F3'>Forums</Button>
+                        textColor='#696969'>Forums</Button>
                       </NextLink>
                   </Flex>
 
@@ -157,13 +223,13 @@ export default function Dashboard() {
                         variant="ghost" 
                         aria-label="Home" 
                         my={5} w="100%" 
-                        textColor='#DAE3F3'>Settings</Button>
+                        textColor='#696969'>Settings</Button>
                       </NextLink>
                   </Flex>
 
                   </DrawerBody>
 
-                  <DrawerFooter bgColor='#8FAADC'>
+                  <DrawerFooter bgColor='#ffffff'>
                     <Button colorScheme='red'
                     onClick={() => {Router.push("/")
                     localStorage.clear();
@@ -177,40 +243,42 @@ export default function Dashboard() {
             </Box>
 
             <Center>
-              <Box bg="lavender" w="1550px" h="800px" >
+              <Box bgColor="#ffffff" w="1550px" h="300%">
                   <Center>
-                    <HStack>
-                    <Box marginRight="3" marginLeft="5" >
-                      <Image src='/faq.jpg' alt='log' h="600px" w="800px"/>
-                    </Box>
-                    <Box bg="#8FAADC" w="800px" h="800px"
-                          rounded="10px"
-                          borderColor="gray.300"
-                          boxShadow="md">
+                    <VStack>
 
-                            <HStack justify='space-between' w='full'>
-                              <Text textAlign='center' 
-                              padding='12' 
-                              fontSize='29' 
-                              fontWeight='bold'>FREQUENTLY ASKED QUESTIONS (FAQS)</Text>
-                            </HStack>
+                    <Card 
+                    size='md' 
+                    align="center" 
+                    variant="outline" 
+                    marginTop="5%" 
+                    shadow="2xl" 
+                    marginBottom="5%">
+                      <CardHeader>
+                      <Heading 
+                      size='md' 
+                      textColor="#696969" 
+                      textAlign="center">Frequently Asked Questions (FAQs)</Heading>
+                      <Divider borderColor="gray" mt="3%" />
+                      <Image src='/faq.jpg' alt='log' h="50vh" w="100%" mt="5%"/>
+                      <Divider borderColor="gray" mt="5%" />
+                      </CardHeader>
 
-                          <Stack margin='65'>
+                      <CardBody>
+                      <Stack divider={<StackDivider />} spacing='4' w="40vw">
                               <Accordion allowToggle >
                                 <AccordionItem>
                                   <h2>
-                                    <AccordionButton _expanded={{ bg: 'tomato', color: 'white' }}>
-                                      <Box flex='1' textAlign='left'>
-                                        Click me to see a different style
+                                    <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
+                                      <Box flex='1' textAlign='left' fontWeight="semibold">
+                                      Where is the gym located?
                                       </Box>
                                       <AccordionIcon />
                                     </AccordionButton>
                                   </h2>
                                   <AccordionPanel>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo consequat.
+                                  The gym can be found in the 47 CRJM PILAR MORNING BREEZE 
+                                  Brgy.085, District 1, Caloocan City, Philippines, 1400
                                   </AccordionPanel>
                                 </AccordionItem>
                               </Accordion>
@@ -219,17 +287,34 @@ export default function Dashboard() {
                                 <AccordionItem>
                                   <h2>
                                     <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
-                                      <Box flex='1' textAlign='left'>
-                                        Click me to see a different style
+                                      <Box flex='1' textAlign='left' fontWeight="semibold">
+                                      What time the gyms open and close
                                       </Box>
                                       <AccordionIcon />
                                     </AccordionButton>
                                   </h2>
                                   <AccordionPanel>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo consequat.
+                                  It will start at 8am onwards and will be closed at 5pm
+                                  </AccordionPanel>
+                                </AccordionItem>
+                              </Accordion>
+
+                              <Accordion allowToggle >
+                                <AccordionItem>
+                                  <h2>
+                                    <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
+                                      <Box flex='1' textAlign='left' fontWeight="semibold">
+                                      How much rates do the Gym offer?
+                                      </Box>
+                                      <AccordionIcon />
+                                    </AccordionButton>
+                                  </h2>
+                                  <AccordionPanel>
+                                  The gym rates if the customer where onsite exercising it cost 50 pesos per day 
+                                  and the customers can use all the equipment. A customer will pay a cost of 500 
+                                  per month if they would like to avail the membership and paying for a cost of 30 
+                                  pesos per day instead of 50 pesos for using a gym. They can request guidance 
+                                  from an instructor, it is only for free.
                                   </AccordionPanel>
                                 </AccordionItem>
                               </Accordion>
@@ -237,18 +322,16 @@ export default function Dashboard() {
                               <Accordion allowToggle>
                                 <AccordionItem>
                                   <h2>
-                                    <AccordionButton _expanded={{ bg: 'green.400', color: 'white' }}>
-                                      <Box flex='1' textAlign='left'>
-                                        Click me to see a different style
+                                    <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
+                                      <Box flex='1' textAlign='left' fontWeight="semibold">
+                                      How can I purchase a membership?
                                       </Box>
                                       <AccordionIcon />
                                     </AccordionButton>
                                   </h2>
                                   <AccordionPanel>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo consequat.
+                                  In purchasing a membership, they can ask on the admin in applying a membership 
+                                  and provide information about membership. Only official members can use the application.
                                   </AccordionPanel>
                                 </AccordionItem>
                               </Accordion>
@@ -256,25 +339,92 @@ export default function Dashboard() {
                               <Accordion allowToggle>
                                 <AccordionItem>
                                   <h2>
-                                    <AccordionButton _expanded={{ bg: 'purple.400', color: 'white' }}>
-                                      <Box flex='1' textAlign='left'>
-                                        Click me to see a different style
+                                    <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
+                                      <Box flex='1' textAlign='left' fontWeight="semibold">
+                                      Does the Gym have an age restriction or gender exception?
                                       </Box>
                                       <AccordionIcon />
                                     </AccordionButton>
                                   </h2>
                                   <AccordionPanel>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo consequat.
+                                  Anyone can use the gym and exercise except for the age below 15-10 years old.
                                   </AccordionPanel>
                                 </AccordionItem>
                               </Accordion>
+
+                              <Accordion allowToggle>
+                                <AccordionItem>
+                                  <h2>
+                                    <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
+                                      <Box flex='1' textAlign='left' fontWeight="semibold">
+                                      What is Augmented Reality For? 
+                                      </Box>
+                                      <AccordionIcon />
+                                    </AccordionButton>
+                                  </h2>
+                                  <AccordionPanel>
+                                  Augmented Reality is used to either visually alter natural environments or to provide
+                                   users with additional information and possibilities visual changes. The primary 
+                                   advantage of AR is that it blends digital and three-dimensional (3D) components 
+                                   with a person's perception of the real world. Analyzing your surroundings and using 
+                                   triggers to display relevant information in the appropriate location in your field of view. 
+                                  </AccordionPanel>
+                                </AccordionItem>
+                              </Accordion>
+                            
+                              <Accordion allowToggle>
+                                <AccordionItem>
+                                  <h2>
+                                    <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
+                                      <Box flex='1' textAlign='left' fontWeight="semibold">
+                                      How can we assure that the app has security providing personal info?
+                                      </Box>
+                                      <AccordionIcon />
+                                    </AccordionButton>
+                                  </h2>
+                                  <AccordionPanel>
+                                  Based on Republic Act 10173, the Data Privacy Act of 2012. 
+                                  AN ACT PROTECTING INDIVIDUAL PERSONAL INFORMATION IN INFORMATION 
+                                  AND COMMUNICATIONS SYSTEMS IN THE GOVERNMENT AND THE PRIVATE SECTOR, 
+                                  CREATING FOR THIS PURPOSE A NATIONAL PRIVACY COMMISSION, AND FOR OTHER PURPOSES.
+                                  Yes, application has a privacy policy which can be found when registering. 
+                                  We assure that it is only between the system and the customer’s matter. 
+                                  </AccordionPanel>
+                                </AccordionItem>
+                              </Accordion>
+
+                              <Accordion allowToggle>
+                                <AccordionItem>
+                                  <h2>
+                                    <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
+                                      <Box flex='1' textAlign='left' fontWeight="semibold">
+                                      Contact Information
+                                      </Box>
+                                      <AccordionIcon />
+                                    </AccordionButton>
+                                  </h2>
+                                  <AccordionPanel>
+                                  Contact us thru our phone number (09062447988) and our 
+                                  email at zamorafitnessdrive@gmail.com 
+                                  or inform us on our social media account, facebook.com/zamorafitnessdriveandwellnesscenter.
+                                  </AccordionPanel>
+                                </AccordionItem>
+                              </Accordion>
+
+
+
                           </Stack>
 
-                      </Box> 
-                    </HStack>
+                          
+
+                      </CardBody>
+                    </Card>
+
+                    
+
+
+
+                    </VStack>
                   </Center>
 
 

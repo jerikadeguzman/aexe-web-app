@@ -33,24 +33,73 @@ import {
 } from "@chakra-ui/react";
 import Sidebar from '../constanst/components/Sidebar';
 import { FiMenu } from 'react-icons/fi';
-import { Search2Icon } from '@chakra-ui/icons';
+import { ChatIcon, Search2Icon } from '@chakra-ui/icons';
 import NextLink from "next/link";
 import Router from "next/router";
 import { ChakraProvider } from '@chakra-ui/provider';
 import { Component } from 'react';
+import { storage } from "../firebase";
+import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage';
+import { useAuth } from "../firebase";
 
 export default function Messages(){
+  const currentUser = useAuth();
   const btnRef = React.useRef();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  useEffect(() => {
+ /* useEffect(() => {
     setTimeout(() => {
       const checkSession = localStorage.getItem("email");
-      if (!checkSession) {
-        Router.push("/");
-      }      
+      const user_data = JSON.parse(checkSession);
+      checkSession?
+        getProfileData(user_data.profile_url)
+       
+     : Router.push("/");
+      
     }, []);
   }, []);
 
+  async function getProfileData() {
+    const imageURL = ref(storage, `/files/${imageURL}`);
+     await getDownloadURL(imageURL).then((url) => {
+          setUrl(url);
+          console.log(url)
+        }).catch(error => {
+          console.log(error.message, "error");
+        })
+  }
+
+  const [image, setImage] = useState(null);
+  const [url, setUrl] = useState(null);
+  const handleImageChange =(e) =>{
+    if(e.target.files[0]){
+      setImage(e.target.files[0]);
+    }
+  };
+  const handleSubmit = () => {
+    const imageURL = ref(storage, `/files/${imageURL}`);
+    //image: should be unique name
+    uploadBytes(imageURL, image).then(() =>{
+      getDownloadURL(imageURL, image).then((url) => {
+        setUrl(url);
+        //console.log(File)
+        //update doc ng user na naka login
+      }).catch(error => {
+        console.log(error.message, "error");
+      });
+      setImage(null);
+    }).catch(error => {
+      console.log(error.message);
+    });
+
+  }; 
+
+ useEffect(() =>{
+  if ( currentUser?.url){
+    setUrl(currentUser.url);
+  }
+ }, [currentUser])*/
+
+ 
   const Topbar = () => {
     return(
       <Flex 
@@ -73,15 +122,16 @@ export default function Messages(){
         <link rel="icon" href="/aexelogo.png" />
       </Head>
           
-      <Box as="section" pb={{ base: '12', md: '24' }}  bg="#2F5597"> 
+      <Box as="section" pb={{ base: '12', md: '24' }}  bg="#97392F"> 
   <Box as="nav" bg="bg-surface" boxShadow={useColorModeValue('sm', 'sm-dark')}>
     <Flex>
       <IconButton
+      color="white"
       ref={btnRef}
       icon={<FiMenu fontSize="1.25rem"/>}
       onClick={onOpen}
       aria-label="Open Menu"
-      bg="#2F5597"
+      bg="#97392F"
       />
 
       <IconButton
@@ -91,13 +141,13 @@ export default function Messages(){
       aria-label="Homepage"
       onClick={() => Router.push("/dashboard")}
       />
-      <Heading marginLeft={25} textColor="orange">AEXE</Heading>
+      
       <Avatar 
-      bg='teal.500' 
-      name='getInitials' 
-      size="sm" align="center" 
-      marginLeft="1250" 
-      marginTop="1"></Avatar>
+        //src={url}
+        bg='teal.500'  
+        size="sm" align="center" 
+        marginLeft="83%"  
+        marginTop="1"></Avatar>
       
     <Drawer
       isOpen={isOpen}
@@ -110,20 +160,35 @@ export default function Messages(){
       <DrawerContent>
         <DrawerCloseButton />
 
-        <DrawerHeader bgColor='#2F5597'>
+        <DrawerHeader bgColor='#97392F'>
           <HStack>
-            <Heading as='h4' size='md' color='whiteAlpha.900'>Welcome</Heading>
+            <Heading 
+            as='h4' 
+            size='md' 
+            color='whiteAlpha.900'>Welcome Admin</Heading>
           </HStack>
         </DrawerHeader>
 
-        <DrawerBody bgColor='#8FAADC'>
+        <DrawerBody bgColor='#ffffff '>
+          <Flex flexDir="column" align="center">
+            <NextLink href="/Profile" passHref>
+              <Button as="a" 
+              variant="ghost" 
+              aria-label="Profile" 
+              my={5} w="100%" 
+              textColor='#696969' 
+              color="blue">Profile
+              </Button>
+            </NextLink>
+          </Flex>
+
           <Flex flexDir="column" align="center">
             <NextLink href="/Messages" passHref>
               <Button as="a" 
               variant="ghost" 
               aria-label="Messages" 
               my={5} w="100%" 
-              textColor='#DAE3F3' 
+              textColor='#696969' 
               color="blue">Messages</Button>
             </NextLink>
         </Flex>
@@ -134,7 +199,7 @@ export default function Messages(){
               variant="ghost" 
               aria-label="AR Instructor" 
               my={5} w="100%" 
-              textColor='#DAE3FE'>AR Instructor</Button>
+              textColor='#696969'>AR Instructor</Button>
             </NextLink>
         </Flex>
 
@@ -144,7 +209,7 @@ export default function Messages(){
               variant="ghost" 
               aria-label="Announcements" 
               my={5} w="100%" 
-              textColor='#DAE3F3'>Announcement</Button>
+              textColor='#696969'>Announcement</Button>
             </NextLink>
         </Flex>
 
@@ -154,7 +219,7 @@ export default function Messages(){
               variant="ghost" 
               aria-label="Forums" 
               my={5} w="100%" 
-              textColor='#DAE3F3'>Forums</Button>
+              textColor='#696969'>Forums</Button>
             </NextLink>
         </Flex>
 
@@ -164,12 +229,12 @@ export default function Messages(){
               variant="ghost" 
               aria-label="Settings" 
               my={5} w="100%" 
-              textColor='#DAE3F3'>Settings</Button>
+              textColor='#696969'>Settings</Button>
             </NextLink>
         </Flex>
         </DrawerBody>
 
-        <DrawerFooter bgColor='#8FAADC'>
+        <DrawerFooter bgColor='#ffffff'>
           <Button colorScheme='red'
           onClick={() => {Router.push("/")
           localStorage.clear();
