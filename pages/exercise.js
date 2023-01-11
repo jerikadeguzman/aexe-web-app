@@ -151,12 +151,12 @@ export default function Messages(){
                   </Flex>
 
                   <Flex flexDir="column" align="center">
-                      <NextLink href="/Forums" passHref>
+                      <NextLink href="/UserInquiries" passHref>
                         <Button as="a" 
                         variant="ghost" 
-                        aria-label="Forums" 
+                        aria-label="UserInquiries" 
                         my={5} w="100%" 
-                        textColor='#696969'>Forums</Button>
+                        textColor='#696969'>User Inquiries</Button>
                       </NextLink>
                   </Flex>
 
@@ -365,6 +365,30 @@ export default function Messages(){
                         </Button>
                     </CardFooter>
                    </Card>
+
+                   <Card maxW='sm' variant='elevated' boxShadow="2xl">
+                    <CardBody>
+                      <Image 
+                      src="/senior.jpg"
+                      borderRadius='lg'/>
+                      <Stack mt='6' spacing='3'>
+                      <Heading size='md'>Senior Citizen</Heading>
+                      <Text>A exercises for senior citizens</Text>
+                      </Stack>
+                    </CardBody>
+                    <Divider />
+                    <CardFooter>
+                        <Button 
+                        variant='solid' 
+                        bgColor="#696969"
+                        textColor="white"
+                        onClick={() => Router.push("../Exercises/seniorcitizen")}>
+                        View
+                        </Button>
+                    </CardFooter>
+                   </Card>
+
+
 
                   </SimpleGrid>                 
                 </Center>

@@ -96,8 +96,9 @@ export default function Messages(){
  useEffect(() =>{
   if ( currentUser?.url){
     setUrl(currentUser.url);
+    console.log("fetching");
   }
- }, [currentUser])*/
+ }, [])*/
 
  
   const Topbar = () => {
@@ -214,12 +215,13 @@ export default function Messages(){
         </Flex>
 
         <Flex flexDir="column" align="center">
-            <NextLink href="/Forums" passHref>
-              <Button as="a" 
+            <NextLink href="/UserInquiries" passHref>
+              <Button 
+              as="a" 
               variant="ghost" 
-              aria-label="Forums" 
+              aria-label="UserInquiries" 
               my={5} w="100%" 
-              textColor='#696969'>Forums</Button>
+              textColor='#696969'>User Inquiries</Button>
             </NextLink>
         </Flex>
 

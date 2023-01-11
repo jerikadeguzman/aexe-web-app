@@ -38,7 +38,9 @@ import { TextareaAutosizeProps } from 'react-textarea-autosize';
 import Router from "next/router";
 import { storage } from "../firebase";
 import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage';
-import { useAuth } from "../firebase";
+import { useAuth,auth,db,announce } from "../firebase";
+import { addDoc, collection, doc, getDocs, onSnapshot,serverTimestamp } from 'firebase/firestore';
+import { async } from '@firebase/util';
 
 
 export default function Dashboard() {
@@ -68,7 +70,7 @@ export default function Dashboard() {
         })
   }
 
-  /*const [image, setImage] = useState(null);
+  const [image, setImage] = useState(null);
   const [url, setUrl] = useState(null);
   const handleImageChange =(e) =>{
     if(e.target.files[0]){
@@ -96,8 +98,29 @@ export default function Dashboard() {
  useEffect(() =>{
   if ( currentUser?.url){
     setUrl(currentUser.url);
+    console.log("fetching");
   }
- }, [currentUser])*/
+
+ }, [])
+
+ const [ Posts, setPost] = useState([]);
+
+ useEffect (
+  () => 
+    onSnapshot(collection(db,"announce"),(snapshot) =>
+      setPost(snapshot.docs.map(doc => ({...doc.data(), id: doc.id})))
+    ),
+  []
+  );
+  const createPost = async () => {
+    const collectionRef = collection(db,"announce");
+    const setPost = {Posts, timestamp: serverTimestamp()};
+    const docRef = await addDoc(collectionRef,setPost);
+    console.log(docRef.id);
+
+  };
+  console.log(Posts);
+
 
     return (
         <>
@@ -127,7 +150,7 @@ export default function Dashboard() {
                 />
               
               <Avatar 
-                  //src={url}
+                  src={url}
                   bg='teal.500'  
                   size="sm" align="center" 
                   marginLeft="83%"  
@@ -198,12 +221,12 @@ export default function Dashboard() {
                   </Flex>
 
                   <Flex flexDir="column" align="center">
-                      <NextLink href="/Forums" passHref>
+                      <NextLink href="/UserInquiries" passHref>
                         <Button as="a" 
                         variant="ghost" 
-                        aria-label="Home" 
+                        aria-label="UserInquiries" 
                         my={5} w="100%" 
-                        textColor='#696969'>Forums</Button>
+                        textColor='#696969'>User Inquiries</Button>
                       </NextLink>
                   </Flex>
 
@@ -263,7 +286,7 @@ export default function Dashboard() {
                           <VStack>
                           <Button 
                           bgColor="#696969 "
-                          //onClick={createPost}
+                          onClick={createPost}
                           className='button'
                           //type="submit"
                           variant='solid' 
@@ -274,6 +297,12 @@ export default function Dashboard() {
                       </Stack>
                     </Card>
                     </VStack>
+
+                    {/* <Container> 
+                    {Posts.map (p => (
+                    <span key={p.id}> {p.Posts}, {p.timestamp} </span>))}
+                    </Container>*/}
+                     
 
 
                   </Center>

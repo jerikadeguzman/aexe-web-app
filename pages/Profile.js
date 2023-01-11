@@ -98,8 +98,9 @@ export default function Dashboard() {
  useEffect(() =>{
   if ( currentUser?.url){
     setUrl(currentUser.url);
+    console.log("fetching");
   }
- }, [currentUser])
+ }, [])
 
  const onSubmitHandler = (e) => {
   e.preventDefault();
@@ -227,15 +228,15 @@ export default function Dashboard() {
                   </Flex>
 
                   <Flex flexDir="column" align="center">
-                      <NextLink href="/Forums" passHref>
+                      <NextLink href="/UserInquiries" passHref>
                         <Button as="a" 
                         variant="ghost" 
-                        aria-label="Forums" 
+                        aria-label="UserInquiries" 
                         my={5} w="100%" 
-                        textColor='#696969'>Forums</Button>
+                        textColor='#696969'>User Inquiries</Button>
                       </NextLink>
                   </Flex>
-
+                  
                   <Flex flexDir="column" align="center">
                       <NextLink href="/Settings" passHref>
                         <Button as="a" 
@@ -264,29 +265,34 @@ export default function Dashboard() {
 
 
             <Center>
-              <Box bg="#ffffff" w="1550%"  h="1500" >
-                <HStack align="justify" mt="3%" ml="5%" mr="5%" justifyContent="center">
+              <Box bg="#ffffff" w="1550%"  h="100vh" >
+                <HStack 
+                align="justify" 
+                mt="3%" ml="5%" mr="5%" 
+                justifyContent="center" 
+                spacing="20px">
 
                 <Card 
                 size="lg" 
                 align='center'
                 variant="outline"
                 shadow="base"
+                width="25vw"
                 outlineColor="gray.900">
-                <CardBody>
-                  <Avatar 
-                  size="2xl" 
-                  mt="10%"
-                  bg='teal.500' >
-                  </Avatar>
 
+                <CardBody>
+                  <Center>
+                    <Avatar 
+                    size="2xl" 
+                    mt="10%"
+                    bg='teal.500' >
+                    </Avatar>
+                  </Center>
+                  
                   <Stack mt='6' spacing='3'>
                     <Heading size='md' textAlign="center">Name Here</Heading>
                     <Text>
-                      About
-                    </Text>
-                    <Text>
-                      Information
+                      About (name, age, city)
                     </Text>
                   </Stack>
                 </CardBody>
@@ -304,23 +310,23 @@ export default function Dashboard() {
                 overflow='hidden'
                 variant="outline"
                 shadow="base"
-                outlineColor="gray.900"
-              >
+                width="45vw"
+                outlineColor="gray.900">
               
                 <Stack>
                   <CardBody>
                     <Heading size='md'>Name here's Posts</Heading>
                     <Divider mt="2%"/>
 
-                    <Text py='2'>
-                      Caffè latte is a coffee beverage of Italian origin made with espresso
-                      and steamed milk.
-                    </Text>
+                    <Container variant="filled" size="md" py="2">
+                      <Text py='2'>
+                        Caffè latte is a coffee beverage of Italian origin made with espresso
+                        and steamed milk.
+                      </Text>
+                    </Container>
+
                   </CardBody>
 
-                  <CardFooter>
-                   
-                  </CardFooter>
                 </Stack>
               </Card>
 

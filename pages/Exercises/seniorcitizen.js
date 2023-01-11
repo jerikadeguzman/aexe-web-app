@@ -36,8 +36,7 @@ import {
   DrawerCloseButton,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { Divider } from '@chakra-ui/react'
-import { AddIcon, ChevronLeftIcon, SmallAddIcon, StackDivider, textTransform } from '@chakra-ui/icons';
+import { AddIcon, ChevronLeftIcon, SmallAddIcon, StackDivider, Divider, textTransform } from '@chakra-ui/icons';
 import { ChakraProvider } from '@chakra-ui/provider';
 
 
@@ -88,8 +87,10 @@ export default function fullbody(){
 
                   <DrawerHeader bgColor='#97392F'>
                     <HStack>
-                     
-                      <Heading as='h4' size='md' color='whiteAlpha.900'>Welcome Admin</Heading>
+                      <Heading 
+                      as='h4' 
+                      size='md' 
+                      color='whiteAlpha.900'>Welcome Admin</Heading>
                     </HStack>
                   </DrawerHeader>
 
@@ -170,32 +171,38 @@ export default function fullbody(){
                     </HStack>
                 
                 <Container maxW='container.md'>
-                
-
-                <Card variant="unstyled">
+                <Image 
+                      src="/senior.jpg"
+                      borderRadius='lg'/>
+                <Card variant='elevated' mb="10%">
                 <CardHeader>
-                    <Heading textAlign="center">BMI Chart</Heading>
-                    <Image 
-                      mt="5%"
-                      src="/bmichartwomen.jpg"
-                      borderRadius='lg'/>
-                    <Text  as="em">The Body Weight Index illustration indicator for women.</Text>
-                    <Divider borderColor="gray" mt="5%" />
-                    <Image 
-                      src="/bmichartmen.jpg"
-                      borderRadius='lg'/>
-                      <Text as='em'>The Body Weight Index illustration indicator for men.</Text>
-                    <Text size='sm' marginTop="5%" spacing={2} textAlign="justify" lineHeight={6} mb="4%">
-                    Ab exercises serve to strengthen the muscles that surround 
-                    the spine and improve posture since the body's weight is 
-                    distributed evenly. Because the spine is flexed while lying 
-                    down with the feet on the ground and the upper body raised 
-                    and then lowered, it engages the four abdominal muscles. 
-                    improve the body's muscular harmony, which is crucial for 
-                    balance, stability, and good posture.
+                    <Heading>Senior Citizen</Heading>
+                    <Text size='sm' marginTop={2} spacing={2} textAlign="justify" lineHeight={6}>
+                    An exercises for senior citizens
                     </Text>
                 </CardHeader>
-              
+                <CardBody>
+                    <Stack spacing='4'>
+                    <Box>
+                        <Heading size='sm' >Exercises:</Heading>
+                    </Box>
+                  
+
+                    <Box>
+                      <Text>Alternating side lunge touch</Text>
+                      <Text>Biceps stretch</Text>
+                      <Text>Exercise 1</Text>
+                      <Text>Exercise 2</Text>
+                      <Text>Exercise 3</Text>
+                      <Text>Hip circles</Text>
+                      <Text>Lotus pose</Text>
+                      <Text>Squats</Text>
+                      <Text>Standing criss cross scrunches</Text>
+                      <Text>Twist pose</Text>
+
+                    </Box>
+                    </Stack>
+                </CardBody>
                 </Card>
 
                 </Container>
