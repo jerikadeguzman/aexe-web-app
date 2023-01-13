@@ -38,7 +38,7 @@ import Router from "next/router";
 import { db, storage} from "../firebase";
 import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage';
 import { useAuth } from "../firebase";
-import { AttachmentIcon } from '@chakra-ui/icons';
+import { AttachmentIcon, DeleteIcon } from '@chakra-ui/icons';
 import { collection, addDoc, getDocs, doc } from 'firebase/firestore';
 
 
@@ -276,72 +276,73 @@ export default function Dashboard() {
 
             <Center>
               <Box bg="#ffffff" w="1550%"  h="100vh" >
-                <HStack 
-                align="justify" 
-                mt="3%" ml="5%" mr="5%" 
-                justifyContent="center" 
-                spacing="20px">
 
-                <Card 
+                <Heading
+                mt="2%" ml="15%" mr="5%" >Users</Heading>
+
+            <Center>
+            <Card 
+                mt="3%" ml="5%" mr="5%"  
                 size="lg" 
                 align='center'
                 variant="outline"
                 shadow="base"
-                width="25vw"
+                width="70vw"
                 outlineColor="gray.900">
 
                 <CardBody>
-                  <Center>
-                    <Avatar 
-                    size="2xl" 
+                 <HStack >
+                 <Avatar 
+                    size="md" 
                     mt="10%"
-                    bg='teal.500' >
+                    bg='teal.500'>
                     </Avatar>
-                  </Center>
-                  
-                  <Stack mt='6' spacing='3'>
-                    <Heading size='md' textAlign="center">Name Here</Heading>
-                    <Text>
-                      About (name, age, city)
-                    </Text>
-                  </Stack>
+                  <Heading as='h5' size='sm'>
+                    Name of User
+                  </Heading>
+                  <IconButton icon={<DeleteIcon></DeleteIcon>}></IconButton>
+                 </HStack>
+
+                 <Divider mt="3%" color="black"/>
+
+                 <HStack >
+                 <Avatar 
+                    size="md" 
+                    mt="10%"
+                    bg='teal.500'>
+                    </Avatar>
+                  <Heading as='h5' size='sm'>
+                    Name of User
+                  </Heading>
+                  <IconButton icon={<DeleteIcon></DeleteIcon>}></IconButton>
+                 </HStack>
+
+                 <Divider mt="3%" color="black"/>
+
+                 <HStack >
+                 <Avatar 
+                    size="md" 
+                    mt="10%"
+                    bg='teal.500'>
+                    </Avatar>
+                  <Heading as='h5' size='sm'>
+                    Name of User
+                  </Heading>
+                  <IconButton icon={<DeleteIcon></DeleteIcon>}></IconButton>
+                 </HStack>
+
+                 <Divider mt="3%" color="black"/>
+                
+                 
                 </CardBody>
 
-                <CardFooter>
-                  <Divider/>
-                  
-                </CardFooter>
+               
+
               </Card>
+            </Center>
+                
 
-              <Card
-                rounded="15"
-                size="lg"
-                direction={{ base: 'column', sm: 'row' }}
-                overflow='hidden'
-                variant="outline"
-                shadow="base"
-                width="45vw"
-                outlineColor="gray.900">
-              
-                <Stack>
-                  <CardBody>
-                    <Heading size='md'>Name here's Posts</Heading>
-                    <Divider mt="2%"/>
-
-                    <Container variant="filled" size="md" py="2">
-                      <Text py='2'>
-                        Caffè latte is a coffee beverage of Italian origin made with espresso
-                        and steamed milk.
-                      </Text>
-                    </Container>
-
-                  </CardBody>
-
-                </Stack>
-              </Card>
-
-                </HStack>
-              
+            
                   
 
                   

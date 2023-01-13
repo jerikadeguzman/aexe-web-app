@@ -212,6 +212,16 @@ export default function Settings(){
                   </Flex>
 
                   <Flex flexDir="column" align="center">
+                      <NextLink href="/Userlist" passHref>
+                        <Button as="a" 
+                        variant="ghost" 
+                        aria-label="Userlist" 
+                        my={5} w="100%" 
+                        textColor='#696969'>User List</Button>
+                      </NextLink>
+                  </Flex>
+
+                  <Flex flexDir="column" align="center">
                       <NextLink href="/UserInquiries" passHref>
                         <Button as="a" 
                         variant="ghost" 
