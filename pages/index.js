@@ -35,7 +35,7 @@ import {
   InputLeftAddon 
 } from '@chakra-ui/react';
 import { db } from '../firebase'
-import { collection, getDocs, getDoc, where, addDoc, query } from "@firebase/firestore";
+import { collection, getDocs, getDoc, where, addDoc, query, doc, setDoc } from "@firebase/firestore";
 import { useEffect, useState, useContext } from "react";
 import { useDisclosure } from '@chakra-ui/react'
 import NextLink from 'next/link'
@@ -77,11 +77,23 @@ export default function Home() {
     onClose: onCloseCheckModal,
   } = useDisclosure();
   
+  function makeid(length) {
+    var result = "";
+    var characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
  
   const cancelRef = React.useRef()
   async function register() {
-   const docRef = collection(db, "users")
-    await addDoc(docRef, {  //for database
+    const user_id = makeid(7)
+   const docRef = doc(db, "users", user_id)
+   await setDoc(docRef, {  //for database
+      id: user_id,
       email: newEmail,
       first_name: firstname,
       last_name: lastname,
@@ -292,7 +304,7 @@ export default function Home() {
                                     </HStack>
                                 </FormControl>
 
-                                <FormControl isReadOnly>
+                                <FormControl isRequired>
                                   <FormLabel>Email</FormLabel>
                                     <Input placeholder={"Email/Username"} 
                                       onChange={(event) => setNewEmail(event.target.value)}/>

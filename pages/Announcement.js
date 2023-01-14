@@ -47,14 +47,14 @@ export default function Dashboard() {
   const currentUser = useAuth();
   const isDesktop = useBreakpointValue({ base: false, lg: true })
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { email, setEmail } = useState("")
   const btnRef = React.useRef();
   useEffect(() => {
     setTimeout(() => {
       const checkSession = localStorage.getItem("email");
       const user_data = JSON.parse(checkSession);
       checkSession?
-        getProfileData(user_data.profile_url)
-       
+      getProfileData(user_data.profile_url)
      : Router.push("/");
       
     }, []);
@@ -104,6 +104,7 @@ export default function Dashboard() {
  }, [])
 
  const [ Posts, setPost] = useState([]);
+ const [ newPost, setNewPost] = useState("")
 
  useEffect (
   () => 
@@ -113,13 +114,13 @@ export default function Dashboard() {
   []
   );
   const createPost = async () => {
+    const user_data = JSON.parse(localStorage.getItem("email"))
     const collectionRef = collection(db,"announce");
-    const setPost = {Posts, timestamp: serverTimestamp()};
-    const docRef = await addDoc(collectionRef,setPost);
-    console.log(docRef.id);
+    const newP = {newPost, timestamp: serverTimestamp(), user: user_data };
+    const docRef = await addDoc(collectionRef,newP);
+    setNewPost("");
 
   };
-  console.log(Posts);
 
 
     return (
@@ -130,7 +131,7 @@ export default function Dashboard() {
         <link rel="icon" href="/aexelogo.png" />
       </Head>
           
-          <Box as="section" pb={{ base: '12', md: '24' }}  bg="#97392F"> 
+          <Box as="section" pb={{ base: '12', md: '24' }}  bg="#97392F" maxW="100vw" minH="100vh"> 
             <Box as="nav" bg="bg-surface" boxShadow={useColorModeValue('sm', 'sm-dark')}>
               <Flex>
                 <IconButton
@@ -265,27 +266,30 @@ export default function Dashboard() {
             </Box>
 
             <Center>
-              <Box bgColor="#ffffff" w="1550px" h="800px" >
+              <Box bgColor="#ffffff" w="60vw" mt="5vh" p="5em" height="fit-content" borderRadius="md">
                   <Center>
                     <VStack>
                       <Card
                         width="35vw"
                         direction={{ base: 'column', sm: 'row' }}
                         overflow='hidden'
+                        bg="gray.100"
                         variant="outline"
                         shadow="base"
                         outlineColor="gray.900"
                         mt="10%"
                       >
-
                       <Stack>
                         <CardBody>
-                          <Heading size='md'>Announcements</Heading>
+                          <Heading size='md' color={"black"}>Announcements</Heading>
                           <Center>
                             <Textarea 
-                            onChange={(event) => {setPosts(event.target.value)}}
+                            onChange={(event) => {setNewPost(event.target.value)}}
                             input type="text"
+                            background={"white"}
                             width="31vw"
+                            color={"black"}
+                            value={newPost}
                             as={TextareaAutosizeProps} mt="4"
                             minRows={3} resize="none"
                             placeholder="Create post..."/>
@@ -304,26 +308,51 @@ export default function Dashboard() {
                           >Post</Button>
                           </VStack>
                         </CardFooter>
-                      </Stack>
-                    </Card>
+                       </Stack>
+                      </Card>
+
+                      {Posts === undefined? (<>
+                        </>)
+                        : 
+                        (Posts.map((data, index) => {
+                          return(
+                          <Card
+                            width="35vw"
+                            direction={{ base: 'column', sm: 'row' }}
+                            overflow='hidden'
+                            bg="gray.100"
+                            variant="outline"
+                            shadow="base"
+                            outlineColor="gray.900"
+                            marginTop="10vh"
+                          >
+                            <VStack>
+                              <CardBody padding={"1em"} paddingTop={"2em"}>
+                                <HStack justifyContent={"flex-start"}>
+                                  <Avatar 
+                                  src={url}
+                                  bg='teal.500'  
+                                  size="sm" align="center" 
+                                  marginTop="1"></Avatar>
+                                  <Heading size='md' color={"black"}>{data?.user?.first_name} {data?.user?.last_name}</Heading>
+                                </HStack>
+                                <Center padding={"2em"}>
+                                  <Text>{data?.newPost}</Text>
+                                </Center>
+                              </CardBody>
+                            </VStack>
+                          </Card>
+                          )}))
+                        }
                     </VStack>
 
                     {/* <Container> 
                     {Posts.map (p => (
                     <span key={p.id}> {p.Posts}, {p.timestamp} </span>))}
                     </Container>*/}
-                     
-
-
-                  </Center>
-
-                
-                 
-                  
+               </Center>
               </Box>
             </Center>
-
-
           </Box>
 
         </>
