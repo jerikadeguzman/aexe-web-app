@@ -41,6 +41,7 @@ import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage';
 import { useAuth,auth,db,announce } from "../firebase";
 import { addDoc, collection, doc, getDocs, onSnapshot,serverTimestamp } from 'firebase/firestore';
 import { async } from '@firebase/util';
+import TopDrawer from '../constanst/components/Drawer';
 
 
 export default function Dashboard() {
@@ -117,7 +118,7 @@ export default function Dashboard() {
     const user_data = JSON.parse(localStorage.getItem("email"))
     const collectionRef = collection(db,"announce");
     const newP = {newPost, timestamp: serverTimestamp(), user: user_data };
-    const docRef = await addDoc(collectionRef,newP);
+    await addDoc(collectionRef,newP);
     setNewPost("");
 
   };
@@ -132,138 +133,8 @@ export default function Dashboard() {
       </Head>
           
           <Box as="section" pb={{ base: '12', md: '24' }}  bg="#97392F" maxW="100vw" minH="100vh"> 
-            <Box as="nav" bg="bg-surface" boxShadow={useColorModeValue('sm', 'sm-dark')}>
-              <Flex>
-                <IconButton
-                color="white"
-                ref={btnRef}
-                icon={<FiMenu fontSize="1.25rem"/>}
-                onClick={onOpen}
-                aria-label="Open Menu"
-                bg="#97392F"
-                />
-                <IconButton
-                icon={<Image src="/aexelogo.png"/>}
-                w="5px"
-                isRound={true}
-                aria-label="Homepage"
-                onClick={() => Router.push("/dashboard")}
-                />
-              
-              <Avatar 
-                  src={url}
-                  bg='teal.500'  
-                  size="sm" align="center" 
-                  marginLeft="83%"  
-                  marginTop="1"></Avatar>
 
-              <Drawer
-                isOpen={isOpen}
-                placement="left"
-                colorScheme={"blue"}
-                onClose={onClose}
-                finalFocusRef={btnRef}>
-
-                <DrawerOverlay/>
-                <DrawerContent>
-                  <DrawerCloseButton />
-
-                  <DrawerHeader bgColor='#97392F'>
-                    <HStack>
-                      <Heading 
-                      as='h4' 
-                      size='md' 
-                      color='whiteAlpha.900'>Welcome Admin</Heading>
-                    </HStack>
-                  </DrawerHeader>
-
-                  <DrawerBody bgColor='#ffffff '>
-                    <Flex flexDir="column" align="center">
-                      <NextLink href="/Profile" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Profile" 
-                        my={5} w="100%" 
-                        textColor='#696969' 
-                        color="blue">Profile
-                        </Button>
-                      </NextLink>
-                    </Flex>
-
-                    <Flex flexDir="column" align="center">
-                      <NextLink href="/Messages" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Home" 
-                        my={5} w="100%" 
-                        textColor='#696969' 
-                        color="blue">Messages</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/ARInstructor" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Home" 
-                        my={5} w="100%" 
-                        textColor='#696969'>AR Instructor</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/Announcement" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Home" 
-                        my={5} w="100%" 
-                        textColor='#696969'>Announcement</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/Userlist" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Userlist" 
-                        my={5} w="100%" 
-                        textColor='#696969'>User List</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/UserInquiries" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="UserInquiries" 
-                        my={5} w="100%" 
-                        textColor='#696969'>User Inquiries</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/Settings" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Home" 
-                        my={5} w="100%" 
-                        textColor='#696969'>Settings</Button>
-                      </NextLink>
-                  </Flex>
-                  </DrawerBody>
-
-                  <DrawerFooter bgColor='#ffffff'>
-                    <Button colorScheme='red'
-                    onClick={() => {Router.push("/")
-                    localStorage.clear();
-                  }}>Logout</Button>
-                  </DrawerFooter>
-
-                </DrawerContent>
-              </Drawer>
-
-              </Flex>
-            </Box>
+          <TopDrawer/> 
 
             <Center>
               <Box bgColor="#ffffff" w="60vw" mt="5vh" p="5em" height="fit-content" borderRadius="md">

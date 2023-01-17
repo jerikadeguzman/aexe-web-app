@@ -40,32 +40,29 @@ import {
   ModalFooter, 
   cancelRef
 } from "@chakra-ui/react";
-import {
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-} from "@chakra-ui/react";
-import NextLink from 'next/link'
-import { SmallAddIcon } from '@chakra-ui/icons';
 import Router from "next/router";
 import { storage } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useAuth, upload } from "../firebase";
+import TopDrawer from '../constanst/components/Drawer';
+import {
+  doc,
+  updateDoc,
+} from "firebase/firestore";
+import { db } from '../firebase';
 
 export default function Settings(){
   const currentUser = useAuth();
   const isDesktop = useBreakpointValue({ base: false, lg: true })
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
+  const [user, setUser] = useState()
 
   useEffect(() => {
     setTimeout(() => {
       const checkSession = localStorage.getItem("email");
       const user_data = JSON.parse(checkSession);
+      setUser(user_data);
       checkSession?
         getProfileData(user_data.profile_url)
        
@@ -92,12 +89,13 @@ export default function Settings(){
     }
   };
   const handleSubmit = () => {
+    const userRef = doc(db, "users", user.id)
     const imageURL = ref(storage, `/files/${imageURL}`);
     uploadBytes(imageURL, image).then(() =>{
       getDownloadURL(imageURL).then((url) => {
         setUrl(url);
         console.log(url);
-        //update doc ng user na naka login
+        updateDoc(userRef, {profile_url: url})
       }).catch(error => {
         console.log(error.message, "error");
       });
@@ -124,139 +122,7 @@ export default function Settings(){
       </Head>
           
           <Box as="section" pb={{ base: '12', md: '24' }}  bg="#97392F"> 
-          <Box as="nav" bg="bg-surface" boxShadow={useColorModeValue('sm', 'sm-dark')}>
-              <Flex>
-                <IconButton
-                color="white"
-                ref={btnRef}
-                icon={<FiMenu fontSize="1.25rem"/>}
-                onClick={onOpen}
-                aria-label="Open Menu"
-                bg="#97392F"
-                />
-
-                <IconButton
-                icon={<Image src="/aexelogo.png"/>}
-                w="5px"
-                isRound={true}
-                aria-label="Homepage"
-                onClick={() => Router.push("/dashboard")}
-                />
-                
-                <Avatar 
-                  src={url}
-                  bg='teal.500'  
-                  size="sm" align="center" 
-                  marginLeft="83%"
-                  marginTop="1"></Avatar>
-
-                <Drawer
-                isOpen={isOpen}
-                placement="left"
-                colorScheme={"blue"}
-                onClose={onClose}
-                finalFocusRef={btnRef}>
-
-                <DrawerOverlay/>
-                <DrawerContent>
-                  <DrawerCloseButton />
-
-                  <DrawerHeader bgColor='#97392F'>
-                    <HStack>
-                      <Heading as='h4' size='md' color='whiteAlpha.900'>Welcome Admin</Heading>
-                    </HStack>
-                  </DrawerHeader>
-
-                  <DrawerBody bgColor='#ffffff '>
-                    <Flex flexDir="column" align="center">
-                      <NextLink href="/Profile" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Profile" 
-                        my={5} w="100%" 
-                        textColor='#696969' 
-                        color="blue">Profile
-                        </Button>
-                      </NextLink>
-                    </Flex>
-
-                    <Flex flexDir="column" align="center">
-                      <NextLink href="/Messages" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Messages" 
-                        my={5} w="100%" 
-                        textColor='#696969' 
-                        color="blue">Messages</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/ARInstructor" passHref>
-                        <Button as="a"
-                         variant="ghost" 
-                         aria-label="AR Instructor" 
-                         my={5} w="100%" 
-                         textColor='#696969'>AR Instructor</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/Announcement" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Announcements" 
-                        my={5} w="100%" 
-                        textColor='#696969'>Announcement</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/Userlist" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Userlist" 
-                        my={5} w="100%" 
-                        textColor='#696969'>User List</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/UserInquiries" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="UserInquiries" 
-                        my={5} w="100%" 
-                        textColor='#696969'>User Inquiries</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/Settings" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Settings" 
-                        my={5} w="100%" 
-                        textColor='#696969'>Settings</Button>
-                      </NextLink>
-                  </Flex>
-
-                  </DrawerBody>
-
-                  <DrawerFooter bgColor='#ffffff'>
-                    <Button colorScheme='red'
-                   onClick={() => {Router.push("/")
-                   localStorage.clear();
-                   console.log(localStorage)
-                 }}
-                    >Logout</Button>
-                  </DrawerFooter>
-
-                </DrawerContent>
-              </Drawer>
-
-              </Flex>
-            </Box>
+          <TopDrawer/>
 
               <Center>
                 <Box bgColor="#ffffff" w="1550%" h="120vh">

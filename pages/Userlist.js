@@ -15,22 +15,18 @@ import {
   IconButton, 
   useColorModeValue,
   useBreakpointValue, 
+  useToast,
   Container, 
-  useDisclosure
+  useDisclosure,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
 } from "@chakra-ui/react";
-import { Avatar, AvatarBadge, AvatarGroup, AiOutlineUser} from '@chakra-ui/react'
+import { Avatar } from '@chakra-ui/react'
 import React, { useEffect, useState, useContext } from "react";
-import { FiMenu } from 'react-icons/fi'
-import {
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-} from "@chakra-ui/react";
-import NextLink from 'next/link'
 import { TextareaAutosizeProps } from 'react-textarea-autosize';
 import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
 import { Textarea, Divider, Header } from '@chakra-ui/react';
@@ -39,94 +35,57 @@ import { db, storage} from "../firebase";
 import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage';
 import { useAuth } from "../firebase";
 import { AttachmentIcon, DeleteIcon } from '@chakra-ui/icons';
-import { collection, addDoc, getDocs, doc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDocs, onSnapshot,serverTimestamp } from 'firebase/firestore';
+import TopDrawer from '../constanst/components/Drawer';
+import removeUser from '../constanst/services/users/remove_user';
 
 
 
 export default function Dashboard() {
-  const currentUser = useAuth();
-  const isDesktop = useBreakpointValue({ base: false, lg: true })
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = React.useRef();
-  /*useEffect(() => {
-    setTimeout(() => {
-      const checkSession = localStorage.getItem("email");
-      const user_data = JSON.parse(checkSession);
-      checkSession?
-        getProfileData(user_data.profile_url)
-       
-     : Router.push("/");
-      
-    }, []);
-  }, []);
+  const [Users, setUsers] = useState([]);
+  const cancelRef = React.useRef();
+  const toast = useToast();
 
-  async function getProfileData() {
-    const imageURL = ref(storage, `/files/${imageURL}`);
-     await getDownloadURL(imageURL).then((url) => {
-          setUrl(url);
-          console.log(url)
-        }).catch(error => {
-          console.log(error.message, "error");
-        })
-  }
+  const {
+    isOpen: isOpenAlertModal,
+    onOpen: onOpenAlertModal,
+    onClose: onCloseAlertModal,
+  } = useDisclosure();
 
-  const [image, setImage] = useState(null);
-  const [url, setUrl] = useState(null);
-  const handleImageChange =(e) =>{
-    if(e.target.files[0]){
-      setImage(e.target.files[0]);
-    }
-  };
-  const handleSubmit = () => {
-    const imageURL = ref(storage, `/files/${imageURL}`);
-    image: should be unique name
-    uploadBytes(imageURL, image).then(() =>{
-      getDownloadURL(imageURL, image).then((url) => {
-        setUrl(url);
-        //console.log(File)
-        //update doc ng user na naka login
-      }).catch(error => {
-        console.log(error.message, "error");
-      });
-      setImage(null);
-    }).catch(error => {
-      console.log(error.message);
-    });
 
-  }; 
 
- useEffect(() =>{
-  if ( currentUser?.url){
-    setUrl(currentUser.url);
-    console.log("fetching");
-  }
- }, [])
+  useEffect (
+    () => 
+      onSnapshot(collection(db,"users"),(snapshot) =>
+        {setUsers(snapshot.docs.map(doc => ({...doc.data(), id: doc.id})))
+        }
+      ),
+    []
+    );
 
- const onSubmitHandler = (e) => {
-  e.preventDefault();
- }
-
- const [posts, setPosts] = useState("")
- const postsCollectionRef = collection (db, "posts")
-
- const createPost = async () => {
-  await addDoc(postsCollectionRef, {
-    posts,
-   author: { name: useAuth.currentUser.user_data , id: useAuth.currentUser.user_data  }
-    });
-
- };
- 
- const [postlist, setPostlist] = useState([]);
-
- useEffect(() => {
-  const getPosts = async () => {
-    const data = await getDocs(postsCollectionRef);
-    setPostlist(data.docs.map((doc) => ({...doc.data(), id: doc.id})));
-  };
-  getPosts();
- });*/
-
+    const processRemoveUser = async (props) => {
+      const removeUserAccount = await removeUser(props);
+  
+      if (removeUserAccount.success) {
+        toast({
+          title: "User Removed Successfully",
+          description: removeUserAccount.message,
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+        onCloseAlertModal();
+      } else {
+        toast({
+          title: "User Operation Failed",
+          description: removeUserAccount.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+        onCloseAlertModal();
+      }
+    };
 
     return (
        <>
@@ -137,222 +96,93 @@ export default function Dashboard() {
         <link rel="icon" href="/aexelogo.png" />
       </Head>
           
-      <Box as="section" pb={{ base: '12', md: '24' }}  bg="#97392F"> 
-            <Box as="nav" bg="bg-surface" boxShadow={useColorModeValue('sm', 'sm-dark')}>
-              <Flex>
-                <IconButton
-                color="white"
-                ref={btnRef}
-                icon={<FiMenu fontSize="1.25rem"/>}
-                onClick={onOpen}
-                aria-label="Open Menu"
-                bg="#97392F"
-                />
+      <Box as="section" pb={{ base: '12', md: '24' }}  bg="#ffffff" maxW="100vw" minH="100vh"> 
+        <TopDrawer/>
 
-                <IconButton
-                icon={<Image src="/aexelogo.png"/>}
-                w="5px"
-                isRound={true}
-                aria-label="Homepage"
-                onClick={() => Router.push("/dashboard")}
-                />
-                  
-                  <Avatar 
-                  //src={url}
-                  bg='teal.500'  
-                  size="sm" align="center" 
-                  marginLeft="83%"
-                  marginTop="1"></Avatar>
+        <Heading mt="2%" ml="15%" mr="5%" >Users</Heading>
+        <VStack justifyContent="center">
+          <Card 
+              mt="2%"
+              size="lg" 
+              align='center'
+              variant="outline"
+              shadow="base"
+              width="70vw"
+              outlineColor="gray.900">
 
-                <Drawer
-                isOpen={isOpen}
-                placement="left"
-                colorScheme={"blue"}
-                onClose={onClose}
-                finalFocusRef={btnRef}>
-
-                <DrawerOverlay/>
-                <DrawerContent>
-                  <DrawerCloseButton />
-
-                  <DrawerHeader bgColor='#97392F'>
-                    <HStack>
-                      <Heading 
-                      as='h4' 
-                      size='md' 
-                      color='whiteAlpha.900'>Welcome Admin</Heading>
-                    </HStack>
-                  </DrawerHeader>
-
-                  <DrawerBody bgColor='#ffffff '>
-                    <Flex flexDir="column" align="center">
-                      <NextLink href="/Profile" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Profile" 
-                        my={5} w="100%" 
-                        textColor='#696969' 
-                        color="blue">Profile</Button>
-                      </NextLink>
-                  </Flex>
-
-                    <Flex flexDir="column" align="center">
-                      <NextLink href="/Messages" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Messages" 
-                        my={5} w="100%" 
-                        textColor='#696969' 
-                        color="blue">Messages</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/ARInstructor" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="AR Instructor" 
-                        my={5} w="100%" 
-                        textColor='#696969'>AR Instructor</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/Announcement" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Announcements" 
-                        my={5} w="100%" 
-                        textColor='#696969'>Announcement</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/Userlist" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Userlist" 
-                        my={5} w="100%" 
-                        textColor='#696969'>User List</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/UserInquiries" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="UserInquiries" 
-                        my={5} w="100%" 
-                        textColor='#696969'>User Inquiries</Button>
-                      </NextLink>
-                  </Flex>
-                  
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/Settings" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Settings" 
-                        my={5} w="100%" 
-                        textColor='#696969'>Settings</Button>
-                      </NextLink>
-                  </Flex>
-
-                  </DrawerBody>
-
-                  <DrawerFooter bgColor='#ffffff'>
-                    <Button colorScheme='red'
-                    onClick={() => {Router.push("/")
-                    localStorage.clear();
-                  }}>Logout</Button>
-                  </DrawerFooter>
-
-                </DrawerContent>
-              </Drawer>
-
-              </Flex>
-         
-            </Box>
-
-
-            <Center>
-              <Box bg="#ffffff" w="1550%"  h="100vh" >
-
-                <Heading
-                mt="2%" ml="15%" mr="5%" >Users</Heading>
-
-            <Center>
-            <Card 
-                mt="3%" ml="5%" mr="5%"  
-                size="lg" 
-                align='center'
-                variant="outline"
-                shadow="base"
-                width="70vw"
-                outlineColor="gray.900">
-
-                <CardBody>
-                 <HStack >
-                 <Avatar 
-                    size="md" 
-                    mt="10%"
-                    bg='teal.500'>
-                    </Avatar>
-                  <Heading as='h5' size='sm'>
-                    Name of User
-                  </Heading>
-                  <IconButton icon={<DeleteIcon></DeleteIcon>}></IconButton>
-                 </HStack>
-
-                 <Divider mt="3%" color="black"/>
-
-                 <HStack >
-                 <Avatar 
-                    size="md" 
-                    mt="10%"
-                    bg='teal.500'>
-                    </Avatar>
-                  <Heading as='h5' size='sm'>
-                    Name of User
-                  </Heading>
-                  <IconButton icon={<DeleteIcon></DeleteIcon>}></IconButton>
-                 </HStack>
-
-                 <Divider mt="3%" color="black"/>
-
-                 <HStack >
-                 <Avatar 
-                    size="md" 
-                    mt="10%"
-                    bg='teal.500'>
-                    </Avatar>
-                  <Heading as='h5' size='sm'>
-                    Name of User
-                  </Heading>
-                  <IconButton icon={<DeleteIcon></DeleteIcon>}></IconButton>
-                 </HStack>
-
-                 <Divider mt="3%" color="black"/>
+              <CardBody>
+              {Users === undefined? (<> </>)
+              : (Users.map((data, index) => {
                 
-                 
-                </CardBody>
+                return (
+                  <>
+                <HStack width='container.xl' bg='#f2f2f2' height='8vh' justifyContent="space-between" padding="1vw" borderRadius="md" key={index}>
+                  <HStack spacing={5}> 
+                    <Avatar src={data?.profile_url} size="md" bg='teal.500'> </Avatar>
+                    <Heading as='h5' size='sm'>
+                      {data.first_name} {data.last_name}
+                    </Heading>
+                  </HStack>
+                  <IconButton
+                    onClick={() => {
+                      onOpenAlertModal();
+                    }} 
+                   icon={<DeleteIcon w={8} h={8}></DeleteIcon>}></IconButton>
 
-               
+                  <AlertDialog
+                  key={index}
+                  isOpen={isOpenAlertModal}
+                  leastDestructiveRef={cancelRef}
+                  onClose={onCloseAlertModal}
+                >
+                  <AlertDialogOverlay>
+                    <AlertDialogContent>
+                      <AlertDialogHeader
+                        fontSize="lg"
+                        fontWeight="bold"
+                      >
+                        Delete Customer
+                      </AlertDialogHeader>
 
-              </Card>
-            </Center>
+                      <AlertDialogBody>
+                        {
+                          "Are you sure? You can't undo this action afterwards."
+                        }
+                      </AlertDialogBody>
+
+                      <AlertDialogFooter>
+                        <Button
+                          ref={cancelRef}
+                          onClick={onCloseAlertModal}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          backgroundColor={"#F56565"}
+                          _hover={{ backgroundColor: "#FC8181" }}
+                          onClick={() => {
+                            processRemoveUser(data.id);
+                            // console.log(data.id)
+                            onCloseAlertModal();
+                          }}
+                          ml={3}
+                        >
+                          Delete
+                        </Button>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialogOverlay>
+                </AlertDialog>
+                </HStack>
+                <Divider mt="1%" color="black"/>
                 
-
-            
-                  
-
-                  
-              </Box>
-            </Center>
-
-          </Box>
-
-
-          
-        </>
-      )
+                </>
+                )
+              }))  }
+              </CardBody>
+            </Card>  
+          </VStack>   
+        </Box>  
+      </>
+    )
 }

@@ -124,7 +124,7 @@ export default function Home() {
     const verification = await getDocs(verify_ref);
     verification.docs.map((doc) => {
       // doc.data() is never undefined for query doc snapshots
-      if (doc.data().length != 0 && doc.data().password == password) {
+      if (doc.data().length != 0 && doc.data().password == password && doc.data().role == "admin") {
         router.push({  //once login direct to the dashboard
           pathname: "/dashboard",
         });
@@ -149,7 +149,7 @@ export default function Home() {
           isClosable: true,
           position: "bottom-right",
         });
-  
+        Router.reload(window.location.pathname);
       }
     });
     setEmail("");
@@ -240,6 +240,7 @@ export default function Home() {
             
                 <Button //login btn
                 colorScheme='red' 
+                ref={cancelRef}
                 width="8vw"
                 alignSelf={"flex-start"}
                 isDisabled={ email === ""?  password ===""? true : false : false}
