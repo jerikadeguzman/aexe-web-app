@@ -2,17 +2,12 @@ import { createContext, useState, useContext } from "react";
 
 const UserDataContext = createContext({
   data: {},
-  setUserData: (props) => {},
+  setUserData: (props) => { },
 });
 
-const DashboardUtilContext = createContext()
-
-export const useUtil = () => {
-  return useContext(DashboardUtilContext)
-}
 
 export function UserDataContextProvider(props) {
-  const [dataList, setDataList] = useState({});
+  const [dataList, setDataList] = useState(null);
 
   function setUserData(props) {
     setDataList(props.dataObject);

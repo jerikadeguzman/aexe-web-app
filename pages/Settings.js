@@ -44,7 +44,7 @@ import Router from "next/router";
 import { storage } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useAuth, upload } from "../firebase";
-import TopDrawer from '../constanst/components/Drawer';
+import TopDrawer from '../constanst/components/drawer';
 import {
   doc,
   updateDoc,

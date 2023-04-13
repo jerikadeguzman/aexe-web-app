@@ -38,6 +38,7 @@ import {
 import NextLink from "next/link";
 import { AddIcon, ChevronLeftIcon, SmallAddIcon, StackDivider, Divider, textTransform } from '@chakra-ui/icons';
 import { ChakraProvider } from '@chakra-ui/provider';
+import TopDrawer from '../../constanst/components/drawer';
 
 
 export default function fullbody(){
@@ -54,117 +55,13 @@ export default function fullbody(){
       </Head>
 
           <Box as="section" pb={{ base: '12', md: '24' }}  bg="#97392F" > 
-            <Box as="nav" 
-                bg="bg-surface" 
-                boxShadow={useColorModeValue('sm', 'sm-dark')}>
-              <Flex>
-                <IconButton
-                ref={btnRef}
-                color="white"
-                icon={<FiMenu fontSize="1.25rem"/>}
-                onClick={onOpen}
-                aria-label="Open Menu"
-                bg="#97392F"
-                />
-                <IconButton
-                icon={<Image src="/aexelogo.png"/>}
-                w="5px"
-                isRound={true}
-                aria-label="Homepage"
-                onClick={() => Router.push("/dashboard")}
-                />
-
-              <Drawer
-                isOpen={isOpen}
-                placement="left"
-                colorScheme={"blue"}
-                onClose={onClose}
-                finalFocusRef={btnRef}>
-
-                <DrawerOverlay/>
-                <DrawerContent>
-                  <DrawerCloseButton />
-
-                  <DrawerHeader bgColor='#97392F'>
-                    <HStack>
-                     
-                      <Heading as='h4' size='md' color='whiteAlpha.900'>Welcome Admin</Heading>
-                    </HStack>
-                  </DrawerHeader>
-
-                  <DrawerBody bgColor='#ffffff'>
-                    <Flex flexDir="column" align="center">
-                      <NextLink href="/Messages" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Meesages" 
-                        my={5} w="100%" 
-                        textColor='#696969' 
-                        color="blue">Messages</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/ARInstructor" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="AR Instructor"
-                         my={5} w="100%" 
-                         textColor='#696969'>AR Instructor</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/Announcement" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Announcements" 
-                        my={5} w="100%" 
-                        textColor='#696969'>Announcement</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/UserInquiries" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="UserInquiries" 
-                        my={5} w="100%" 
-                        textColor='#696969'>User Inquiries</Button>
-                      </NextLink>
-                  </Flex>
-
-                  <Flex flexDir="column" align="center">
-                      <NextLink href="/Settings" passHref>
-                        <Button as="a" 
-                        variant="ghost" 
-                        aria-label="Settings" 
-                        my={5} w="100%" 
-                        textColor='#696969'>Settings</Button>
-                      </NextLink>
-                  </Flex>
-
-                  </DrawerBody>
-
-                  <DrawerFooter bgColor='#ffffff'>
-                    <Button colorScheme='red'
-                    onClick={() => {Router.push("/")
-                    localStorage.clear();
-                  }}>Logout</Button>
-                  </DrawerFooter>
-
-                </DrawerContent>
-              </Drawer>
-
-              </Flex>
-            </Box>
-
+           <TopDrawer/>
             <Center>
                 <Box bgColor="#ffffff" w="1550%" h="1020%" >
                     <HStack direction="row" align="flex-end">
                     <IconButton mt="2%" ml="3%" as={ChevronLeftIcon} size="sm"
                     bgColor="#ffffff"
-                    onClick={() => Router.push("/Exercise")}/>
+                    onClick={() => Router.push("/exercise")}/>
                     
                     </HStack>
                 

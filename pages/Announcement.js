@@ -1,145 +1,131 @@
 import Head from 'next/head'
-import { 
-  Heading, 
-  Center, 
-  Flex, 
-  Button, 
-  Stack, 
-  HStack, 
-  VStack, 
-  Text, 
-  Input, 
-  Box, 
-  Image, 
-  Switch, 
-  IconButton, 
-  useColorModeValue,
-  useBreakpointValue, 
-  Container, 
-  useDisclosure
-} from "@chakra-ui/react";
-import { Avatar, AvatarBadge, AvatarGroup, AiOutlineUser} from '@chakra-ui/react'
-import React, { useEffect, useState, useContext } from "react";
-//import Router from 'react'
-import { FiMenu } from 'react-icons/fi'
 import {
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
+  Heading,
+  Center,
+  Button,
+  Stack,
+  HStack,
+  VStack,
+  Text,
+  Box,
 } from "@chakra-ui/react";
-import NextLink from 'next/link'
+import { Avatar } from '@chakra-ui/react'
+import React, { useEffect, useState, useContext } from "react";
 import { Textarea } from '@chakra-ui/react'
-import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
+import { Card, CardBody, CardFooter } from '@chakra-ui/react'
 import { TextareaAutosizeProps } from 'react-textarea-autosize';
-import Router from "next/router";
 import { storage } from "../firebase";
-import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage';
-import { useAuth,auth,db,announce } from "../firebase";
-import { addDoc, collection, doc, getDocs, onSnapshot,serverTimestamp } from 'firebase/firestore';
-import { async } from '@firebase/util';
-import TopDrawer from '../constanst/components/Drawer';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { useAuth, db, } from "../firebase";
+import { addDoc, collection, onSnapshot, serverTimestamp } from 'firebase/firestore';
+import TopDrawer from '../constanst/components/drawer';
+import UserDataContext from '../context/UserDataContext';
 
 
 export default function Dashboard() {
-  const currentUser = useAuth();
-  const isDesktop = useBreakpointValue({ base: false, lg: true })
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { email, setEmail } = useState("")
-  const btnRef = React.useRef();
+  const [url, setUrl] = useState(null);
+  const [Posts, setPost] = useState([]);
+  const [newPost, setNewPost] = useState("")
+  const userDataContext = useContext(UserDataContext);
+
   useEffect(() => {
     setTimeout(() => {
-      const checkSession = localStorage.getItem("email");
-      const user_data = JSON.parse(checkSession);
-      checkSession?
-      getProfileData(user_data.profile_url)
-     : Router.push("/");
-      
+      userDataContext.data ?
+        getProfileData(userDataContext.data.profile_url)
+        : Router.push("/");
     }, []);
   }, []);
 
   async function getProfileData() {
     const imageURL = ref(storage, `/files/${imageURL}`);
-     await getDownloadURL(imageURL).then((url) => {
-          setUrl(url);
-          console.log(url)
-        }).catch(error => {
-          console.log(error.message, "error");
-        })
-  }
-
-  const [image, setImage] = useState(null);
-  const [url, setUrl] = useState(null);
-  const handleImageChange =(e) =>{
-    if(e.target.files[0]){
-      setImage(e.target.files[0]);
-    }
-  };
-  const handleSubmit = () => {
-    const imageURL = ref(storage, `/files/${imageURL}`);
-    //image: should be unique name
-    uploadBytes(imageURL, image).then(() =>{
-      getDownloadURL(imageURL, image).then((url) => {
-        setUrl(url);
-        //console.log(File)
-        //update doc ng user na naka login
-      }).catch(error => {
-        console.log(error.message, "error");
-      });
-      setImage(null);
+    await getDownloadURL(imageURL).then((url) => {
+      setUrl(url);
+      console.log(url)
     }).catch(error => {
-      console.log(error.message);
-    });
-
-  }; 
-
- useEffect(() =>{
-  if ( currentUser?.url){
-    setUrl(currentUser.url);
-    console.log("fetching");
+      console.log(error.message, "error");
+    })
   }
 
- }, [])
-
- const [ Posts, setPost] = useState([]);
- const [ newPost, setNewPost] = useState("")
-
- useEffect (
-  () => 
-    onSnapshot(collection(db,"announce"),(snapshot) =>
-      setPost(snapshot.docs.map(doc => ({...doc.data(), id: doc.id})))
-    ),
-  []
+  useEffect(
+    () =>
+      onSnapshot(collection(db, "announce"), (snapshot) =>
+        setPost(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })))
+      ),
+    []
   );
   const createPost = async () => {
     const user_data = JSON.parse(localStorage.getItem("email"))
-    const collectionRef = collection(db,"announce");
-    const newP = {newPost, timestamp: serverTimestamp(), user: user_data };
-    await addDoc(collectionRef,newP);
+    const collectionRef = collection(db, "announce");
+    const newP = { newPost, timestamp: serverTimestamp(), user: user_data };
+    await addDoc(collectionRef, newP);
     setNewPost("");
 
   };
 
 
-    return (
-        <>
+  return (
+    <>
       <Head>
         <title>Announcement</title>
         <meta name="description" content="Generated by create next app" />
         <link rel="icon" href="/aexelogo.png" />
       </Head>
-          
-          <Box as="section" pb={{ base: '12', md: '24' }}  bg="#97392F" maxW="100vw" minH="100vh"> 
 
-          <TopDrawer/> 
+      <Box as="section" pb={{ base: '12', md: '24' }} bg="#97392F" maxW="100vw" minH="100vh">
 
+        <TopDrawer />
+
+        <Center>
+          <Box bgColor="#ffffff" w="60vw" mt="5vh" p="5em" height="fit-content" borderRadius="md">
             <Center>
-              <Box bgColor="#ffffff" w="60vw" mt="5vh" p="5em" height="fit-content" borderRadius="md">
-                  <Center>
-                    <VStack>
+              <VStack>
+                <Card
+                  width="35vw"
+                  direction={{ base: 'column', sm: 'row' }}
+                  overflow='hidden'
+                  bg="gray.100"
+                  variant="outline"
+                  shadow="base"
+                  outlineColor="gray.900"
+                  mt="10%"
+                >
+                  <Stack>
+                    <CardBody>
+                      <Heading size='md' color={"black"}>Announcements</Heading>
+                      <Center>
+                        <Textarea
+                          onChange={(event) => { setNewPost(event.target.value) }}
+                          input type="text"
+                          background={"white"}
+                          width="31vw"
+                          color={"black"}
+                          value={newPost}
+                          as={TextareaAutosizeProps} mt="4"
+                          minRows={3} resize="none"
+                          placeholder="Create post..." />
+                      </Center>
+                    </CardBody>
+
+                    <CardFooter>
+                      <VStack>
+                        <Button
+                          bgColor="#696969 "
+                          onClick={createPost}
+                          className='button'
+                          //type="submit"
+                          variant='solid'
+                          color="white"
+                        >Post</Button>
+                      </VStack>
+                    </CardFooter>
+                  </Stack>
+                </Card>
+
+                {Posts === undefined ? (<>
+                </>)
+                  :
+                  (Posts.map((data, index) => {
+                    return (
                       <Card
                         width="35vw"
                         direction={{ base: 'column', sm: 'row' }}
@@ -148,106 +134,60 @@ export default function Dashboard() {
                         variant="outline"
                         shadow="base"
                         outlineColor="gray.900"
-                        mt="10%"
+                        marginTop="10vh"
                       >
-                      <Stack>
-                        <CardBody>
-                          <Heading size='md' color={"black"}>Announcements</Heading>
-                          <Center>
-                            <Textarea 
-                            onChange={(event) => {setNewPost(event.target.value)}}
-                            input type="text"
-                            background={"white"}
-                            width="31vw"
-                            color={"black"}
-                            value={newPost}
-                            as={TextareaAutosizeProps} mt="4"
-                            minRows={3} resize="none"
-                            placeholder="Create post..."/>
-                          </Center>
-                        </CardBody>
-
-                        <CardFooter>
-                          <VStack>
-                          <Button 
-                          bgColor="#696969 "
-                          onClick={createPost}
-                          className='button'
-                          //type="submit"
-                          variant='solid' 
-                          color="white"
-                          >Post</Button>
-                          </VStack>
-                        </CardFooter>
-                       </Stack>
+                        <VStack>
+                          <CardBody padding={"1em"} paddingTop={"2em"}>
+                            <HStack justifyContent={"flex-start"}>
+                              <Avatar
+                                src={url}
+                                bg='teal.500'
+                                size="sm" align="center"
+                                marginTop="1"></Avatar>
+                              <Heading size='md' color={"black"}>{data?.user?.first_name} {data?.user?.last_name}</Heading>
+                            </HStack>
+                            <Center padding={"2em"}>
+                              <Text>{data?.newPost}</Text>
+                            </Center>
+                          </CardBody>
+                        </VStack>
                       </Card>
+                    )
+                  }))
+                }
+              </VStack>
 
-                      {Posts === undefined? (<>
-                        </>)
-                        : 
-                        (Posts.map((data, index) => {
-                          return(
-                          <Card
-                            width="35vw"
-                            direction={{ base: 'column', sm: 'row' }}
-                            overflow='hidden'
-                            bg="gray.100"
-                            variant="outline"
-                            shadow="base"
-                            outlineColor="gray.900"
-                            marginTop="10vh"
-                          >
-                            <VStack>
-                              <CardBody padding={"1em"} paddingTop={"2em"}>
-                                <HStack justifyContent={"flex-start"}>
-                                  <Avatar 
-                                  src={url}
-                                  bg='teal.500'  
-                                  size="sm" align="center" 
-                                  marginTop="1"></Avatar>
-                                  <Heading size='md' color={"black"}>{data?.user?.first_name} {data?.user?.last_name}</Heading>
-                                </HStack>
-                                <Center padding={"2em"}>
-                                  <Text>{data?.newPost}</Text>
-                                </Center>
-                              </CardBody>
-                            </VStack>
-                          </Card>
-                          )}))
-                        }
-                    </VStack>
-
-                    {/* <Container> 
+              {/* <Container> 
                     {Posts.map (p => (
                     <span key={p.id}> {p.Posts}, {p.timestamp} </span>))}
                     </Container>*/}
-               </Center>
-              </Box>
             </Center>
           </Box>
+        </Center>
+      </Box>
 
-        </>
-      )
+    </>
+  )
 }
 
 const styleProps = {
-    indexWrapper: {
-      height: "100vh",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      bgColor: "#22202A",
-    },
-    formWrapper: {
-      borderRadius: "xl",
-      width: "54vh",
-      height: "50vh",
-      flexDirection: "column",
-      alignItems: "center",
-      padding: "2vh",
-      color: "white",
-      bgColor: "#E1CBA5",
-      
-      
-    }
+  indexWrapper: {
+    height: "100vh",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    bgColor: "#22202A",
+  },
+  formWrapper: {
+    borderRadius: "xl",
+    width: "54vh",
+    height: "50vh",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "2vh",
+    color: "white",
+    bgColor: "#E1CBA5",
+
+
   }
+}
