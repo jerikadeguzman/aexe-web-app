@@ -103,7 +103,7 @@ export default function Signin() {
       >
 
         <Flex
-          {...stylseProps.indexWrapper}>
+          {...styleProps.indexWrapper}>
           <Center>
             <Flex flexDirection="column" {...styleProps.formWrapper}>
               <VStack
