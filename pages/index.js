@@ -29,11 +29,12 @@ import UserDataContext from '../context/UserDataContext';
 import HomeNav from '../constanst/components/home_nav';
 
 
+
 export default function Home() {
     const router = useRouter();
     const toast = useToast();
     const userDataContext = useContext(UserDataContext);
-
+    
     useEffect(() => {
         setTimeout(() => {
             // const checkSession = localStorage.getItem("email");
@@ -64,7 +65,7 @@ export default function Home() {
                     justifyContent={'center'}
                     alignItems={'center'}>
                     <VStack spacing={10}>
-                        <Heading size='4xl' textAlign={'center'}>Zamora Fitness Drive and Wellness Center</Heading>
+                        <Heading size='3xl' textAlign={'center'}>Zamora Fitness Drive and Wellness Center</Heading>
                         <Divider orientation='horizontal' opacity={0} />
                         <Divider orientation='horizontal' opacity={0} />
                         <Heading textAlign={'center'} fontSize={'40'} w='50vw'>47 CRJM Pilar Morning Breeze Brgy.085, District 1, Caloocan City, Philippines, 1400</Heading>
@@ -74,7 +75,14 @@ export default function Home() {
                     </VStack>
                 </Flex>
 
+                <Flex>
+                    <Center>
+
+                    </Center>
+                </Flex>
+
                 <Flex
+                    paddingTop="10"
                     height="100vh"
                     bgSize="cover"
                     justifyContent={'center'}
@@ -83,7 +91,7 @@ export default function Home() {
                         <VStack spacing={10}>
                             <Image
                                 boxSize={'20vw'}
-                                w='80vw'
+                                w='90vw'
                                 objectFit={'contain'}
                                 src={'/bg10.png'}>
                             </Image>
@@ -92,13 +100,73 @@ export default function Home() {
                                 <VStack alignItems={'left'}>
                                     <Heading size='2xl' color={'#97392F'} noOfLines={1}>About Us</Heading>
                                     <Divider orientation='horizontal' opacity={0} />
-                                    <Text w='25vw' color={'CaptionText'} fontSize={'24px'}>(Put history, founder and owner, where to find, landmark, services to offer, aexe application all about) (put pictures of gym, owner, )</Text>
+                                    <Text w='35vw' color={'CaptionText'} fontSize={'20px'}>Zamora Fitness Drive and Wellness Center is located at the 47 CRJM Morning Breeze in Brgy. 085, District 1, Caloocan City. 
+                                            It opens around 8am to 5pm Mondays to Sundays. The owner of this gym is Mr. Julian Zamora who is really into exercising and martial arts. 
+                                            Aexe application is for the customers of Zamora Fitness Drive and Wellness Center that mainly uses Augmented Reality as their instructor. 
+                                            Aexe helps the users to execute their exercises that is based on their current BMI.</Text>
                                     {/* <Divider orientation='horizontal' h='25vh' opacity={0} /> */}
                                 </VStack>
-                                <Container borderRadius={5} bgColor={'grey'} boxSize={'lg'}></Container>
+                                <Image
+                                    boxSize={'sm'}
+                                    borderRadius={5}
+                                    objectFit={'contain'}
+                                    src={'/owner.jpg'}>  
+                                </Image>
                             </HStack>
                         </VStack>
                     </Center>
+                </Flex>
+
+                <Flex 
+                    paddingTop="50"
+                    height="100vh"
+                    bgSize="cover"
+                    justifyContent={'center'}
+                    alignItems={'center'}>
+                       
+                            <VStack alignItems={'left'}>
+                            <Heading size='2xl' color={'#97392F'} noOfLines={1} paddingTop="50" alignItems={'left'}>Offers and Amenities</Heading>
+                                <HStack justifyContent={'space-between'} w='50vw' paddingTop="55" paddingBottom="20">
+                                    <VStack alignItems={'left'}>
+                                        <Heading fontSize="25" textColor="black">Gym Amenities</Heading>
+                                        <Text textColor="#97392F" fontWeight="bold">Cycling</Text>
+                                        <Text textColor="#97392F" fontWeight="bold">Changing Rooms</Text>
+                                        <Text textColor="#97392F" fontWeight="bold">Loaded and Free Weights</Text>
+                                        <Text textColor="#97392F" fontWeight="bold">Dumbles</Text>
+                                        <Text textColor="#97392F" fontWeight="bold">Comfort Rooms</Text>
+                                        <Text textColor="#97392F" fontWeight="bold">Complimentary Toiletries</Text>
+                                        <Text textColor="#97392F" fontWeight="bold">Yoga Ball</Text>
+                                    </VStack>
+
+                                    <VStack alignItems={'left'}>
+                                        <Heading fontSize="25" textColor="black">AEXE Exercise</Heading>
+                                        <Text textColor="#97392F" fontWeight="bold">Full Body Exercise</Text>
+                                        <Text textColor="#97392F" fontWeight="bold">Lower Body Exercise</Text>
+                                        <Text textColor="#97392F" fontWeight="bold">Leg and Butt Exercise</Text>
+                                        <Text textColor="#97392F" fontWeight="bold">ABS Exercise</Text>
+                                        <Text textColor="#97392F" fontWeight="bold">Chest Exercise</Text>
+                                        <Text textColor="#97392F" fontWeight="bold">Shoulder Exercise</Text>
+                                        <Text textColor="#97392F" fontWeight="bold">Senior Citizen's Exercise</Text>
+                                    </VStack>
+                                </HStack>
+
+                            </VStack>
+                      
+                           
+                </Flex>
+
+                <Flex
+                height="20vh"
+                bgSize="cover"
+                bgColor="#97392F">
+                    <HStack justifyContent={'space-evenly'} w='20vw'>
+                        <VStack alignItems={'left'}>
+                            <Button variant="link" textColor="White" onClick={() => Router.push("/terms_condition")}>Terms & Condition</Button>
+                            <Button variant="link" textColor="White">Privacy Policy</Button>
+                            <Button variant="link" textColor="White">FAQs</Button>
+                        </VStack>
+                    </HStack>
+
                 </Flex>
             </Container>
         </>
