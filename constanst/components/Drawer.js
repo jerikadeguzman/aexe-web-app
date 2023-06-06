@@ -41,7 +41,9 @@ export default function TopDrawer() {
     setTimeout(() => {
       userDataContext.data ?
         getProfileData(userDataContext.data.profile_url)
-        : Router.push("/");
+        :
+        // Router.push("/");
+        console.log("no data");
 
     }, []);
   }, []);
@@ -57,15 +59,14 @@ export default function TopDrawer() {
   }
 
   const tabs = [
+    { name: "Create Account", path: "/create_account" },
     { name: "Dashboard", path: "/dashboard" },
     { name: "Profile", path: "/profile" },
     { name: "Messages", path: "/messages" },
-    { name: "AR Instructor", path: "/ar_instructor" },
+    { name: "AR Instructor", path: "/exercise" },
     { name: "Announcement", path: "/announcement" },
     { name: "User List", path: "/user_list" },
-    { name: "User Inquiries", path: "/user_inquiries" },
     { name: "Settings", path: "/settings" },
-    { name: "Exercise", path: "/exercises/abs" },
   ]
 
   return (

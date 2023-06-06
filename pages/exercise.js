@@ -37,13 +37,12 @@ export default function Messages() {
         <link rel="icon" href="/aexelogo.png" />
       </Head>
 
-      <Box as="section" pb={{ base: '12', md: '24' }} bg="#97392F" >
+      <Box as="section" pb={{ base: '12', md: '24' }} bg="#D9D9D9" >
         <TopDrawer />
 
         <Center>
-          <Box bg="#ffffff" w="1550%" h="1020%" >
-            <IconButton mt="2%" ml="3%" as={ChevronLeftIcon} size="sm" bgColor="#ffffff"
-              onClick={() => Router.push("/ARInstructor")}>Back</IconButton>
+          <Box bg="#D9D9D9" w="1550%" h="1020%" >
+            <Heading marginLeft="6%" marginTop="3%" color="#97392F"> AR Exercises Information</Heading>
             <Center>
               <SimpleGrid
                 marginLeft="3%"
@@ -73,7 +72,7 @@ export default function Messages() {
                       variant='solid'
                       bgColor="#696969"
                       textColor="white"
-                      onClick={() => Router.push("../Exercises/bmi")}>
+                      onClick={() => Router.push("../exercises/bmi")}>
                       View
                     </Button>
                   </CardFooter>
@@ -97,7 +96,7 @@ export default function Messages() {
                       variant='solid'
                       bgColor="#696969"
                       textColor="white"
-                      onClick={() => Router.push("../Exercises/fullbody")}>
+                      onClick={() => Router.push("../exercises/fullbody")}>
                       View
                     </Button>
                   </CardFooter>
@@ -120,7 +119,7 @@ export default function Messages() {
                       variant='solid'
                       bgColor="#696969"
                       textColor="white"
-                      onClick={() => Router.push("../Exercises/lowerbody")}>
+                      onClick={() => Router.push("../exercises/lowerbody")}>
                       View
                     </Button>
                   </CardFooter>
@@ -144,7 +143,7 @@ export default function Messages() {
                       variant='solid'
                       bgColor="#696969"
                       textColor="white"
-                      onClick={() => Router.push("../Exercises/legandbutt")}>
+                      onClick={() => Router.push("../exercises/legandbutt")}>
                       View
                     </Button>
                   </CardFooter>
@@ -169,7 +168,7 @@ export default function Messages() {
                       variant='solid'
                       bgColor="#696969"
                       textColor="white"
-                      onClick={() => Router.push("../Exercises/abs")}>
+                      onClick={() => Router.push("../exercises/abs")}>
                       View
                     </Button>
                   </CardFooter>
@@ -192,7 +191,7 @@ export default function Messages() {
                       variant='solid'
                       bgColor="#696969"
                       textColor="white"
-                      onClick={() => Router.push("../Exercises/chest")}>
+                      onClick={() => Router.push("../exercises/chest")}>
                       View
                     </Button>
                   </CardFooter>
@@ -215,7 +214,7 @@ export default function Messages() {
                       variant='solid'
                       bgColor="#696969"
                       textColor="white"
-                      onClick={() => Router.push("../Exercises/shoulderandback")}>
+                      onClick={() => Router.push("../exercises/shoulderandback")}>
                       View
                     </Button>
                   </CardFooter>
@@ -237,7 +236,7 @@ export default function Messages() {
                       variant='solid'
                       bgColor="#696969"
                       textColor="white"
-                      onClick={() => Router.push("../Exercises/seniorcitizen")}>
+                      onClick={() => Router.push("../exercises/seniorcitizen")}>
                       View
                     </Button>
                   </CardFooter>

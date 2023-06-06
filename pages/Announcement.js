@@ -32,7 +32,9 @@ export default function Dashboard() {
     setTimeout(() => {
       userDataContext.data ?
         getProfileData(userDataContext.data.profile_url)
-        : Router.push("/");
+        :
+        // Router.push("/");
+        console.log("no")
     }, []);
   }, []);
 
@@ -71,27 +73,27 @@ export default function Dashboard() {
         <link rel="icon" href="/aexelogo.png" />
       </Head>
 
-      <Box as="section" pb={{ base: '12', md: '24' }} bg="#97392F" maxW="100vw" minH="100vh">
+      <Box as="section" pb={{ base: '12', md: '24' }} bg="#ffffff" maxW="100vw" minH="100vh">
 
         <TopDrawer />
 
         <Center>
-          <Box bgColor="#ffffff" w="60vw" mt="5vh" p="5em" height="fit-content" borderRadius="md">
+          <Box w="60vw" mt="5vh" p="5em" height="fit-content" borderRadius="md">
             <Center>
               <VStack>
                 <Card
                   width="35vw"
                   direction={{ base: 'column', sm: 'row' }}
                   overflow='hidden'
-                  bg="gray.100"
+                  bg="#97302F"
                   variant="outline"
                   shadow="base"
                   outlineColor="gray.900"
-                  mt="10%"
+                  mt="-15%"
                 >
                   <Stack>
-                    <CardBody>
-                      <Heading size='md' color={"black"}>Announcements</Heading>
+                    <CardBody bg="#97302F">
+                      <Heading size='md' color={"white"} >Post Announcements</Heading>
                       <Center>
                         <Textarea
                           onChange={(event) => { setNewPost(event.target.value) }}
@@ -106,10 +108,10 @@ export default function Dashboard() {
                       </Center>
                     </CardBody>
 
-                    <CardFooter>
+                    <CardFooter bg="#97302F">
                       <VStack>
                         <Button
-                          bgColor="#696969 "
+                          bgColor="#E1CBA5"
                           onClick={createPost}
                           className='button'
                           //type="submit"

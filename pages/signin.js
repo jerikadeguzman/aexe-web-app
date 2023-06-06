@@ -54,7 +54,7 @@ export default function Signin() {
     const verification = await getDocs(verify_ref);
     verification.docs.map((doc) => {
       // doc.data() is never undefined for query doc snapshots
-      if (doc.data().length != 0 && doc.data().password == password && doc.data().role == "admin") {
+      if (doc.data().length != 0 && doc.data().password == password && doc.data().role == "Admin") {
         router.push({  //once login direct to the dashboard
           pathname: "/dashboard",
         });

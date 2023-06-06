@@ -4,19 +4,20 @@ import {
   Center,
   Flex,
   Button,
-  Stack,
   HStack,
   VStack,
   Text,
   Input,
   Box,
-  Image,
-  Switch,
   IconButton,
-  useColorModeValue,
-  useBreakpointValue,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  TableContainer,
   useToast,
-  Container,
   useDisclosure,
   AlertDialog,
   AlertDialogBody,
@@ -44,7 +45,7 @@ import {
   InputLeftAddon
 } from '@chakra-ui/react';
 import { Avatar } from '@chakra-ui/react'
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import { TextareaAutosizeProps } from 'react-textarea-autosize';
 import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
 import { Textarea, Divider, Header } from '@chakra-ui/react';
@@ -52,12 +53,13 @@ import Router from "next/router";
 import { db, storage } from "../firebase";
 import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage';
 import { useAuth } from "../firebase";
-import { AttachmentIcon, DeleteIcon } from '@chakra-ui/icons';
+import { AttachmentIcon, DeleteIcon, EditIcon, ViewIcon } from '@chakra-ui/icons';
 import { addDoc, collection, doc, getDocs, onSnapshot, serverTimestamp, setDoc } from 'firebase/firestore';
 import TopDrawer from '../constanst/components/drawer';
 import removeUser from '../constanst/services/users/remove_user';
-import removeData, { makeid } from '../constanst/services/generic';
-
+import removeData, { getDatas, makeid } from '../constanst/services/generic';
+import ReusableModal from '../constanst/components/modal';
+import moment from "moment/moment";
 
 
 export default function Dashboard() {
@@ -65,7 +67,11 @@ export default function Dashboard() {
   const cancelRef = React.useRef();
   const [id, setId] = useState("")
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [viewUser, setViewUser] = useState({})
+  const effectRan = useRef(false)
   const toast = useToast();
+  const onViewModal = useDisclosure();
+  const onEditModal = useDisclosure();
   const { //modal for registration
     isOpen: isOpenAlertModal,
     onOpen: onOpenAlertModal,
@@ -91,14 +97,21 @@ export default function Dashboard() {
   })
 
 
-  useEffect(
-    () =>
-      onSnapshot(collection(db, "users"), (snapshot) => {
-        setUsers(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })))
-      }
-      ),
-    []
-  );
+  useEffect(() => {
+    if (effectRan.current === false) {
+      getUsersData()
+      effectRan.current = true
+    }
+    console.log(Users)
+  }, []);
+
+  async function getUsersData() {
+    setUsers([])
+
+    const data = await getDatas({ path: "users" })
+
+    setUsers(data)
+  }
 
   async function register() {
     const user_id = makeid(7)
@@ -148,93 +161,160 @@ export default function Dashboard() {
         <link rel="icon" href="/aexelogo.png" />
       </Head>
 
-      <Box as="section" pb={{ base: '12', md: '24' }} bg="#ffffff" maxW="100vw" minH="100vh">
+      <Box as="section" pb={{ base: '12', md: '24' }} bg="#D9D9D9" maxW="100vw" minH="100vh">
         <TopDrawer />
-        <VStack>
-          <HStack justifyContent="space-between" w="70vw" mt="2%" px="2">
-            <Heading  >Users</Heading>
-            <Button onClick={onOpen} w="10vw" bg="#97392F" colorScheme='cyan' color="white">Craete Account</Button>
-          </HStack>
-          <Card
-            mt="2%"
-            size="lg"
-            align='center'
-            variant="outline"
-            shadow="base"
-            width="70vw"
-            outlineColor="gray.900">
+        <Center mt="2%">
+          <VStack>
+            <HStack justifyContent="space-between" w="70vw" mt="2%" px="2">
+              <Heading color={"#97392F"}>Gym Members</Heading>
+              <Button onClick={onOpen} w="10vw" bg="#97392F" colorScheme='cyan' color="white">Create Account</Button>
+            </HStack>
 
-            <CardBody>
-              {Users === undefined ? (<> </>)
-                : (Users.map((data) => {
+            <Box
+              bg="#ffffff"
+              w="100%"
+              h="100%"
+              padding={5}
+              borderRadius={"xl"}
+              borderColor={'#97392F'}
+              overflowY="auto"
+            >
+              <TableContainer >
+                <Table variant='simple' fontWeight={'bold'} mt="2%">
+                  <Thead position={"sticky"}>
+                    <Tr>
+                      <Th>User ID</Th>
+                      <Th>Name</Th>
+                      <Th>Role</Th>
+                      <Th>Actions</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {Users.length != 0 ? (
+                      Users.map((user, index) => {
+                        return (
+                          <Tr key={index}>
+                            <Td>{user?.id}</Td>
+                            <Td>{user?.first_name + " " + user?.last_name}</Td>
+                            <Td>{user?.role}</Td>
+                            <Td>
+                              <HStack>
+                                <Button bg="green.400" onClick={() => {
+                                  onViewModal.onOpen(), setViewUser(user)
+                                }}><ViewIcon /></Button>
 
-                  return (
-                    <>
-                      <HStack width='container.xl' bg='#f2f2f2' height='8vh' justifyContent="space-between" padding="1vw" borderRadius="md">
-                        <HStack spacing={5}>
-                          <Avatar src={data?.profile_url} size="md" bg='teal.500'> </Avatar>
-                          <Heading as='h5' size='sm'>
-                            {data.first_name} {data.last_name}
-                          </Heading>
-                        </HStack>
-                        <IconButton
-                          onClick={() => {
-                            setId(data.id)
-                            onOpenAlertModal();
-                          }}
-                          icon={<DeleteIcon w={8} h={8}></DeleteIcon>}></IconButton>
-
-                        <AlertDialog
-                          isOpen={isOpenAlertModal}
-                          leastDestructiveRef={cancelRef}
-                          onClose={onCloseAlertModal}
-                        >
-                          <AlertDialogOverlay>
-                            <AlertDialogContent>
-                              <AlertDialogHeader
-                                fontSize="lg"
-                                fontWeight="bold"
-                              >
-                                Delete Customer
-                              </AlertDialogHeader>
-
-                              <AlertDialogBody>
-                                {
-                                  "Are you sure? You can't undo this action afterwards."
-                                }
-                              </AlertDialogBody>
-
-                              <AlertDialogFooter>
                                 <Button
-                                  ref={cancelRef}
-                                  onClick={onCloseAlertModal}
+                                  bg="cyan.400"
+                                  onClick={() => {
+                                    onEditModal.onOpen();
+                                    // modifyFood(food);
+                                    // setFoodId(food.foodName);
+                                  }}
                                 >
-                                  Cancel
+                                  <EditIcon />
                                 </Button>
-                                <Button
-                                  backgroundColor={"#F56565"}
-                                  _hover={{ backgroundColor: "#FC8181" }}
-                                  onClick={() => processRemoveUser(id)}
-                                  ml={3}
-                                >
-                                  Delete
-                                </Button>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialogOverlay>
-                        </AlertDialog>
-                      </HStack>
-                      <Divider mt="1%" color="black" />
 
-                    </>
-                  )
-                }))}
-            </CardBody>
-          </Card>
-        </VStack>
+                                <Button
+                                  bg="red.400"
+                                  onClick={() => {
+                                    setId(data.id)
+                                    onOpenAlertModal();
+                                  }}
+                                ><DeleteIcon /></Button>
+                              </HStack>
+                            </Td>
+                          </Tr>
+                        )
+                      })
+                    ) :
+                      (<></>)}
+                  </Tbody>
+                </Table>
+              </TableContainer>
+            </Box>
+          </VStack>
+        </Center>
       </Box>
 
+      <ReusableModal
 
+        header={'User Detail'}
+        component={
+          <>
+            <VStack spacing={"2vh"} width={'100%'} alignItems={'flex-start'} fontWeight={'bold'} fontSize={'xl'} padding={'3%'}>
+              <HStack>
+                <Text>{"Name: "}</Text>
+                <Text>{viewUser?.first_name}</Text>
+                <Text>{viewUser?.last_name}</Text>
+              </HStack>
+
+              <HStack justifyContent={'space-between'} w='100%'>
+                <Text>{"Birthday: " + moment(viewUser?.birthday).format("LL")}</Text>
+                <Text>{"Age: " + viewUser?.age + " y.o."}</Text>
+                <Text>{"Gender: " + viewUser?.gender}</Text>
+              </HStack>
+
+              <HStack>
+                <Text>{"Address: "}</Text>
+                <Text>{viewUser?.address}</Text>
+              </HStack>
+
+              <HStack>
+                <Text>{"Email Address: "}</Text>
+                <Text>{viewUser?.email}</Text>
+              </HStack>
+
+              <HStack>
+                <Text>{"Email Address: "}</Text>
+                <Text>{viewUser?.email}</Text>
+              </HStack>
+            </VStack>
+          </>}
+        footer={<>
+          <Button colorScheme='green' onClick={() => { onViewModal.onClose(), setViewUser({}) }}>Close</Button></>}
+        isOpen={onViewModal.isOpen}
+        onClose={() => { onViewModal.onClose(), setViewUser({}) }}
+      />
+
+      <AlertDialog
+        isOpen={isOpenAlertModal}
+        leastDestructiveRef={cancelRef}
+        onClose={onCloseAlertModal}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader
+              fontSize="lg"
+              fontWeight="bold"
+            >
+              Delete Customer
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              {
+                "Are you sure? You can't undo this action afterwards."
+              }
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button
+                ref={cancelRef}
+                onClick={onCloseAlertModal}
+              >
+                Cancel
+              </Button>
+              <Button
+                backgroundColor={"#F56565"}
+                _hover={{ backgroundColor: "#FC8181" }}
+                onClick={() => processRemoveUser(id)}
+                ml={3}
+              >
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
 
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} size='xl'>
         <ModalOverlay />

@@ -41,6 +41,7 @@ import { useAuth } from "../firebase";
 import { AttachmentIcon } from '@chakra-ui/icons';
 import { collection, addDoc, getDocs, doc, onSnapshot, serverTimestamp } from 'firebase/firestore';
 import TopDrawer from '../constanst/components/drawer';
+import UserDataContext from '../context/UserDataContext';
 
 
 
@@ -50,7 +51,7 @@ export default function Dashboard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   const [user, setUser] = useState();
-
+  const userDataContext = useContext(UserDataContext);
   useEffect(() => {
     setTimeout(() => {
       userDataContext.data ?
@@ -79,12 +80,12 @@ export default function Dashboard() {
         <link rel="icon" href="/aexelogo.png" />
       </Head>
 
-      <Box as="section" pb={{ base: '12', md: '24' }} bg="#97392F" h="100vh">
+      <Box as="section" pb={{ base: '12', md: '24' }} bg="#D9D9D9">
         <TopDrawer />
 
 
         <Center>
-          <Box bg="#97392F" minH="70vh" borderRadius={'lg'} mt="5vh">
+          <Box minH="70vh" borderRadius={'lg'} mt="5vh">
             <HStack
               align="justify"
               mt="3%" ml="5%" mr="5%"
