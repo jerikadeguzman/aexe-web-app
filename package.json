@@ -36,6 +36,7 @@
     "react-firebase-hooks": "^5.1.1",
     "react-hook-form": "^7.41.0",
     "react-icons": "^4.6.0",
+    "react-image-gallery": "^1.2.11",
     "react-textarea-autosize": "^8.4.0"
   },
   "devDependencies": {

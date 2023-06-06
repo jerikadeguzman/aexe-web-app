@@ -16,7 +16,7 @@ export default function HomeNav() {
                         onClick={() => Router.reload(window.location.pathname)}
                     />
                     <HStack>
-                        <NextLink href={""} passHref>
+                        <NextLink href={"/aexe_app"} passHref>
                             <Button as="a"
                                 variant="solid"
                                 colorScheme='transparent'
@@ -27,7 +27,7 @@ export default function HomeNav() {
                                     transitionDuration: ".2s",
                                     transform: "scale(1.1)",
                                     overflow: "hidden",
-                                }}>About Us
+                                }}>AEXE App
                             </Button>
                         </NextLink>
                         <NextLink href={"/signin"} passHref>
