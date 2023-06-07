@@ -11,7 +11,8 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import Router from "next/router";
-import { db } from "../../firebase";
+import { db, storage } from "../../firebase";
+import { ref } from "firebase/storage";
 
 export default async function removeData(props) {
   const docRefa = doc(db, props.path, props.id);
@@ -93,3 +94,22 @@ export async function updateData(props) {
   });
   return { success: true, message: "Data Updated Successfully" }
 }
+
+//upload file
+export async function uploadFileGetLink(base64Image, type) {
+  let doclink = "";
+  console.log(base64Image.substring(base64Image.indexOf(",") + 1));
+  const reference = ref(storage, `${type}/documents/profile_${new Date()}.png`);
+  console.log("running /editProfile...");
+
+  await uploadString(
+    reference,
+    base64Image.substring(base64Image.indexOf(",") + 1),
+    "base64"
+  ).then(async (snapshot) => {
+    await getDownloadURL(snapshot.ref).then((url) => {
+      doclink = url;
+    });
+  });
+  return doclink;
+};

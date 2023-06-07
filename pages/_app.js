@@ -4,6 +4,7 @@ import { UserDataContextProvider } from '../context/UserDataContext';
 //import { useAuthState } from 'react-firebase-hooks/auth';
 //import { auth } from "../firebaseconfig";
 //import {Spinner, Center } from "@chakra-ui/react";
+import '@coreui/coreui/dist/css/coreui.min.css'
 
 
 

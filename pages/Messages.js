@@ -48,7 +48,9 @@ export default function Messages() {
     setTimeout(() => {
       userDataContext.data ?
         console.log(userDataContext.data)
-        : Router.push("/");
+        :
+        // Router.push("/");
+        console.log("")
 
     }, []);
   }, []);

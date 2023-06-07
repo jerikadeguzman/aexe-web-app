@@ -30,6 +30,7 @@ import NextLink from 'next/link'
 
 import Router from "next/router";
 import UserDataContext from '../../context/UserDataContext';
+import { EmailIcon } from '@chakra-ui/icons';
 
 export default function TopDrawer() {
   const userDataContext = useContext(UserDataContext);
@@ -59,10 +60,9 @@ export default function TopDrawer() {
   }
 
   const tabs = [
-    { name: "Create Account", path: "/create_account" },
+    { name: "Create Account", path: "/create_account", icon: <EmailIcon /> },
     { name: "Dashboard", path: "/dashboard" },
     { name: "Profile", path: "/profile" },
-    { name: "Messages", path: "/messages" },
     { name: "AR Instructor", path: "/exercise" },
     { name: "Announcement", path: "/announcement" },
     { name: "User List", path: "/user_list" },
@@ -70,7 +70,7 @@ export default function TopDrawer() {
   ]
 
   return (
-    <Box as="nav" bg="#97392F" boxShadow={useColorModeValue('sm', 'sm-dark')} w="100vw" padding={"1vh"}>
+    <Box as="nav" bg="#97392F" boxShadow={useColorModeValue('sm', 'sm-dark')} w="100%" maxW={'100vw'} padding={"1vh"}>
       <Flex>
         <IconButton
           color="white"
@@ -125,7 +125,7 @@ export default function TopDrawer() {
                         aria-label="Dashboard"
                         my={5} w="100%"
                         textColor='#696969'
-                        color="blue">{data.name}
+                        color="blue" >{data.name}
                       </Button>
                     </NextLink>
                   </Flex>

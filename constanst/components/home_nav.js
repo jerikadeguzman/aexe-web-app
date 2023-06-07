@@ -5,7 +5,7 @@ import Router from "next/router";
 
 export default function HomeNav() {
     return (
-        <Box as="nav" bg="#97392F" padding={"2vh"} position={'fixed'} >
+        <Box as="nav" bg="#97392F" padding={"2vh"} >
             <Flex>
                 <HStack w="100vw" maxW="100vw" justifyContent='space-between' paddingRight={16}>
                     <IconButton
@@ -13,7 +13,7 @@ export default function HomeNav() {
                         w="10px"
                         isRound={true}
                         aria-label="Homepage"
-                        onClick={() => Router.reload(window.location.pathname)}
+                        onClick={() => Router.push("/")}
                     />
                     <HStack>
                         <NextLink href={"/aexe_app"} passHref>

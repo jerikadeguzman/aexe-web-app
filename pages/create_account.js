@@ -14,6 +14,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import TopDrawer from '../constanst/components/drawer';
 import { addData } from "../constanst/services/generic";
+import moment from "moment";
 
 export default function CreateAccount() {
     const toast = useToast();
@@ -27,32 +28,40 @@ export default function CreateAccount() {
         email: "",
         first_name: "",
         gender: "",
-        first_name: "",
+        last_name: "",
         mobile_number: "",
         password: "",
         profile_url: "",
         role: "",
+        height: "",
+        weight: "",
+        bmi: ""
     })
 
     async function createAccount() {
         if (user.first_name != "" && user.last_name != ""
-            && user.regaddress != ""
-            && user.regemail != "" && user.regage != ""
-            && user.regbirthday != "" && user.reggender != ""
-            && user.regmobile_number != "" && user.regpassword != ""
-            && user.regprofile_url != "" && user.role != "") {
-            setNewUser(user)
-            console.log(user)
-            const add = await addData({ path: "users", data: newUser })
-            router.reload(window.location.pathname);
-            toast({
-                title: "Created successful",
-                description: add.message,
-                status: "success",
-                duration: 2500,
-                isClosable: true,
-                position: "bottom-right",
-            });
+            && user.address != ""
+            && user.email != "" && user.age != ""
+            && user.birthday != "" && user.gender != ""
+            && user.mobile_number != "" && user.password != ""
+            && user.height != "" && user.weight != "") {
+            const h = parseInt(user.height) / 100
+            const w = parseInt(user.weight)
+            const bmi = w / (h * h)
+            setUser({ ...user, bmi: bmi.toFixed(2) })
+            console.log(newUser)
+            if (user != {}) {
+                const add = await addData({ path: "users", data: { ...user, bmi: bmi.toFixed(2) } })
+                router.reload(window.location.pathname);
+                toast({
+                    title: "Created successful",
+                    description: add.message,
+                    status: "success",
+                    duration: 2500,
+                    isClosable: true,
+                    position: "bottom-right",
+                });
+            }
         }
     }
     return (
@@ -65,7 +74,7 @@ export default function CreateAccount() {
             <Box h={'100vh'} minW={'700px'} bg={"#D9D9D9"}>
                 <TopDrawer />
                 <Center mt="3%">
-                    <Flex w="63vw" h="70vh" borderRadius={"xl"} shadow="lg" minW={'540px'} bg="#97392F">
+                    <Flex w="63vw" h="80vh" borderRadius={"xl"} shadow="lg" minW={'540px'} bg="#97392F">
                         <FormControl isRequired
                             padding={15}
                             justifyContent="center"
@@ -110,7 +119,7 @@ export default function CreateAccount() {
                                             color="black"
                                             w='26.5vw'
                                             minW={'180px'}
-                                            placeholder='Position'
+                                            placeholder='Select Position'
                                             onChange={(e) => {
                                                 setUser({ ...user, role: e.target.value });
                                             }}>
@@ -125,9 +134,9 @@ export default function CreateAccount() {
                                             color="black"
                                             w='26.5vw'
                                             minW={'180px'}
-                                            placeholder='Gender'
+                                            placeholder='Select Gender'
                                             onChange={(e) => {
-                                                setUser({ ...user, role: e.target.value });
+                                                setUser({ ...user, gender: e.target.value });
                                             }}>
                                             <option>Male</option>
                                             <option>Female</option>
@@ -140,11 +149,13 @@ export default function CreateAccount() {
                                         <FormLabel variant="floating">Date of Birth</FormLabel>
                                         <Input placeholder="Birthday" bg="white" type="date" color={"black"} w="26.5vw" minW={'180px'} onChange={(e) => {
                                             setUser({ ...user, birthday: e.target.value });
+                                            const age = moment().diff(moment(e.target.value, "DD-MM-YYYY"), 'years')
+                                            setUser({ ...user, age: age })
                                         }} />
                                     </Box>
                                     <Box>
                                         <FormLabel variant="floating">Age</FormLabel>
-                                        <Input placeholder="Age" bg="white" color={"black"} w="26.5vw" minW={'180px'} onChange={(e) => {
+                                        <Input value={user.age} placeholder="Age" bg="white" type="number" color={"black"} w="26.5vw" minW={'180px'} onChange={(e) => {
                                             setUser({ ...user, age: e.target.value });
                                         }} />
                                     </Box>
@@ -161,7 +172,7 @@ export default function CreateAccount() {
                                         <FormLabel variant="floating">Password</FormLabel>
                                         <InputGroup>
                                             <Input placeholder="password" bg="white" color={"black"} w="26.5vw" type={hidePassword ? "password" : "text"} minW={'180px'} onChange={(e) => {
-                                                setUser({ ...user, regPass: e.target.value });
+                                                setUser({ ...user, password: e.target.value });
                                             }} />
                                             <InputRightElement children={<Switch
                                                 me='5'
@@ -170,6 +181,20 @@ export default function CreateAccount() {
                                                 onChange={() => setHidePassword(!hidePassword)}
                                             />} />
                                         </InputGroup>
+                                    </Box>
+                                </HStack>
+                                <HStack alignItems={"stretch"} alignSelf={"flex-start"} spacing="20">
+                                    <Box>
+                                        <FormLabel variant="floating">Height (in Centimeter)</FormLabel>
+                                        <Input placeholder="Height in Centimeter" type="number" bg="white" color={"black"} w="26.5vw" minW={'180px'} onChange={(e) => {
+                                            setUser({ ...user, height: e.target.value });
+                                        }} />
+                                    </Box>
+                                    <Box>
+                                        <FormLabel variant="floating">Weight</FormLabel>
+                                        <Input placeholder="Weight in KG" bg="white" type="number" color={"black"} w="26.5vw" minW={'180px'} onChange={(e) => {
+                                            setUser({ ...user, weight: e.target.value });
+                                        }} />
                                     </Box>
                                 </HStack>
 

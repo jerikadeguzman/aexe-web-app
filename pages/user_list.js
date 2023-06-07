@@ -26,6 +26,8 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   Checkbox,
+  InputRightElement,
+  Switch,
 } from "@chakra-ui/react";
 import {
   Modal,
@@ -57,7 +59,7 @@ import { AttachmentIcon, DeleteIcon, EditIcon, ViewIcon } from '@chakra-ui/icons
 import { addDoc, collection, doc, getDocs, onSnapshot, serverTimestamp, setDoc } from 'firebase/firestore';
 import TopDrawer from '../constanst/components/drawer';
 import removeUser from '../constanst/services/users/remove_user';
-import removeData, { getDatas, makeid } from '../constanst/services/generic';
+import removeData, { getDatas, makeid, updateData } from '../constanst/services/generic';
 import ReusableModal from '../constanst/components/modal';
 import moment from "moment/moment";
 
@@ -68,8 +70,10 @@ export default function Dashboard() {
   const [id, setId] = useState("")
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [viewUser, setViewUser] = useState({})
+  const [hidePassword, setHidePassword] = useState(true);
   const effectRan = useRef(false)
   const toast = useToast();
+  const [userId, setUserId] = useState("")
   const onViewModal = useDisclosure();
   const onEditModal = useDisclosure();
   const { //modal for registration
@@ -83,7 +87,20 @@ export default function Dashboard() {
     onClose: onCloseCheckModal,
   } = useDisclosure();
 
-
+  const [updateUser, setUpdateUser] = useState({
+    address: "",
+    age: "",
+    birthday: "",
+    email: "",
+    first_name: "",
+    gender: "",
+    last_name: "",
+    mobile_number: "",
+    role: "",
+    height: "",
+    weight: "",
+    bmi: ""
+  })
   const [user, setUser] = useState({
     email: "",
     first_name: "",
@@ -128,6 +145,23 @@ export default function Dashboard() {
     Router.reload(window.location.pathname);
   }
 
+  async function editUser() {
+    var data = updateUser
+    const updateRef = await updateData({ path: "users", id: data.id, data: data })
+    toast({
+      title: "Data Update",
+      description: updateRef.message,
+      status: "success",
+      duration: 2500,
+      isClosable: true,
+      position: "bottom-right",
+    });
+    setUpdateUser({})
+    setUserId("")
+    onEditModal.onClose();
+    getUsersData()
+  }
+
   const processRemoveUser = async (props) => {
     const removeUserAccount = await removeData({ path: "users", id: props });
 
@@ -167,7 +201,7 @@ export default function Dashboard() {
           <VStack>
             <HStack justifyContent="space-between" w="70vw" mt="2%" px="2">
               <Heading color={"#97392F"}>Gym Members</Heading>
-              <Button onClick={onOpen} w="10vw" bg="#97392F" colorScheme='cyan' color="white">Create Account</Button>
+              {/* <Button onClick={onOpen} w="10vw" bg="#97392F" colorScheme='cyan' color="white">Create Account</Button> */}
             </HStack>
 
             <Box
@@ -207,8 +241,8 @@ export default function Dashboard() {
                                   bg="cyan.400"
                                   onClick={() => {
                                     onEditModal.onOpen();
-                                    // modifyFood(food);
-                                    // setFoodId(food.foodName);
+                                    setUpdateUser(user)
+                                    setUserId(user?.id)
                                   }}
                                 >
                                   <EditIcon />
@@ -217,7 +251,7 @@ export default function Dashboard() {
                                 <Button
                                   bg="red.400"
                                   onClick={() => {
-                                    setId(data.id)
+                                    setId(user?.id)
                                     onOpenAlertModal();
                                   }}
                                 ><DeleteIcon /></Button>
@@ -237,6 +271,139 @@ export default function Dashboard() {
       </Box>
 
       <ReusableModal
+
+        header={'Update User'}
+        component={
+          <>
+            <VStack width={'100%'} alignItems={'flex-start'}>
+              <HStack alignItems={"stretch"} alignSelf={"flex-start"} spacing="20" width={'100%'}>
+                <Box>
+                  <FormLabel variant="floating">First Name</FormLabel>
+                  <Input placeholder="First Name" bg="white" color={"black"} minW={'180px'} w={"15vw"} onChange={(e) => {
+                    setUpdateUser({ ...updateUser, first_name: e.target.value });
+                  }} />
+                </Box>
+                <Box>
+                  <FormLabel variant="floating">Last Name</FormLabel>
+                  <Input placeholder="Last Name" bg="white" color={"black"} minW={'180px'} w={"15vw"} onChange={(e) => {
+                    setUpdateUser({ ...updateUser, last_name: e.target.value });
+                  }} />
+                </Box>
+              </HStack>
+
+              <HStack alignItems={"stretch"} alignSelf={"flex-start"} spacing="20">
+                <Box>
+                  <FormLabel variant="floating">Address</FormLabel>
+                  <Input placeholder="Address" bg="white" color={"black"} w={"15vw"} minW={'180px'} onChange={(e) => {
+                    setUpdateUser({ ...updateUser, address: e.target.value });
+                  }} />
+                </Box>
+                <Box>
+                  <FormLabel variant="floating">Mobile Number</FormLabel>
+                  <Input placeholder="Mobile Number" bg="white" color={"black"} w={"15vw"} minW={'180px'} onChange={(e) => {
+                    setUpdateUser({ ...updateUser, mobile_number: e.target.value });
+                  }} />
+                </Box>
+              </HStack>
+
+              <HStack alignItems={"stretch"} alignSelf={"flex-start"} spacing="20">
+                <Box>
+                  <FormLabel variant="floating">Role</FormLabel>
+                  <Select
+                    bg="white"
+                    color="black"
+                    w={"15vw"}
+                    minW={'180px'}
+                    placeholder='Select Position'
+                    onChange={(e) => {
+                      setUpdateUser({ ...updateUser, role: e.target.value });
+                    }}>
+                    <option>Admin</option>
+                    <option>User</option>
+                  </Select>
+                </Box>
+                <Box>
+                  <FormLabel variant="floating">Gender</FormLabel>
+                  <Select
+                    bg="white"
+                    color="black"
+                    w={"15vw"}
+                    minW={'180px'}
+                    placeholder='Select Gender'
+                    onChange={(e) => {
+                      setUpdateUser({ ...updateUser, gender: e.target.value });
+                    }}>
+                    <option>Male</option>
+                    <option>Female</option>
+                  </Select>
+                </Box>
+              </HStack>
+
+              <HStack alignItems={"stretch"} alignSelf={"flex-start"} spacing="20">
+                <Box>
+                  <FormLabel variant="floating">Date of Birth</FormLabel>
+                  <Input placeholder="Birthday" bg="white" type="date" color={"black"} w={"15vw"} minW={'180px'} onChange={(e) => {
+                    setUpdateUser({ ...updateUser, birthday: e.target.value });
+                    const age = moment().diff(moment(e.target.value, "DD-MM-YYYY"), 'years')
+                    setUpdateUser({ ...updateUser, age: age })
+                  }} />
+                </Box>
+                <Box>
+                  <FormLabel variant="floating">Age</FormLabel>
+                  <Input value={user.age} placeholder="Age" bg="white" type="number" color={"black"} w={"15vw"} minW={'180px'} onChange={(e) => {
+                    setUpdateUser({ ...updateUser, age: e.target.value });
+                  }} />
+                </Box>
+              </HStack>
+
+              <HStack alignItems={"stretch"} alignSelf={"flex-start"} spacing="20">
+                <Box>
+                  <FormLabel variant="floating">Email</FormLabel>
+                  <Input placeholder="Email" bg="white" color={"black"} w={"15vw"} minW={'180px'} onChange={(e) => {
+                    setUpdateUser({ ...updateUser, email: e.target.value });
+                  }} />
+                </Box>
+                <Box>
+                  <FormLabel variant="floating">Password</FormLabel>
+                  <InputGroup>
+                    <Input placeholder="password" bg="white" color={"black"} w={"15vw"} type={hidePassword ? "password" : "text"} minW={'180px'} onChange={(e) => {
+                      setUpdateUser({ ...updateUser, password: e.target.value });
+                    }} />
+                    <InputRightElement children={<Switch
+                      me='5'
+                      colorScheme={"cyan"}
+                      size={"lg"}
+                      onChange={() => setHidePassword(!hidePassword)}
+                    />} />
+                  </InputGroup>
+                </Box>
+              </HStack>
+              <HStack alignItems={"stretch"} alignSelf={"flex-start"} spacing="20">
+                <Box>
+                  <FormLabel variant="floating">Height (in Centimeter)</FormLabel>
+                  <Input placeholder="Height in Centimeter" type="number" bg="white" color={"black"} w={"15vw"} minW={'180px'} onChange={(e) => {
+                    setUpdateUser({ ...updateUser, height: e.target.value });
+                  }} />
+                </Box>
+                <Box>
+                  <FormLabel variant="floating">Weight</FormLabel>
+                  <Input placeholder="Weight in KG" bg="white" type="number" color={"black"} w={"15vw"} minW={'180px'} onChange={(e) => {
+                    setUpdateUser({ ...updateUser, weight: e.target.value });
+                  }} />
+                </Box>
+              </HStack>
+            </VStack>
+          </>}
+        footer={<>
+          <Button bg="green" colorScheme="blue" mr={3} onClick={editUser}>
+            Save
+          </Button>
+          <Button colorScheme='cyan' color={'white'} onClick={() => { onEditModal.onClose(), setUpdateUser({}) }}>Close</Button></>}
+        isOpen={onEditModal.isOpen}
+        onClose={() => { onEditModal.onClose(), setUpdateUser({}) }}
+      />
+
+      < ReusableModal
 
         header={'User Detail'}
         component={
@@ -264,10 +431,6 @@ export default function Dashboard() {
                 <Text>{viewUser?.email}</Text>
               </HStack>
 
-              <HStack>
-                <Text>{"Email Address: "}</Text>
-                <Text>{viewUser?.email}</Text>
-              </HStack>
             </VStack>
           </>}
         footer={<>
@@ -276,7 +439,7 @@ export default function Dashboard() {
         onClose={() => { onViewModal.onClose(), setViewUser({}) }}
       />
 
-      <AlertDialog
+      < AlertDialog
         isOpen={isOpenAlertModal}
         leastDestructiveRef={cancelRef}
         onClose={onCloseAlertModal}
@@ -314,7 +477,7 @@ export default function Dashboard() {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialogOverlay>
-      </AlertDialog>
+      </AlertDialog >
 
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} size='xl'>
         <ModalOverlay />

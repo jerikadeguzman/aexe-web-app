@@ -99,10 +99,10 @@ export default function Dashboard() {
                           onChange={(event) => { setNewPost(event.target.value) }}
                           input type="text"
                           background={"white"}
-                          width="31vw"
+                          width="32vw"
                           color={"black"}
                           value={newPost}
-                          as={TextareaAutosizeProps} mt="4"
+                          as={TextareaAutosizeProps} mt="5"
                           minRows={3} resize="none"
                           placeholder="Create post..." />
                       </Center>
@@ -147,10 +147,11 @@ export default function Dashboard() {
                                 size="sm" align="center"
                                 marginTop="1"></Avatar>
                               <Heading size='md' color={"black"}>{data?.user?.first_name} {data?.user?.last_name}</Heading>
+                              <Text fontSize={10}>{data?.timestamp?.toDate().toDateString()}</Text>
                             </HStack>
-                            <Center padding={"2em"}>
-                              <Text>{data?.newPost}</Text>
-                            </Center>
+                            <VStack padding={"2em"}>
+                              <Text alignSelf={"flex-start"}>{data?.newPost}</Text>
+                            </VStack>
                           </CardBody>
                         </VStack>
                       </Card>

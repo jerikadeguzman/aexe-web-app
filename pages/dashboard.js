@@ -8,43 +8,54 @@ import {
   Box,
   Card,
   CardBody,
+  Container,
+  Flex,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  TableContainer,
 } from "@chakra-ui/react";
 import { Avatar } from '@chakra-ui/react'
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import Router from "next/router";
 import { db, storage } from "../firebase";
 import { ref, getDownloadURL } from 'firebase/storage';
 import { addDoc, collection, doc, getDocs, onSnapshot, serverTimestamp } from 'firebase/firestore';
 import TopDrawer from '../constanst/components/drawer';
 import UserDataContext from '../context/UserDataContext';
+import { getDatas } from '../constanst/services/generic';
+import moment from 'moment';
 
 
 
 export default function Dashboard() {
   const userDataContext = useContext(UserDataContext);
   const [Posts, setPost] = useState([]);
-
+  const [Users, setUsers] = useState([]);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const effectRan = useRef(false)
+  const [date, setDate] = useState("");
+  var [time, setTime] = useState("")
+  async function refreshClock() {
+    setDate(new Date().toLocaleTimeString().toString());
+  }
   useEffect(() => {
-    setTimeout(() => {
+    if (effectRan.current === false) {
       userDataContext.data ?
         getProfileData(userDataContext.data.profile_url)
-        : Router.push("/");
-
-    }, []);
+        :
+        // Router.push("/");
+        console.log("")
+      getUsersData()
+      effectRan.current = true
+    }
+    setInterval(() => {
+      refreshClock()
+    }, 1000)
   }, []);
-
-  useEffect(
-    () =>
-      console.log(userDataContext.data),
-    []
-  );
-  useEffect(
-    () =>
-      onSnapshot(collection(db, "announce"), (snapshot) =>
-        setPost(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })))
-      ),
-    []
-  );
 
   async function getProfileData() {
     const imageURL = ref(storage, `/files/${imageURL}`);
@@ -54,6 +65,14 @@ export default function Dashboard() {
     }).catch(error => {
       console.log(error.message, "error");
     })
+  }
+
+  async function getUsersData() {
+    setUsers([])
+
+    const data = await getDatas({ path: "users" })
+    setTotalUsers(data.length)
+    setUsers(data)
   }
 
 
@@ -69,6 +88,71 @@ export default function Dashboard() {
 
         <TopDrawer />
         <Center>
+          <VStack>
+            <Flex bg="#97392F" width={"60vw"} height={"50vh"} mt={"5vh"} padding={10} paddingInline={0} borderRadius={'md'} justifyContent={"center"}>
+              <VStack color="white" h={"100%"}>
+                <Heading alignSelf={"flex-start"}>Dashboard</Heading>
+                <Text fontSize={"2xl"} alignSelf={"flex-start"} fontWeight={"bold"} marginStart={5}>Hello, Admin!</Text>
+                <HStack justifyContent={"center"} spacing={"4vw"} paddingTop={"3vh"}>
+                  <Container bg="#696969" w={"20vw"} h={"20vh"} borderRadius={'lg'} padding={10}>
+                    <VStack>
+                      <Heading alignSelf={"flex-start"}>{totalUsers}</Heading>
+                      <Text fontSize={"2xl"} alignSelf={"flex-start"} fontWeight={"bold"} >Total Aexe users</Text>
+                    </VStack>
+                  </Container>
+                  <Container bg="#414B55" w={"20vw"} h={"20vh"} borderRadius={'lg'} padding={10}>
+                    <VStack>
+                      <Heading alignSelf={"flex-start"}>{date}</Heading>
+                      <Text fontSize={"2xl"} alignSelf={"flex-start"} fontWeight={"bold"} >{moment(new Date()).format("LL dddd").toString()}</Text>
+                    </VStack>
+                  </Container>
+                </HStack>
+              </VStack>
+            </Flex>
+
+            <Box alignSelf={"flex-start"} padding={0}>
+              <Heading alignSelf={"flex-start"} fontSize={"2xl"} color={"#3E3535"} mt="5vh">New Users</Heading>
+            </Box>
+
+
+            <Box
+              w="100%"
+              h="100%"
+              padding={5}
+              borderRadius={"xl"}
+              borderColor={'#97392F'}
+              overflowY="auto"
+            >
+              <TableContainer >
+                <Table variant='simple' fontWeight={'bold'} mt="2%">
+                  <Thead position={"sticky"}>
+                    <Tr>
+                      <Th>User ID</Th>
+                      <Th>Name</Th>
+                      <Th>Role</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {Users?.length != 0 ? (
+                      Users?.map((user, index) => {
+                        return (
+                          <Tr key={index}>
+                            <Td>{user?.id}</Td>
+                            <Td>{user?.first_name + " " + user?.last_name}</Td>
+                            <Td>{user?.role}</Td>
+
+                          </Tr>
+                        )
+                      })
+                    ) :
+                      (<></>)}
+                  </Tbody>
+                </Table>
+              </TableContainer>
+            </Box>
+          </VStack>
+
+
 
         </Center>
       </Box>

@@ -65,8 +65,17 @@ export default function Dashboard() {
 
   useEffect(
     () =>
-      onSnapshot(collection(db, "announce"), (snapshot) =>
-        setPost(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })))
+      onSnapshot(collection(db, "posts"), (snapshot) => {
+        var posts = []
+        snapshot.docs.map(doc => {
+          if (doc.data()?.email == user?.email)
+            posts.push({ ...doc.data(), id: doc.id })
+        });
+        console.log(posts)
+        setPost(posts)
+      }
+
+        // setPost(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })))
       ),
     []
   );
@@ -80,13 +89,13 @@ export default function Dashboard() {
         <link rel="icon" href="/aexelogo.png" />
       </Head>
 
-      <Box as="section" pb={{ base: '12', md: '24' }} bg="#D9D9D9">
+      <Box as="section" h={'100vh'} maxH={'100vh'} bg="#D9D9D9">
         <TopDrawer />
 
 
         <Center>
           <Box minH="70vh" borderRadius={'lg'} mt="5vh">
-            <HStack
+            <VStack
               align="justify"
               mt="3%" ml="5%" mr="5%"
               justifyContent="center"
@@ -97,9 +106,10 @@ export default function Dashboard() {
                 align='center'
                 variant="outline"
                 shadow="base"
-                width="25vw"
-                bg="#ffffff"
-                h="37vh"
+                width="60vw"
+                bg="#97302F"
+                color='white'
+                h="33vh"
                 outlineColor="gray.900">
 
                 <CardBody>
@@ -113,69 +123,83 @@ export default function Dashboard() {
                   </Center>
 
                   <Stack mt='6' spacing='3' textAlign='center'>
-                    <Heading size='md' textAlign="center">{user?.first_name} {user?.last_name}</Heading>
-                    <Text>
-                      About
-                    </Text>
-                    <Text>
-                      ({user?.age} years old, {user?.address})
-                    </Text>
+                    <Heading size='xl' textAlign="center">{user?.first_name} {user?.last_name}</Heading>
+
                   </Stack>
                 </CardBody>
 
-                <CardFooter>
-                  <Divider />
-
-                </CardFooter>
               </Card>
-              <VStack>
-                {Posts === undefined ? (<>
-                </>)
-                  :
-                  (Posts.map((data, index) => {
-                    if (data.user?.id === user?.id) {
-                      return (
-                        <Card
-                          key={index}
-                          width="35vw"
-                          direction={{ base: 'column', sm: 'row' }}
-                          overflow='hidden'
-                          bg="gray.100"
-                          variant="outline"
-                          shadow="base"
-                          outlineColor="gray.900"
-                        // marginTop="10vh"
-                        >
-                          <VStack>
-                            <CardBody padding={"1em"} paddingTop={"2em"}>
-                              <HStack justifyContent={"flex-start"}>
-                                <Avatar
-                                  src={data?.user?.profile_url}
-                                  bg='teal.500'
-                                  size="sm" align="center"
-                                  marginTop="1"></Avatar>
-                                <Heading size='md' color={"black"}>{data?.user?.first_name} {data?.user?.last_name}</Heading>
-                              </HStack>
-                              <Center padding={"2em"}>
-                                <Text>{data?.newPost}</Text>
-                              </Center>
-                            </CardBody>
-                          </VStack>
-                        </Card>
-                      )
-                    }
-                  }))
-                }
-              </VStack>
-            </HStack>
+              <Center>
+
+              </Center>
+
+
+              <HStack align={'start'} width="60vw" justifyContent={'space-between'}>
+                <Card
+                  size="lg"
+                  variant="outline"
+                  shadow="below"
+                  width="25vw"
+                  bg="#97302F"
+                  h="30vh"
+                  fontWeight={'semibold'}
+                  color='white'
+                  padding={'1vw'}
+                  paddingInline={'3vw'}
+                  outlineColor="gray.900">
+                  <VStack>
+                    <Text fontSize={'3xl'} fontWeight={"bold"}>Personal Information</Text>
+                  </VStack>
+                  <VStack w='20vw' mt={'2vh'}>
+                    <Text alignSelf={'flex-start'} fontSize={'xl'}>{"Age: " + user?.age}</Text>
+                    <Text alignSelf={'flex-start'} fontSize={'xl'}>{"Address: " + user?.address}</Text>
+                    <Text alignSelf={'flex-start'} fontSize={'xl'}>{"Email Address: " + user?.email}</Text>
+                  </VStack>
+                </Card>
+
+                <Card
+                  minH="30vh"
+                  size="lg"
+                  variant="outline"
+                  shadow="below"
+                  width="32vw"
+                  padding={'1vw'}
+                  paddingInline={'3vw'}
+                  bg="#97302F"
+                  h="43vh"
+                  color={'white'}
+                  spacing="5"
+                  outlineColor="gray.900">
+                  <VStack >
+                    <Text alignSelf={'flex-start'} fontSize={'3xl'} fontWeight={'semibold'}>{user?.first_name + "'s Posts"}</Text>
+                    <Divider />
+                    <VStack overflowY={'scroll'} minH="30vh" h="25vh" w="30vw">
+                      {Posts?.map(item => {
+                        return (
+                          <>
+                            <HStack color='black' bg={'white'} padding={'1vw'} height={'9vh'} borderRadius={'lg'} width={'25vw'}>
+                              <Text fontWeight={'semibold'}>{item.caption}</Text>
+                            </HStack>
+                          </>
+                        )
+                      })}
+                    </VStack>
+                    {/* <HStack color='black' bg={'white'} padding={'1vw'} height={'9vh'} borderRadius={'lg'} mb={'1vh'} width={'25vw'}>
+                      <Text fontWeight={'semibold'}>Hakdog</Text>
+                    </HStack> */}
+                  </VStack>
+                </Card>
+
+              </HStack>
+            </VStack>
 
 
 
 
           </Box>
-        </Center>
+        </Center >
 
-      </Box>
+      </Box >
 
 
 

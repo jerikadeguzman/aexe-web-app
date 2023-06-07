@@ -49,6 +49,7 @@ import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
 import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage';
 import { useAuth, storage } from "../firebase";
 import TopDrawer from '../constanst/components/drawer';
+import HomeNav from '../constanst/components/home_nav';
 
 
 export default function UserInquiries() {
@@ -65,196 +66,189 @@ export default function UserInquiries() {
         <link rel="icon" href="/aexelogo.png" />
       </Head>
 
-      <Box as="section" pb={{ base: '12', md: '24' }} bg="#97392F">
-        <TopDrawer />
+      <Box bgColor="#ffffff" w="100%" h="300%">
+        <HomeNav />
         <Center>
-          <Box bgColor="#ffffff" w="1550px" h="300%">
-            <Center>
-              <VStack>
-
-                <Card
+          <Box mt="5vh">
+            <Card
+              size='md'
+              align="center"
+              variant="outline"
+              marginTop="5%"
+              shadow="2xl"
+              marginBottom="5%">
+              <CardHeader>
+                <Heading
                   size='md'
-                  align="center"
-                  variant="outline"
-                  marginTop="5%"
-                  shadow="2xl"
-                  marginBottom="5%">
-                  <CardHeader>
-                    <Heading
-                      size='md'
-                      textColor="#696969"
-                      textAlign="center">Frequently Asked Questions (FAQs)</Heading>
-                    <Divider borderColor="gray" mt="3%" />
-                    <Image src='/faq.jpg' alt='log' h="50vh" w="100%" mt="5%" />
-                    <Divider borderColor="gray" mt="5%" />
-                  </CardHeader>
+                  textAlign="center" fontSize={'3xl'} color={'#97392F'}>Frequently Asked Questions (FAQs)</Heading>
+                <Divider borderColor="gray" mt="3%" />
+                <Image src='/faq.jpg' alt='log' h="50vh" w="100%" mt="5%" />
+                <Divider borderColor="gray" mt="5%" />
+              </CardHeader>
 
-                  <CardBody>
-                    <Stack divider={<StackDivider />} spacing='4' w="40vw">
-                      <Accordion allowToggle >
-                        <AccordionItem>
-                          <h2>
-                            <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
-                              <Box flex='1' textAlign='left' fontWeight="semibold">
-                                Where is the gym located?
-                              </Box>
-                              <AccordionIcon />
-                            </AccordionButton>
-                          </h2>
-                          <AccordionPanel>
-                            The gym can be found in the 47 CRJM PILAR MORNING BREEZE
-                            Brgy.085, District 1, Caloocan City, Philippines, 1400
-                          </AccordionPanel>
-                        </AccordionItem>
-                      </Accordion>
+              <CardBody>
+                <Stack divider={<StackDivider />} spacing='4' w="40vw">
+                  <Accordion allowToggle >
+                    <AccordionItem>
+                      <h2>
+                        <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
+                          <Box flex='1' textAlign='left' fontWeight="semibold">
+                            Where is the gym located?
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </h2>
+                      <AccordionPanel>
+                        The gym can be found in the 47 CRJM PILAR MORNING BREEZE
+                        Brgy.085, District 1, Caloocan City, Philippines, 1400
+                      </AccordionPanel>
+                    </AccordionItem>
+                  </Accordion>
 
-                      <Accordion allowToggle >
-                        <AccordionItem>
-                          <h2>
-                            <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
-                              <Box flex='1' textAlign='left' fontWeight="semibold">
-                                Gym's opening and closing hours
-                              </Box>
-                              <AccordionIcon />
-                            </AccordionButton>
-                          </h2>
-                          <AccordionPanel>
-                            It will start at 8am onwards and will be closed at 5pm
-                          </AccordionPanel>
-                        </AccordionItem>
-                      </Accordion>
+                  <Accordion allowToggle >
+                    <AccordionItem>
+                      <h2>
+                        <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
+                          <Box flex='1' textAlign='left' fontWeight="semibold">
+                            Gym's opening and closing hours
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </h2>
+                      <AccordionPanel>
+                        It will start at 8am onwards and will be closed at 5pm
+                      </AccordionPanel>
+                    </AccordionItem>
+                  </Accordion>
 
-                      <Accordion allowToggle >
-                        <AccordionItem>
-                          <h2>
-                            <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
-                              <Box flex='1' textAlign='left' fontWeight="semibold">
-                                How much rates do the Gym offer?
-                              </Box>
-                              <AccordionIcon />
-                            </AccordionButton>
-                          </h2>
-                          <AccordionPanel>
-                            The gym rates if the customer where onsite exercising it cost 50 pesos per day
-                            and the customers can use all the equipment. A customer will pay a cost of 500
-                            per month if they would like to avail the membership and paying for a cost of 30
-                            pesos per day instead of 50 pesos for using a gym. They can request guidance
-                            from an instructor, it is only for free.
-                          </AccordionPanel>
-                        </AccordionItem>
-                      </Accordion>
+                  <Accordion allowToggle >
+                    <AccordionItem>
+                      <h2>
+                        <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
+                          <Box flex='1' textAlign='left' fontWeight="semibold">
+                            How much rates do the Gym offer?
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </h2>
+                      <AccordionPanel>
+                        The gym rates if the customer where onsite exercising it cost 50 pesos per day
+                        and the customers can use all the equipment. A customer will pay a cost of 500
+                        per month if they would like to avail the membership and paying for a cost of 30
+                        pesos per day instead of 50 pesos for using a gym. They can request guidance
+                        from an instructor, it is only for free.
+                      </AccordionPanel>
+                    </AccordionItem>
+                  </Accordion>
 
-                      <Accordion allowToggle>
-                        <AccordionItem>
-                          <h2>
-                            <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
-                              <Box flex='1' textAlign='left' fontWeight="semibold">
-                                How can I purchase a membership?
-                              </Box>
-                              <AccordionIcon />
-                            </AccordionButton>
-                          </h2>
-                          <AccordionPanel>
-                            In purchasing a membership, they can ask on the admin in applying a membership
-                            and provide information about membership. Only official members can use the application.
-                          </AccordionPanel>
-                        </AccordionItem>
-                      </Accordion>
+                  <Accordion allowToggle>
+                    <AccordionItem>
+                      <h2>
+                        <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
+                          <Box flex='1' textAlign='left' fontWeight="semibold">
+                            How can I purchase a membership?
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </h2>
+                      <AccordionPanel>
+                        In purchasing a membership, they can ask on the admin in applying a membership
+                        and provide information about membership. Only official members can use the application.
+                      </AccordionPanel>
+                    </AccordionItem>
+                  </Accordion>
 
-                      <Accordion allowToggle>
-                        <AccordionItem>
-                          <h2>
-                            <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
-                              <Box flex='1' textAlign='left' fontWeight="semibold">
-                                Does the Gym have an age restriction or gender exception?
-                              </Box>
-                              <AccordionIcon />
-                            </AccordionButton>
-                          </h2>
-                          <AccordionPanel>
-                            Anyone can use the gym and exercise except for the age below 15-10 years old.
-                          </AccordionPanel>
-                        </AccordionItem>
-                      </Accordion>
+                  <Accordion allowToggle>
+                    <AccordionItem>
+                      <h2>
+                        <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
+                          <Box flex='1' textAlign='left' fontWeight="semibold">
+                            Does the Gym have an age restriction or gender exception?
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </h2>
+                      <AccordionPanel>
+                        Anyone can use the gym and exercise except for the age below 15-10 years old.
+                      </AccordionPanel>
+                    </AccordionItem>
+                  </Accordion>
 
-                      <Accordion allowToggle>
-                        <AccordionItem>
-                          <h2>
-                            <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
-                              <Box flex='1' textAlign='left' fontWeight="semibold">
-                                What is Augmented Reality For?
-                              </Box>
-                              <AccordionIcon />
-                            </AccordionButton>
-                          </h2>
-                          <AccordionPanel>
-                            Augmented Reality is used to either visually alter natural environments or to provide
-                            users with additional information and possibilities visual changes. The primary
-                            advantage of AR is that it blends digital and three-dimensional (3D) components
-                            with a person's perception of the real world. Analyzing your surroundings and using
-                            triggers to display relevant information in the appropriate location in your field of view.
-                          </AccordionPanel>
-                        </AccordionItem>
-                      </Accordion>
+                  <Accordion allowToggle>
+                    <AccordionItem>
+                      <h2>
+                        <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
+                          <Box flex='1' textAlign='left' fontWeight="semibold">
+                            What is Augmented Reality For?
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </h2>
+                      <AccordionPanel>
+                        Augmented Reality is used to either visually alter natural environments or to provide
+                        users with additional information and possibilities visual changes. The primary
+                        advantage of AR is that it blends digital and three-dimensional (3D) components
+                        with a person's perception of the real world. Analyzing your surroundings and using
+                        triggers to display relevant information in the appropriate location in your field of view.
+                      </AccordionPanel>
+                    </AccordionItem>
+                  </Accordion>
 
-                      <Accordion allowToggle>
-                        <AccordionItem>
-                          <h2>
-                            <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
-                              <Box flex='1' textAlign='left' fontWeight="semibold">
-                                How can we assure that the app has security providing personal info?
-                              </Box>
-                              <AccordionIcon />
-                            </AccordionButton>
-                          </h2>
-                          <AccordionPanel>
-                            Based on Republic Act 10173, the Data Privacy Act of 2012.
-                            "AN ACT PROTECTING INDIVIDUAL PERSONAL INFORMATION IN INFORMATION
-                            AND COMMUNICATIONS SYSTEMS IN THE GOVERNMENT AND THE PRIVATE SECTOR,
-                            CREATING FOR THIS PURPOSE A NATIONAL PRIVACY COMMISSION, AND FOR OTHER PURPOSES".
-                            Yes, application has a privacy policy which can be found when registering.
-                            We assure that it is only between the system and the customer’s matter.
-                          </AccordionPanel>
-                        </AccordionItem>
-                      </Accordion>
+                  <Accordion allowToggle>
+                    <AccordionItem>
+                      <h2>
+                        <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
+                          <Box flex='1' textAlign='left' fontWeight="semibold">
+                            How can we assure that the app has security providing personal info?
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </h2>
+                      <AccordionPanel>
+                        Based on Republic Act 10173, the Data Privacy Act of 2012.
+                        "AN ACT PROTECTING INDIVIDUAL PERSONAL INFORMATION IN INFORMATION
+                        AND COMMUNICATIONS SYSTEMS IN THE GOVERNMENT AND THE PRIVATE SECTOR,
+                        CREATING FOR THIS PURPOSE A NATIONAL PRIVACY COMMISSION, AND FOR OTHER PURPOSES".
+                        Yes, application has a privacy policy which can be found when registering.
+                        We assure that it is only between the system and the customer’s matter.
+                      </AccordionPanel>
+                    </AccordionItem>
+                  </Accordion>
 
-                      <Accordion allowToggle>
-                        <AccordionItem>
-                          <h2>
-                            <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
-                              <Box flex='1' textAlign='left' fontWeight="semibold">
-                                Contact Information
-                              </Box>
-                              <AccordionIcon />
-                            </AccordionButton>
-                          </h2>
-                          <AccordionPanel>
-                            Contact us thru our phone number (09062447988) and our
-                            email at zamorafitnessdrive@gmail.com
-                            or inform us on our social media account, facebook.com/zamorafitnessdriveandwellnesscenter.
-                          </AccordionPanel>
-                        </AccordionItem>
-                      </Accordion>
+                  <Accordion allowToggle>
+                    <AccordionItem>
+                      <h2>
+                        <AccordionButton _expanded={{ bg: 'red.500', color: 'white' }}>
+                          <Box flex='1' textAlign='left' fontWeight="semibold">
+                            Contact Information
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </h2>
+                      <AccordionPanel>
+                        Contact us thru our phone number (09062447988) and our
+                        email at zamorafitnessdrive@gmail.com
+                        or inform us on our social media account, facebook.com/zamorafitnessdriveandwellnesscenter.
+                      </AccordionPanel>
+                    </AccordionItem>
+                  </Accordion>
 
 
 
-                    </Stack>
+                </Stack>
 
 
 
-                  </CardBody>
-                </Card>
+              </CardBody>
+            </Card>
 
 
 
-
-
-              </VStack>
-            </Center>
 
 
           </Box>
         </Center>
+
 
       </Box>
 

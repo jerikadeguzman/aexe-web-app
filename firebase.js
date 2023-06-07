@@ -22,9 +22,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
- 
+
 export const db = getFirestore(app)
-export const storage = getStorage();
+export const storage = getStorage(app);
 
 export { firebase }
 
@@ -47,7 +47,7 @@ export async function upload(file, currentUser, getDownloadURL) {
   const snapshot = await uploadBytes(fileref, file);
   const imageURL = await getDownloadURL(fileref);
 
-  updateProfile(currentUser, {imageURL: ""});
+  updateProfile(currentUser, { imageURL: "" });
 
   getDownloadURL(false);
   alert("Uploaded file!");

@@ -24,7 +24,9 @@ export default function Messages() {
     setTimeout(() => {
       userDataContext.data ?
         console.log(userDataContext.data)
-        : Router.push("/");
+        :
+        // Router.push("/");
+        console.log("")
 
     }, []);
   }, []);
@@ -37,11 +39,11 @@ export default function Messages() {
         <link rel="icon" href="/aexelogo.png" />
       </Head>
 
-      <Box as="section" pb={{ base: '12', md: '24' }} bg="#D9D9D9" >
+      <Box as="section" maxWidth="100vw" bg="#D9D9D9" >
         <TopDrawer />
 
         <Center>
-          <Box bg="#D9D9D9" w="1550%" h="1020%" >
+          <Box bg="#D9D9D9" maxWidth="100vw" h="100%" >
             <Heading marginLeft="6%" marginTop="3%" color="#97392F"> AR Exercises Information</Heading>
             <Center>
               <SimpleGrid

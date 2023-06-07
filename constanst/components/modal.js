@@ -21,7 +21,7 @@ export default function ReusableModal({ header, component, onClose, isOpen, foot
             >
                 <ModalOverlay />
                 <ModalContent maxW='40%' bg="#97392F" color="white">
-                    <ModalHeader>{header}</ModalHeader>
+                    <ModalHeader fontWeight={"bold"} fontSize={'3xl'}>{header}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={5}>{component}</ModalBody>
                     <ModalFooter>

@@ -27,14 +27,15 @@ import Router, { useRouter } from "next/router";
 import React from 'react';
 import UserDataContext from '../context/UserDataContext';
 import HomeNav from '../constanst/components/home_nav';
-
+// import 'bootstrap/dist/css/bootstrap.min.css'
+// import '@coreui/coreui/dist/css/coreui.min.css'
+// import { CCarousel, CCarouselItem, CImage } from '@coreui/react';
 
 
 export default function Home() {
     const router = useRouter();
     const toast = useToast();
     const userDataContext = useContext(UserDataContext);
-    
     useEffect(() => {
         setTimeout(() => {
             // const checkSession = localStorage.getItem("email");
@@ -74,13 +75,21 @@ export default function Home() {
                         <Heading textAlign={'center'} fontSize={'30'} w='50vw'>8 AM to 5 PM</Heading>
                     </VStack>
                 </Flex>
-
-                <Flex>
-                    <Center>
-
-                    </Center>
-                </Flex>
-
+                <Center mt='5vh'>
+                    <HStack>
+                        {/* <CCarousel controls indicators w='50vw'>
+                            <CCarouselItem>
+                                <CImage className="w-70" src={"/abs.jpg"} alt="slide 1" />
+                            </CCarouselItem>
+                            <CCarouselItem>
+                                <CImage className="w-70" src={"/chest.png"} alt="slide 2" />
+                            </CCarouselItem>
+                            <CCarouselItem>
+                                <CImage className="w-70" src={"/fullbody.jpg"} alt="slide 3" />
+                            </CCarouselItem>
+                        </CCarousel> */}
+                    </HStack>
+                </Center>
                 <Flex
                     paddingTop="10"
                     height="100vh"
@@ -100,70 +109,70 @@ export default function Home() {
                                 <VStack alignItems={'left'}>
                                     <Heading size='2xl' color={'#97392F'} noOfLines={1}>About Us</Heading>
                                     <Divider orientation='horizontal' opacity={0} />
-                                    <Text w='35vw' color={'CaptionText'} fontSize={'20px'}>Zamora Fitness Drive and Wellness Center is located at the 47 CRJM Morning Breeze in Brgy. 085, District 1, Caloocan City. 
-                                            It opens around 8am to 5pm Mondays to Sundays. The owner of this gym is Mr. Julian Zamora who is really into exercising and martial arts. 
-                                            Aexe application is for the customers of Zamora Fitness Drive and Wellness Center that mainly uses Augmented Reality as their instructor. 
-                                            Aexe helps the users to execute their exercises that is based on their current BMI.</Text>
+                                    <Text w='35vw' color={'CaptionText'} fontSize={'20px'}>Zamora Fitness Drive and Wellness Center is located at the 47 CRJM Morning Breeze in Brgy. 085, District 1, Caloocan City.
+                                        It opens around 8am to 5pm Mondays to Sundays. The owner of this gym is Mr. Julian Zamora who is really into exercising and martial arts.
+                                        Aexe application is for the customers of Zamora Fitness Drive and Wellness Center that mainly uses Augmented Reality as their instructor.
+                                        Aexe helps the users to execute their exercises that is based on their current BMI.</Text>
                                     {/* <Divider orientation='horizontal' h='25vh' opacity={0} /> */}
                                 </VStack>
                                 <Image
                                     boxSize={'sm'}
                                     borderRadius={5}
                                     objectFit={'contain'}
-                                    src={'/owner.jpg'}>  
+                                    src={'/owner.jpg'}>
                                 </Image>
                             </HStack>
                         </VStack>
                     </Center>
                 </Flex>
 
-                <Flex 
+                <Flex
                     paddingTop="50"
                     height="100vh"
                     bgSize="cover"
                     justifyContent={'center'}
                     alignItems={'center'}>
-                       
+
+                    <VStack alignItems={'left'}>
+                        <Heading size='2xl' color={'#97392F'} noOfLines={1} paddingTop="50" alignItems={'left'}>Offers and Amenities</Heading>
+                        <HStack justifyContent={'space-between'} w='50vw' paddingTop="55" paddingBottom="20">
                             <VStack alignItems={'left'}>
-                            <Heading size='2xl' color={'#97392F'} noOfLines={1} paddingTop="50" alignItems={'left'}>Offers and Amenities</Heading>
-                                <HStack justifyContent={'space-between'} w='50vw' paddingTop="55" paddingBottom="20">
-                                    <VStack alignItems={'left'}>
-                                        <Heading fontSize="25" textColor="black">Gym Amenities</Heading>
-                                        <Text textColor="#97392F" fontWeight="bold">Cycling</Text>
-                                        <Text textColor="#97392F" fontWeight="bold">Changing Rooms</Text>
-                                        <Text textColor="#97392F" fontWeight="bold">Loaded and Free Weights</Text>
-                                        <Text textColor="#97392F" fontWeight="bold">Dumbles</Text>
-                                        <Text textColor="#97392F" fontWeight="bold">Comfort Rooms</Text>
-                                        <Text textColor="#97392F" fontWeight="bold">Complimentary Toiletries</Text>
-                                        <Text textColor="#97392F" fontWeight="bold">Yoga Ball</Text>
-                                    </VStack>
-
-                                    <VStack alignItems={'left'}>
-                                        <Heading fontSize="25" textColor="black">AEXE Exercise</Heading>
-                                        <Text textColor="#97392F" fontWeight="bold">Full Body Exercise</Text>
-                                        <Text textColor="#97392F" fontWeight="bold">Lower Body Exercise</Text>
-                                        <Text textColor="#97392F" fontWeight="bold">Leg and Butt Exercise</Text>
-                                        <Text textColor="#97392F" fontWeight="bold">ABS Exercise</Text>
-                                        <Text textColor="#97392F" fontWeight="bold">Chest Exercise</Text>
-                                        <Text textColor="#97392F" fontWeight="bold">Shoulder Exercise</Text>
-                                        <Text textColor="#97392F" fontWeight="bold">Senior Citizen's Exercise</Text>
-                                    </VStack>
-                                </HStack>
-
+                                <Heading fontSize="25" textColor="black">Gym Amenities</Heading>
+                                <Text textColor="#97392F" fontWeight="bold">Cycling</Text>
+                                <Text textColor="#97392F" fontWeight="bold">Changing Rooms</Text>
+                                <Text textColor="#97392F" fontWeight="bold">Loaded and Free Weights</Text>
+                                <Text textColor="#97392F" fontWeight="bold">Dumbles</Text>
+                                <Text textColor="#97392F" fontWeight="bold">Comfort Rooms</Text>
+                                <Text textColor="#97392F" fontWeight="bold">Complimentary Toiletries</Text>
+                                <Text textColor="#97392F" fontWeight="bold">Yoga Ball</Text>
                             </VStack>
-                      
-                           
+
+                            <VStack alignItems={'left'}>
+                                <Heading fontSize="25" textColor="black">AEXE Exercise</Heading>
+                                <Text textColor="#97392F" fontWeight="bold">Full Body Exercise</Text>
+                                <Text textColor="#97392F" fontWeight="bold">Lower Body Exercise</Text>
+                                <Text textColor="#97392F" fontWeight="bold">Leg and Butt Exercise</Text>
+                                <Text textColor="#97392F" fontWeight="bold">ABS Exercise</Text>
+                                <Text textColor="#97392F" fontWeight="bold">Chest Exercise</Text>
+                                <Text textColor="#97392F" fontWeight="bold">Shoulder Exercise</Text>
+                                <Text textColor="#97392F" fontWeight="bold">Senior Citizen's Exercise</Text>
+                            </VStack>
+                        </HStack>
+
+                    </VStack>
+
+
                 </Flex>
 
                 <Flex
-                height="20vh"
-                bgSize="cover"
-                bgColor="#97392F">
+                    height="20vh"
+                    bgSize="cover"
+                    bgColor="#97392F">
                     <HStack justifyContent={'space-evenly'} w='20vw'>
                         <VStack alignItems={'left'}>
                             <Button variant="link" textColor="White" onClick={() => Router.push("/terms_condition")}>Terms & Condition</Button>
-                            <Button variant="link" textColor="White">Privacy Policy</Button>
-                            <Button variant="link" textColor="White">FAQs</Button>
+                            <Button variant="link" textColor="White" onClick={() => Router.push("/terms_condition")}>Privacy Policy</Button>
+                            <Button variant="link" textColor="White" onClick={() => Router.push("/user_inquiries")}>FAQs</Button>
                         </VStack>
                     </HStack>
 
